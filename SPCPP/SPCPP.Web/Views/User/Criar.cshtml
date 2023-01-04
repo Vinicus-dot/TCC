@@ -1,0 +1,61 @@
+﻿@using SPCPP.Model.Enums
+@model SPCPP.Model.Models.User
+
+@{
+    ViewData["Title"] = "Criar usuário";
+}
+
+<div class="text-center">
+
+    <h1 class=display-4>Cadastrar usuário</h1>
+
+</div>
+
+<form asp-controller="User" asp-action="Criar" method="post">
+
+    <div class="form-group">
+        <label for="nome" class="form-label">Nome</label>
+        <input type="text" asp-for="Nome" class="form-control" placeholder="Digite o nome do usuário">
+        @Html.ValidationMessageFor(p => p.Nome)
+    </div>
+    <br />
+
+    <div class="form-group">
+        <label for="email" class="form-label">E-mail</label>
+        <input type="email" asp-for="Email" class="form-control" placeholder="Digite o e-mail do usuário">
+        @Html.ValidationMessageFor(p => p.Email)
+    </div>
+    <br />
+
+    <div class="form-group">
+        <label for="nome" class="form-label">Login</label>
+        <input type="text" asp-for="Login" class="form-control" placeholder="Digite o login do usuário">
+        @Html.ValidationMessageFor(p => p.Login)
+    </div>
+    <br />
+
+    <div class="form-group">
+        <label for="nome" class="form-label">Perfil</label>
+        <select asp-for="Perfil" class="form-control">
+            <option value="">Selecione</option>
+            <option value="@PerfilEnum.Admin">Administrador</option>
+            <option value="@PerfilEnum.Padrao">Padrão</option>
+        </select>
+        @Html.ValidationMessageFor(p => p.Perfil)
+    </div>
+    <br />
+
+    <div class="form-group">
+        <label for="nome" class="form-label">Senha</label>
+        <input type="password" asp-for="Senha" class="form-control" placeholder="Digite a senha do usuário">
+        @Html.ValidationMessageFor(p => p.Senha)
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary btn-block w-100 mb-3">Adicionar</button>
+    <a role="button" class="btn btn-secondary btn d-block" asp-controller="User" asp-action="Index">Voltar</a>
+</form>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

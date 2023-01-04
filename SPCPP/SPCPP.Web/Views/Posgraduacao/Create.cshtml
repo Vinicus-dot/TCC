@@ -1,0 +1,59 @@
+﻿@model SPCPP.Model.Models.Posgraduacao
+
+@{
+    ViewData["Title"] = "Cadastrar Pos graduação";
+}
+
+<div class="text-center">
+
+    <h1 class=display-4>Cadastrar Pos graduação</h1>
+
+</div>
+
+<form asp-controller="Posgraduacao" asp-action="Create" method="post">
+
+    <div class="form-group">
+        <label for="nome" class="form-label">Nome</label>
+        <input type="text" asp-for="nome" class="form-control" placeholder="Digite o nome da pos graduação">
+        @Html.ValidationMessageFor(p => p.nome)
+    </div>
+    <br />
+
+    <div class="form-group">
+        <label for="email" class="form-label">Nome do curso</label>
+        <input type="text" asp-for="nome_curso" class="form-control" placeholder="Digite o nome do curso">
+        @Html.ValidationMessageFor(p => p.nome_curso)
+    </div>
+    <br />
+
+    <div class="form-group">
+        <label for="nome" class="form-label">Campus do curso</label>
+        <input type="text" asp-for="campus_curso" class="form-control" placeholder="Digite o campus do curso">
+        @Html.ValidationMessageFor(p => p.campus_curso)
+    </div>
+    <br />
+
+    <div class="form-group">
+        <label for="nome" class="form-label">Descrição</label>
+        <input type="text" asp-for="descricao" class="form-control" placeholder="Digite a descrição">
+        @Html.ValidationMessageFor(p => p.descricao)
+    </div>
+    <br />
+
+    <div class="form-group">
+        <label for="nome" class="form-label">Edital</label>
+        <input type="text" asp-for="edital" class="form-control" placeholder="Digite o edital">
+        @Html.ValidationMessageFor(p => p.edital)
+    </div>
+    <br />
+
+    <button type="submit" class="btn btn-primary btn-block w-100 mb-3">Adicionar</button>
+    <a role="button" class="btn btn-secondary btn d-block" asp-controller="Posgraducao" asp-action="Index">Voltar</a>
+</form>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

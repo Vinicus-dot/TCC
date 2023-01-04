@@ -1,0 +1,102 @@
+﻿@using SPCPP.Model.Models
+@model List<Professor>
+
+@{
+    ViewData["Title"] = "Listagem de Professores";
+
+}
+
+<div class="text-center" >
+    <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+    </div>
+
+    @if (TempData["MensagemSucesso"] != null)
+    {
+        <div class="alert alert-success" role="alert">
+            
+            @TempData["MensagemSucesso"]
+            <button type="button" class="btn btn-danger btn-sm close-alert" arial-label="Close">X</button>
+        </div>
+    }
+
+    @if (TempData["MensagemErro"] != null)
+    {
+        <div class="alert alert-danger" role="alert">
+            @TempData["MensagemErro"]
+            <button type="button" class="btn btn-danger btn-sm close-alert" arial-label="Close">X</button>
+        </div>
+    }
+
+    <h1  class="display-4">Listagem de Professores</h1>
+    <br />
+
+    <table class="table" id="table-professors" >
+        <thead>
+            <tr>
+                <th scope="col">Siape</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Email</th>
+                <th scope="col">Data Nascimento</th>
+                <th scope="col">Data Exoneracao</th>
+                <th scope="col">Data Saida</th>
+                <th scope="col">Data Aposentadoria</th>
+                <th scope="col">Carga Horária</th>
+                <th scope="col">Status</th>
+                
+
+
+                <th scope="col"> <a role="button" class="btn btn-primary mb-0 " style="width:9.2rem!important" asp-controller="Professor" asp-action="Create">Novo Usuário</a></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var professor in Model)
+                {
+                    <tr>
+                        <th scope="row">@professor.siape</th>
+                        <td>@professor.Cnome</td>
+                        <td>@professor.Email</td>
+                        <td>@professor.Data_nasc</td>
+                        <td>@professor.Data_exoneracao</td>
+                        <td>@professor.Data_saida</td>
+                        <td>@professor.Data_aposentadoria</td>
+                        <td>@professor.Carga_atual</td>
+                        <td>@professor.Status</td>
+                        <td>
+                            <div>
+                                <a role="button" class="btn btn-primary" asp-route-id="@professor.user_id" asp-controller="Professor" asp-action="Editar">Editar</a>
+                                <a role="button" class="btn btn-danger" asp-route-id="@professor.user_id" onclick="deletar(@professor.user_id)" >Deletar</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+
+
+        </tbody>
+    </table>
+</div>
+
+<script>
+
+    function deletar(id_user) {
+
+        $.ajax({
+            url: '/Professor/Delete',
+            method: 'Get',
+            data: { id: id_user },
+        }).done(function (valido) {
+            if (valido.valido) {
+                alert('Professor deletado com sucesso!')
+                location.reload()
+            } else {
+                alert('Não foi possivel deletar o Professor!')
+            }
+        }).fail(function () {
+            console.log("Erro2")
+        });
+
+    }
+
+</script>

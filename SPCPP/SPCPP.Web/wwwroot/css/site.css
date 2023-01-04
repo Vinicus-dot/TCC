@@ -1,0 +1,64 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Open Sans', sans-serif;
+}
+
+
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  
+    margin-bottom: 60px;
+}
+
+
+.sidenav {
+    position: fixed;
+    height: 93.7%;
+    width: 150px;
+    background-color: lightblue;
+}
+
+.file-validation-error{
+
+    color:#e01d1d;
+}
+
+.close-alert{
+    
+    position:absolute;
+    right: -10px;
+    top: -5px;
+    border-radius: 15px;
+    width: 30px;
+    height: 31px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

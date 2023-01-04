@@ -1,0 +1,136 @@
+﻿@using SPCPP.Model.Models
+@model PaginaList<Professor>
+
+@{
+    ViewData["Title"] = "Listagem de Professores vinculados ";
+    string teste = "";
+}
+
+<div class="text-center">
+    <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+    </div>
+
+    @if (TempData["MensagemSucesso"] != null)
+    {
+        <div class="alert alert-success" role="alert">
+
+            @TempData["MensagemSucesso"]
+            <button type="button" class="btn btn-danger btn-sm close-alert" arial-label="Close">X</button>
+        </div>
+    }
+
+    @if (TempData["MensagemErro"] != null)
+    {
+        <div class="alert alert-danger" role="alert">
+            @TempData["MensagemErro"]
+            <button type="button" class="btn btn-danger btn-sm close-alert" arial-label="Close">X</button>
+        </div>
+    }
+    
+        <div class="form-group form-check">
+            <label class="form-check-label">
+            <input type="search" id="pesquisarnome" name="name" value="" />            
+            @*<input type="search" name="name" value="@teste" onchange="(e) => @teste = e.target.value" />*@
+            </label>
+        </div>
+    
+    @*<button type="submit" class="btn btn-primary btn-block w-100 mb-3" onclick="pesquisar()">Pesquisar</button>*@
+    <a id="pesquisar" asp-action="ListarProfVinculados" asp-route-id="@(Model.PosgraduacaoId)" asp-route-numeroPagina="1" asp-route-nome="sub" onclick="pesquisar()"> Anterior</a>
+
+        
+    
+
+    <h1 class="display-4">Professores vinculados a @TempData["Posgraduacao"]</h1>
+    <br />
+
+    <table class="table" id="table-professors">
+        <thead>
+            <tr>
+                <th scope="col">Siape</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Email</th>
+                <th scope="col">Data Nascimento</th>
+                <th scope="col">Data Exoneracao</th>
+                <th scope="col">Data Saida</th>
+                <th scope="col">Data Aposentadoria</th>
+                <th scope="col">Carga Horária</th>
+                <th scope="col">Status</th>
+
+
+
+                <th scope="col"> <a role="button" class="btn btn-primary mb-0 " style="width:9.2rem!important" asp-controller="Professor" asp-action="Create">Novo Usuário</a></th>
+            </tr>
+        </thead>
+        <tbody>             
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var professor in Model)
+                    {
+                    <tr>
+                        <th scope="row">@professor.siape</th>
+                        <td>@professor.Cnome</td>
+                        <td>@professor.Email</td>
+                        <td>@professor.Data_nasc</td>
+                        <td>@professor.Data_exoneracao</td>
+                        <td>@professor.Data_saida</td>
+                        <td>@professor.Data_aposentadoria</td>
+                        <td>@professor.Carga_atual</td>
+                        <td>@professor.Status</td>
+                        <td>
+                            <div>
+                                <a role="button" class="btn btn-primary" asp-route-id="@professor.user_id" asp-controller="Professor" asp-action="Editar">Editar</a>
+                                <a role="button" class="btn btn-danger" asp-route-id="@professor.user_id" onclick="deletar(@professor.user_id)">Deletar</a>
+                            </div>
+                        </td>
+                    </tr>
+                    }
+                }
+
+        </tbody>
+        
+    </table>
+</div>
+
+@{
+    var anterior = !Model.PaginaAnterior ? "disabled" : "";
+    var proximo = !Model.ProximaPagina ? "disabled" : "";
+
+}
+
+<a asp-action="ListarProfVinculados" asp-route-id="@(Model.PosgraduacaoId)" asp-route-numeroPagina="@(Model.PaginaInicial-1)" class="btn btn-default @anterior"> Anterior</a>
+<a asp-action="ListarProfVinculados" asp-route-id="@(Model.PosgraduacaoId)" asp-route-numeroPagina="@(Model.PaginaInicial+1)" class="btn btn-default @proximo"> Proximo</a>
+
+
+<script>
+
+    function deletar(id_user) {
+
+        $.ajax({
+            url: '/Professor/Delete',
+            method: 'Get',
+            data: { id: id_user },
+        }).done(function (valido) {
+            if (valido.valido) {
+                alert('Professor deletado com sucesso!')
+                location.reload()
+            } else {
+                alert('Não foi possivel deletar o Professor!')
+            }
+        }).fail(function () {
+            console.log("Erro2")
+        });
+
+    }
+
+    function pesquisar () {
+
+        
+        var valor = $("#pesquisar").attr('href').replace("sub", $("#pesquisarnome").val())
+        $("#pesquisar").attr("href", valor)
+        
+    }
+    
+
+
+
+</script>
