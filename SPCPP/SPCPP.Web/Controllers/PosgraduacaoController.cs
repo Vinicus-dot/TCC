@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using SPCPP.Model.Filters;
 using SPCPP.Model.Models;
-using SPCPP.Model.Models.Request;
 using SPCPP.Service.Interface;
-using SPCPP.Service.Services;
+using X.PagedList;
 
 namespace SPCPP.Web.Controllers
 {
-    [PaginaParaUsuarioLogado]
+    //[PaginaParaUsuarioLogado]
     public class PosgraduacaoController : Controller
     {
         private readonly IPosgraduacaoService _posgraduacaoService;
@@ -22,10 +16,77 @@ namespace SPCPP.Web.Controllers
             _posgraduacaoService = posgraduacaoService;
         }
   
-        public IActionResult Index()
+        public ViewResult Index(string Ordenar , string Filter, string pesquisar , int? pagina)
         {
+            ViewBag.OrdernarPg = Ordenar;
+            ViewBag.NameParm = String.IsNullOrEmpty(Ordenar) ? "nome" : "";
+            ViewBag.DateParm = Ordenar == "data" ? "data_desc" : "data";
+            ViewBag.NameDoCursoParm = Ordenar == "nomeCurso" ? "nomeCurso_desc" : "nomeCurso";
+            ViewBag.CampusDoCursoParm = Ordenar == "campusDoCurso" ? "campusDoCurso_desc" : "campusDoCurso";
+            ViewBag.DescricaoParm = Ordenar == "descricao" ? "descricao_desc" : "descricao";
+            ViewBag.EditalParm = Ordenar == "edital" ? "edital_desc" : "edital";
+            ViewBag.DateAttParm = Ordenar == "dateAtt" ? "dateAtt_desc" : "dateAtt";
+
+            if (pesquisar != null) pagina = 1;  else  pesquisar = Filter;
+
+            ViewBag.Filter = pesquisar;
+
             List<Posgraduacao> posgraduacao = _posgraduacaoService.Listar();
-            return View(posgraduacao);
+
+            if (!String.IsNullOrEmpty(pesquisar))
+                posgraduacao = posgraduacao.Where(s => s.nome.Contains(pesquisar) || s.nome_curso.Contains(pesquisar)).ToList();
+         
+            switch (Ordenar)
+            {
+                case "nome":
+                    posgraduacao = posgraduacao.OrderByDescending(s => s.nome).ToList();
+                    break;
+                case "data":
+                    posgraduacao = posgraduacao.OrderBy(s => s.DataCadastro).ToList();
+                    break;
+                case "data_desc":
+                    posgraduacao = posgraduacao.OrderByDescending(s => s.DataCadastro).ToList();
+                    break;
+                case "nomeCurso":
+                    posgraduacao = posgraduacao.OrderBy(s => s.nome_curso).ToList();
+                    break;
+                case "nomeCurso_desc":
+                    posgraduacao = posgraduacao.OrderByDescending(s => s.nome_curso).ToList();
+                    break;
+                case "campusDoCurso":
+                    posgraduacao = posgraduacao.OrderBy(s => s.nome_curso).ToList();
+                    break;
+                case "campusDoCurso_desc":
+                    posgraduacao = posgraduacao.OrderByDescending(s => s.nome_curso).ToList();
+                    break;
+                case "descricao":
+                    posgraduacao = posgraduacao.OrderBy(s => s.descricao).ToList();
+                    break;
+                case "descricao_desc":
+                    posgraduacao = posgraduacao.OrderByDescending(s => s.descricao).ToList();
+                    break; 
+                case "edital":
+                    posgraduacao = posgraduacao.OrderBy(s => s.edital).ToList();
+                    break;
+                case "edital_desc":
+                    posgraduacao = posgraduacao.OrderByDescending(s => s.edital).ToList();
+                    break;             
+                case "dateAtt":
+                    posgraduacao = posgraduacao.OrderBy(s => s.DataAtualizacao).ToList();
+                    break;
+                case "dateAtt_desc":
+                    posgraduacao = posgraduacao.OrderByDescending(s => s.DataDesativacao).ToList();
+                    break;
+
+                default:
+                    posgraduacao = posgraduacao.OrderBy(s => s.nome).ToList();
+                    break;
+            }
+
+            int pageSize = 3;
+            int pageNumber = (pagina ?? 1);
+            return View(posgraduacao.ToPagedList(pageNumber, pageSize));
+
         }
     
         public IActionResult Create()

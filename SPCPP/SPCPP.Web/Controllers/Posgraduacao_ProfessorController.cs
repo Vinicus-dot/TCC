@@ -71,7 +71,7 @@ namespace SPCPP.Web.Controllers
                
                 
 
-                return View(PaginaList<Professor>.Create(professores, numeroPagina ?? 1, totalpagina ,id));
+                return View(PaginaList<Professor>.Create(professores, numeroPagina ?? 1, totalpagina ,id,nome));
 
             }
             catch (Exception ex)
@@ -81,31 +81,6 @@ namespace SPCPP.Web.Controllers
             }
 
         }
-        public IActionResult Pesquisar(ulong id, int? numeroPagina, string? nome)
-        {
-            try
-            {
-                int totalpagina = 5;
-                Posgraduacao posgraducao = _posgraduacaoService.PesquisarPorId(id);
-                TempData["Posgraduacao"] = posgraducao.nome;
-
-                List<Professor> professores = new List<Professor>();
-                if (!string.IsNullOrEmpty(nome))
-                {
-                    professores = _posgraduacao_ProfessorService.PesquisarPorNome(id, nome);
-
-                }
-
-
-                return PartialView(PaginaList<Professor>.Create(professores, numeroPagina ?? 1, totalpagina, id));
-
-            }
-            catch (Exception ex)
-            {
-                TempData["MensagemErro"] = ex;
-                return PartialView();
-            }
-
-        }
+       
     }
 }

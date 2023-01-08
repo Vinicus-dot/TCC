@@ -1,5 +1,9 @@
-﻿@using SPCPP.Model.Models
-@model List<Posgraduacao>
+﻿@using X.PagedList.Mvc.Core
+@using X.PagedList;
+@using X.PagedList.Web.Common
+@model IPagedList<SPCPP.Model.Models.Posgraduacao>
+
+
 @{
     ViewData["Title"] = "Listagem de Pos Gradução";
 }
@@ -27,17 +31,25 @@
     <h1 class="display-4">Listagem de Pos Gradução</h1>
     <br />
 
+    @using (Html.BeginForm("Index", "Posgraduacao", FormMethod.Get))
+    {
+        <p>
+            Pesquisar por nome: @Html.TextBox("pesquisar", ViewBag.Filter as string)
+            <input type="submit" value="Search" />
+        </p>
+    }
+
     <table class="table" id="table-posgraduacao">
         <thead>
             <tr>           
                 <th scope="col">#</th>
-                <th scope="col">Nome</th>
-                <th scope="col">Nome do curso</th>
-                <th scope="col">Campus do curso</th>
-                <th scope="col">Descrição</th>
-                <th scope="col">Edital</th>
-                <th scope="col">Data de cadastro</th>
-                <th scope="col">Data de atualização</th>
+                <th scope="col">@Html.ActionLink("Nome", "Index", new { Ordenar = ViewBag.NameParm, Filter=ViewBag.Filter })</th>
+                <th scope="col">@Html.ActionLink("Nome do Curso", "Index", new { Ordenar = ViewBag.NameDoCursoParm, Filter=ViewBag.Filter })</th>
+                <th scope="col">@Html.ActionLink("Campus do curso", "Index", new { Ordenar = ViewBag.CampusDoCursoParm, Filter=ViewBag.Filter })</th>
+                <th scope="col">@Html.ActionLink("Descrição", "Index", new { Ordenar = ViewBag.DescricaoParm, Filter=ViewBag.Filter })</th>
+                <th scope="col">@Html.ActionLink("Edital", "Index", new { Ordenar = ViewBag.EditalParm, Filter=ViewBag.Filter })</th>
+                <th scope="col">@Html.ActionLink("Data de cadastro", "Index", new { Ordenar = ViewBag.DateParm , Filter=ViewBag.Filter})</th>
+                <th scope="col">@Html.ActionLink("Data de atualização", "Index", new { Ordenar = ViewBag.DateAttParm , Filter=ViewBag.Filter})</th>
 
 
                 <th scope="col"> <a role="button" class="btn btn-primary mb-0 " style="width:9.2rem!important" asp-controller="Posgraduacao" asp-action="Create">Novo Usuário</a></th>
@@ -72,10 +84,29 @@
 
         </tbody>
     </table>
+    <br />
+        
+       
+    
+        @Html.PagedListPager(Model, pagina => Url.Action("Index",  new { pagina, Ordenar = ViewBag.OrdernarPg, Filter = ViewBag.Filter} )
+        , new PagedListRenderOptions {
+        //                                DisplayLinkToIndividualPages = true,
+        //                                DisplayPageCountAndCurrentLocation = false,
+        //                                MaximumPageNumbersToDisplay = 5,
+        //                                LiElementClasses = new string[] { "page-item" },
+        //                                PageClasses = new string[] { "page-link" },
+                                        
+                                 
+                                        LinkToFirstPageFormat = " Primeira", 
+                                         LinkToPreviousPageFormat = " Anterior", 
+                                        LinkToNextPageFormat = "Próxima ",
+                                        LinkToLastPageFormat = "Último"}
+        )
+        Pagina @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount
 </div>
 
 <script>
-
+    
     function deletar(id) {
 
         $.ajax({

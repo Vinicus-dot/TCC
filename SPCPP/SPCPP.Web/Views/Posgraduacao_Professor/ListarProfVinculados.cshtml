@@ -3,7 +3,7 @@
 
 @{
     ViewData["Title"] = "Listagem de Professores vinculados ";
-    string teste = "";
+    
 }
 
 <div class="text-center">
@@ -27,15 +27,9 @@
         </div>
     }
     
-        <div class="form-group form-check">
-            <label class="form-check-label">
-            <input type="search" id="pesquisarnome" name="name" value="" />            
-            @*<input type="search" name="name" value="@teste" onchange="(e) => @teste = e.target.value" />*@
-            </label>
-        </div>
+        
     
-    @*<button type="submit" class="btn btn-primary btn-block w-100 mb-3" onclick="pesquisar()">Pesquisar</button>*@
-    <a id="pesquisar" asp-action="ListarProfVinculados" asp-route-id="@(Model.PosgraduacaoId)" asp-route-numeroPagina="1" asp-route-nome="sub" onclick="pesquisar()"> Anterior</a>
+    
 
         
     
@@ -43,6 +37,13 @@
     <h1 class="display-4">Professores vinculados a @TempData["Posgraduacao"]</h1>
     <br />
 
+    <div class="form-group form-check">
+            <label class="form-check-label">
+            <input type="search" id="pesquisarnome" name="name" value="@(Model.Nome)" />            
+            <a id="pesquisar" asp-action="ListarProfVinculados" asp-route-id="@(Model.PosgraduacaoId)" asp-route-numeroPagina="1" asp-route-nome="sub" onclick="pesquisar()"> Pesquisar</a>
+            </label>
+    </div>
+    
     <table class="table" id="table-professors">
         <thead>
             <tr>
@@ -97,8 +98,8 @@
 
 }
 
-<a asp-action="ListarProfVinculados" asp-route-id="@(Model.PosgraduacaoId)" asp-route-numeroPagina="@(Model.PaginaInicial-1)" class="btn btn-default @anterior"> Anterior</a>
-<a asp-action="ListarProfVinculados" asp-route-id="@(Model.PosgraduacaoId)" asp-route-numeroPagina="@(Model.PaginaInicial+1)" class="btn btn-default @proximo"> Proximo</a>
+<a asp-action="ListarProfVinculados" asp-route-id="@(Model.PosgraduacaoId)" asp-route-numeroPagina="@(Model.PaginaInicial-1)" asp-route-nome="@(Model.Nome)" class="btn btn-default @anterior"> Anterior</a>
+<a asp-action="ListarProfVinculados" asp-route-id="@(Model.PosgraduacaoId)" asp-route-numeroPagina="@(Model.PaginaInicial+1)" asp-route-nome="@(Model.Nome)" class="btn btn-default @proximo"> Proximo</a>
 
 
 <script>
