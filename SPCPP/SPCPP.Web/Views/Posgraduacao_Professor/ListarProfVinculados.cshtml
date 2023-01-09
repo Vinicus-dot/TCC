@@ -27,35 +27,33 @@
         </div>
     }
     
-        
-    
-    
 
-        
-    
 
     <h1 class="display-4">Professores vinculados a @TempData["Posgraduacao"]</h1>
     <br />
 
-    <div class="form-group form-check">
-            <label class="form-check-label">
-            <input type="search" id="pesquisarnome" name="name" value="@(Model.Nome)" />            
-            <a id="pesquisar" asp-action="ListarProfVinculados" asp-route-id="@(Model.PosgraduacaoId)" asp-route-numeroPagina="1" asp-route-nome="sub" onclick="pesquisar()"> Pesquisar</a>
-            </label>
-    </div>
+    @using (Html.BeginForm("ListarProfVinculados", "Posgraduacao_Professor", FormMethod.Get))
+    {
+        <p>
+            Pesquisar por nome: @Html.TextBox("nome", ViewBag.Nome as string)
+            <input type="submit" value="Search" />
+        </p>
+    }
+
     
     <table class="table" id="table-professors">
         <thead>
             <tr>
-                <th scope="col">Siape</th>
-                <th scope="col">Nome</th>
-                <th scope="col">Email</th>
-                <th scope="col">Data Nascimento</th>
-                <th scope="col">Data Exoneracao</th>
-                <th scope="col">Data Saida</th>
-                <th scope="col">Data Aposentadoria</th>
-                <th scope="col">Carga Horária</th>
-                <th scope="col">Status</th>
+                
+                <th scope="col">@Html.ActionLink("Siape", "ListarProfVinculados", new { Ordenar = ViewBag.SiapeParm, Nome=ViewBag.Nome })</th>
+                <th scope="col">@Html.ActionLink("Nome", "ListarProfVinculados", new { Ordenar = ViewBag.CnomeParm, Nome=ViewBag.Nome })</th>
+                <th scope="col">@Html.ActionLink("Email", "ListarProfVinculados", new { Ordenar = ViewBag.EmailParm, Nome=ViewBag.Nome })</th>
+                <th scope="col">@Html.ActionLink("Data Nascimento", "ListarProfVinculados", new { Ordenar = ViewBag.Data_NascParm, Nome=ViewBag.Nome })</th>
+                <th scope="col">@Html.ActionLink("Data Exoneracao", "ListarProfVinculados", new { Ordenar = ViewBag.Data_exoneracaoParm, Nome=ViewBag.Nome })</th>
+                <th scope="col">@Html.ActionLink("Data Saida", "ListarProfVinculados", new { Ordenar = ViewBag.Data_saidaParm, Nome=ViewBag.Nome })</th>
+                <th scope="col">@Html.ActionLink("Data Aposentadoria", "ListarProfVinculados", new { Ordenar = ViewBag.Data_aposentadoriaParm , Nome=ViewBag.Nome})</th>
+                <th scope="col">@Html.ActionLink("Carga Horária", "ListarProfVinculados", new { Ordenar = ViewBag.Carga_atualParm , Nome=ViewBag.Nome})</th>
+                <th scope="col">@Html.ActionLink("Status", "ListarProfVinculados", new { Ordenar = ViewBag.StatusParm , Nome=ViewBag.Nome})</th>
 
 
 
@@ -97,9 +95,8 @@
     var proximo = !Model.ProximaPagina ? "disabled" : "";
 
 }
-
-<a asp-action="ListarProfVinculados" asp-route-id="@(Model.PosgraduacaoId)" asp-route-numeroPagina="@(Model.PaginaInicial-1)" asp-route-nome="@(Model.Nome)" class="btn btn-default @anterior"> Anterior</a>
-<a asp-action="ListarProfVinculados" asp-route-id="@(Model.PosgraduacaoId)" asp-route-numeroPagina="@(Model.PaginaInicial+1)" asp-route-nome="@(Model.Nome)" class="btn btn-default @proximo"> Proximo</a>
+<a asp-action="ListarProfVinculados" asp-route-id="@(ViewBag.Id)" asp-route-numeroPagina="@(Model.PaginaInicial-1)" asp-route-nome="@(Model.Nome)" asp-route-Ordenar="@(ViewBag.OrdenarPg)" class="btn btn-default @anterior"> Anterior</a>
+<a asp-action="ListarProfVinculados" asp-route-id="@(ViewBag.Id)" asp-route-numeroPagina="@(Model.PaginaInicial+1)" asp-route-nome="@(Model.Nome)" asp-route-Ordenar="@(ViewBag.OrdenarPg)" class="btn btn-default @proximo"> Proximo</a>
 
 
 <script>

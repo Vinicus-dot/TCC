@@ -14,11 +14,93 @@ namespace SPCPP.Web.Controllers
         {
             _professorService = professorService;
         }
-        public IActionResult Index()
+        public IActionResult Index(string Ordenar , int? numeroPagina , string? pesquisar)
         {
-            List<Professor> professor = _professorService.Listar();
+            try
+            {
+                ViewBag.Nome = pesquisar;
+                int totalpagina = 5;
+                List<Professor> professores = _professorService.Listar();
 
-            return View(professor);
+                ViewBag.OrdenarPg = Ordenar;
+                ViewBag.CnomeParm = String.IsNullOrEmpty(Ordenar) ? "cnome" : "";
+                ViewBag.EmailParm = Ordenar == "email" ? "email_desc" : "email";
+                ViewBag.Data_NascParm = Ordenar == "data_nasc" ? "data_nasc_desc" : "data_nasc";
+                ViewBag.Data_exoneracaoParm = Ordenar == "data_exoneracao" ? "data_exoneracao_desc" : "data_exoneracao";
+                ViewBag.Data_saidaParm = Ordenar == "data_saida" ? "data_saida_desc" : "data_saida";
+                ViewBag.Data_aposentadoriaParm = Ordenar == "data_aposentadoria" ? "data_aposentadoria_desc" : "data_aposentadoria";
+                ViewBag.Carga_atualParm = Ordenar == "carga_atual" ? "carga_atual_desc" : "carga_atual";
+                ViewBag.StatusParm = Ordenar == "status" ? "status_desc" : "status";
+                ViewBag.SiapeParm = Ordenar == "siape" ? "siape_desc" : "siape";
+
+                switch (Ordenar)
+                {
+                    case "cnome":
+                        professores = professores.OrderByDescending(s => s.Cnome).ToList();
+                        break;
+                    case "email":
+                        professores = professores.OrderBy(s => s.Email).ToList();
+                        break;
+                    case "email_desc":
+                        professores = professores.OrderByDescending(s => s.Email).ToList();
+                        break;
+                    case "data_nasc":
+                        professores = professores.OrderBy(s => s.Data_nasc).ToList();
+                        break;
+                    case "data_nasc_desc":
+                        professores = professores.OrderByDescending(s => s.Data_nasc).ToList();
+                        break;
+                    case "data_exoneracao":
+                        professores = professores.OrderBy(s => s.Data_exoneracao).ToList();
+                        break;
+                    case "data_exoneracao_desc":
+                        professores = professores.OrderByDescending(s => s.Data_exoneracao).ToList();
+                        break;
+                    case "data_saida":
+                        professores = professores.OrderBy(s => s.Data_saida).ToList();
+                        break;
+                    case "data_saida_desc":
+                        professores = professores.OrderByDescending(s => s.Data_saida).ToList();
+                        break;
+                    case "data_aposentadoria":
+                        professores = professores.OrderBy(s => s.Data_aposentadoria).ToList();
+                        break;
+                    case "data_aposentadoria_desc":
+                        professores = professores.OrderByDescending(s => s.Data_aposentadoria).ToList();
+                        break;
+                    case "carga_atual":
+                        professores = professores.OrderBy(s => s.Carga_atual).ToList();
+                        break;
+                    case "carga_atual_desc":
+                        professores = professores.OrderByDescending(s => s.Carga_atual).ToList();
+                        break;
+
+                    case "status":
+                        professores = professores.OrderBy(s => s.Status).ToList();
+                        break;
+                    case "status_desc":
+                        professores = professores.OrderByDescending(s => s.Status).ToList();
+                        break;
+
+                    case "siape":
+                        professores = professores.OrderBy(s => s.siape).ToList();
+                        break;
+                    case "siape_desc":
+                        professores = professores.OrderByDescending(s => s.siape).ToList();
+                        break;
+
+                    default:
+                        professores = professores.OrderBy(s => s.Cnome).ToList();
+                        break;
+                }
+
+                return View(PaginaList<Professor>.Create(professores, numeroPagina ?? 1, totalpagina));
+            }
+            catch (Exception ex)
+            {
+                TempData["MensagemErro"] = ex;
+                return View();
+            }
         }
 
         public IActionResult Create()

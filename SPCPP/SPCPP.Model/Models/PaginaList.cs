@@ -14,29 +14,29 @@ namespace SPCPP.Model.Models
         public ulong? PosgraduacaoId { get; set; }
 
         public string? Nome { get; set; }
-
-        public PaginaList(List<T> items, int count , int paginainicial, int totalpagina , ulong? id, string? nome)
+     
+        public PaginaList(List<T> items, int count , int paginainicial, int totalpagina )
         {   
             PaginaInicial = paginainicial;
             TotalPaginas = (int)Math.Ceiling(count/(double)totalpagina);
-            PosgraduacaoId = id;
-            Nome = nome;
+            
             this.AddRange(items);
         }
 
         public bool PaginaAnterior => PaginaInicial > 1;
 
         public bool ProximaPagina => PaginaInicial < TotalPaginas;
-
-        public static PaginaList<T> Create (List<T> conteudo, int paginainicial, int totalpagina, ulong? PosgraduacaoId, string? nome)
+       
+        //uso geral
+        public static PaginaList<T> Create (List<T> conteudo, int paginainicial, int totalpagina)
         {
             var count = conteudo.Count;
 
             var items = conteudo.Skip((paginainicial-1)*totalpagina).Take(totalpagina).ToList();
 
-            return new PaginaList<T>(items, count, paginainicial, totalpagina , PosgraduacaoId ,nome); 
+            return new PaginaList<T>(items, count, paginainicial, totalpagina ); 
         }
-
+       
 
 
     }

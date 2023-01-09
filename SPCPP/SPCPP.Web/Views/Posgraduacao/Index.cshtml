@@ -1,7 +1,5 @@
-﻿@using X.PagedList.Mvc.Core
-@using X.PagedList;
-@using X.PagedList.Web.Common
-@model IPagedList<SPCPP.Model.Models.Posgraduacao>
+﻿@using SPCPP.Model.Models
+@model PaginaList<Posgraduacao>
 
 
 @{
@@ -55,6 +53,7 @@
                 <th scope="col"> <a role="button" class="btn btn-primary mb-0 " style="width:9.2rem!important" asp-controller="Posgraduacao" asp-action="Create">Novo Usuário</a></th>
             </tr>
         </thead>
+        
         <tbody>
             @if (Model != null && Model.Any())
             {
@@ -83,26 +82,18 @@
 
 
         </tbody>
+
     </table>
     <br />
-        
-       
+    @{
+        var anterior = !Model.PaginaAnterior ? "disabled" : "";
+        var proximo = !Model.ProximaPagina ? "disabled" : "";
+
+    }
+    <a asp-action="Index" asp-route-pagina="@(Model.PaginaInicial-1)" asp-route-Filter="@(ViewBag.Filter)"  asp-route-Ordenar="@(ViewBag.OrdenarPg)" class="btn btn-default @anterior"> Anterior</a>
+    <a asp-action="Index" asp-route-pagina="@(Model.PaginaInicial+1)" asp-route-Filter="@(ViewBag.Filter)" asp-route-Ordenar="@(ViewBag.OrdenarPg)"  class="btn btn-default @proximo"> Próximo</a>
     
-        @Html.PagedListPager(Model, pagina => Url.Action("Index",  new { pagina, Ordenar = ViewBag.OrdernarPg, Filter = ViewBag.Filter} )
-        , new PagedListRenderOptions {
-        //                                DisplayLinkToIndividualPages = true,
-        //                                DisplayPageCountAndCurrentLocation = false,
-        //                                MaximumPageNumbersToDisplay = 5,
-        //                                LiElementClasses = new string[] { "page-item" },
-        //                                PageClasses = new string[] { "page-link" },
-                                        
-                                 
-                                        LinkToFirstPageFormat = " Primeira", 
-                                         LinkToPreviousPageFormat = " Anterior", 
-                                        LinkToNextPageFormat = "Próxima ",
-                                        LinkToLastPageFormat = "Último"}
-        )
-        Pagina @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount
+       
 </div>
 
 <script>

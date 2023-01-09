@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="X.PagedList.Mvc.Core" Version="8.4.3" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\SPCPP.Model\SPCPP.Model.csproj" />
   </ItemGroup>
 

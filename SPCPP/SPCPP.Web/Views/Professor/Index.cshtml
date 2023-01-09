@@ -1,5 +1,5 @@
 ﻿@using SPCPP.Model.Models
-@model List<Professor>
+@model PaginaList<Professor>
 
 @{
     ViewData["Title"] = "Listagem de Professores";
@@ -30,19 +30,26 @@
     <h1  class="display-4">Listagem de Professores</h1>
     <br />
 
+    @using (Html.BeginForm("Index", "Professor", FormMethod.Get))
+    {
+        <p>
+            Pesquisar por nome: @Html.TextBox("pesquisar", ViewBag.Nome as string)
+            <input type="submit" value="Search" />
+        </p>
+    }
+
     <table class="table" id="table-professors" >
         <thead>
             <tr>
-                <th scope="col">Siape</th>
-                <th scope="col">Nome</th>
-                <th scope="col">Email</th>
-                <th scope="col">Data Nascimento</th>
-                <th scope="col">Data Exoneracao</th>
-                <th scope="col">Data Saida</th>
-                <th scope="col">Data Aposentadoria</th>
-                <th scope="col">Carga Horária</th>
-                <th scope="col">Status</th>
-                
+                <th scope="col">@Html.ActionLink("Siape", "Index", new { Ordenar = ViewBag.SiapeParm, Nome=ViewBag.Nome })</th>
+                <th scope="col">@Html.ActionLink("Nome", "Index", new { Ordenar = ViewBag.CnomeParm, Nome=ViewBag.Nome })</th>
+                <th scope="col">@Html.ActionLink("Email", "Index", new { Ordenar = ViewBag.EmailParm, Nome=ViewBag.Nome })</th>
+                <th scope="col">@Html.ActionLink("Data Nascimento", "Index", new { Ordenar = ViewBag.Data_NascParm, Nome=ViewBag.Nome })</th>
+                <th scope="col">@Html.ActionLink("Data Exoneracao", "Index", new { Ordenar = ViewBag.Data_exoneracaoParm, Nome=ViewBag.Nome })</th>
+                <th scope="col">@Html.ActionLink("Data Saida", "Index", new { Ordenar = ViewBag.Data_saidaParm, Nome=ViewBag.Nome })</th>
+                <th scope="col">@Html.ActionLink("Data Aposentadoria", "Index", new { Ordenar = ViewBag.Data_aposentadoriaParm , Nome=ViewBag.Nome})</th>
+                <th scope="col">@Html.ActionLink("Carga Horária", "Index", new { Ordenar = ViewBag.Carga_atualParm , Nome=ViewBag.Nome})</th>
+                <th scope="col">@Html.ActionLink("Status", "Index", new { Ordenar = ViewBag.StatusParm , Nome=ViewBag.Nome})</th>
 
 
                 <th scope="col"> <a role="button" class="btn btn-primary mb-0 " style="width:9.2rem!important" asp-controller="Professor" asp-action="Create">Novo Usuário</a></th>
@@ -77,7 +84,13 @@
         </tbody>
     </table>
 </div>
+@{
+    var anterior = !Model.PaginaAnterior ? "disabled" : "";
+    var proximo = !Model.ProximaPagina ? "disabled" : "";
 
+}
+<a asp-action="Index" asp-route-id="@(Model.PosgraduacaoId)" asp-route-numeroPagina="@(Model.PaginaInicial-1)" asp-route-nome="@(Model.Nome)" asp-route-Ordenar="@(ViewBag.OrdenarPg)" class="btn btn-default @anterior"> Anterior</a>
+<a asp-action="Index" asp-route-id="@(Model.PosgraduacaoId)" asp-route-numeroPagina="@(Model.PaginaInicial+1)" asp-route-nome="@(Model.Nome)" asp-route-Ordenar="@(ViewBag.OrdenarPg)" class="btn btn-default @proximo"> Proximo</a>
 <script>
 
     function deletar(id_user) {
