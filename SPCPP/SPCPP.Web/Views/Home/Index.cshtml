@@ -1,5 +1,14 @@
-﻿@{
+﻿@using SPCPP.Model.Models
+
+
+@{
+    @if (ViewBag.Logado)
+        Layout = "_Layout";
+    else
+        Layout = "_LayoutDeslogado";
+
     ViewData["Title"] = "Home Page";
+
 }
 
 <div class="text-center">

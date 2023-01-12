@@ -11,10 +11,7 @@ namespace SPCPP.Model.Models
         public int  PaginaInicial { get; set; }
         public int TotalPaginas { get; set; }
 
-        public ulong? PosgraduacaoId { get; set; }
 
-        public string? Nome { get; set; }
-     
         public PaginaList(List<T> items, int count , int paginainicial, int totalpagina )
         {   
             PaginaInicial = paginainicial;

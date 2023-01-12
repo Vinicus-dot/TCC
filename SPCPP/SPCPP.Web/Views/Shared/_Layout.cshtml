@@ -8,57 +8,62 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/PagedList.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/SPCPP.Web.styles.css" asp-append-version="true" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-    
-
     <header>
-        <nav class="sidenav">
-            <div >
-                <a class="" asp-area="" asp-controller="Home" asp-action="Index">SPCPP</a>
-                
-                <div class=" justify-content-between">
-                    <ul class=" flex-grow-1 ">
-                        <li class="">
-                            <a class="" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="">
-                            <a class="" asp-area="" asp-controller="Professor" asp-action="Index">Professor</a>
-                        </li>
-                        <li class="">
-                            <a class="" asp-area="" asp-controller="Posgraduacao" asp-action="Index">Posgraducao</a>
-                        </li>
-                        <li class="">
-                            <a class="" asp-area="" asp-controller="User" asp-action="Index">User</a>
-                        </li>
-                        <li class="">
-                            <a class="" asp-area="" asp-controller="Perfil" asp-action="Editar">Editar meu Perfil</a>
-                        </li>
-                        <li class="">
-                            <a class="" asp-area="" asp-controller="Login" asp-action="Sair">Sair</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        <div class="sidenav">
+            <a id="logologado" class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+            <img src="imagens/logologado.png" class="img-fluid" alt="Logo UFU logado">
+            </a>
+            <a id="inicio" asp-area="" asp-controller="Home" asp-action="Index">UFU - SPCPP</a>
+            <a class="" asp-area="" asp-controller="Professor" asp-action="Index">PROFESSOR</a>
+            <a class="" asp-area="" asp-controller="Posgraduacao" asp-action="Index">POSGRADUAÇÃO</a>
+            <a class="" asp-area="" asp-controller="User" asp-action="Index">USUÁRIOS</a>
+            <button class="dropdown-btn">
+                PERFIL
+                <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-container">
+                <a id="perfil" class="" asp-area="" asp-controller="Perfil" asp-action="Editar">EDITAR MEU PERFIL</a>
+                 <a class="" asp-area="" asp-controller="Login" asp-action="Sair">SAIR</a>
+            </div>      
+        </div>
     </header>
 
         <div class="container">
-        <main role="main" class="pb-3">
+        <main role="main" class="pb-3" style="margin-top:50px;">
                 @RenderBody()
             </main>
         </div>
 
-    
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; @DateTime.Now.Year - SPCPP.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <p style="color:rgb(246,246,246); ">&copy; @DateTime.Now.Year - Sistema de Cadastro de Professores na Pós Graduação </p>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    
+    <script type="text/javascript">
+    <script>
+        /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
+        var dropdown = document.getElementsByClassName("dropdown-btn");
+        var i;
+
+        for (i = 0; i < dropdown.length; i++) {
+            dropdown[i].addEventListener("click", function () {
+                this.classList.toggle("active");
+                var dropdownContent = this.nextElementSibling;
+                if (dropdownContent.style.display === "block") {
+                    dropdownContent.style.display = "none";
+                } else {
+                    dropdownContent.style.display = "block";
+                }
+            });
+        }
+    </script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

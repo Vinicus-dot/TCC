@@ -10,15 +10,30 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
  
 </head>
-<body>
+<body style="background-color: rgb(246,246,246);">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Controle de Contatos</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark border-bottom box-shadow mb-3" style="background-color: #087FE7;">
+            <div class="container-fluid header-ajust">
+                
+                    <a id="logo" class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                        <img src="imagens/imagem_chamada_ufu_40_anos.png" class="img-fluid" alt="Logo UFU" >
+                
+                        <p style="font-size:12px">
+                            Universidade Federal de Uberlândia 
+                        </p>
+                    </a>
+               
+                
+                
+                @if (ViewBag.Logado != null)
+                {
+                    <a class="navbar-brand" asp-area="" asp-controller="Login" asp-action="Index">Login</a>
+                }
+                else
+                {
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">SPCPP - HOME</a>
+                }
+                
             </div>
         </nav>
     </header>
@@ -28,14 +43,15 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2022 - SPCPP
+    <footer class="border-top footer text-muted" >
+        <div class="container" >
+            <p style="color:rgb(246,246,246); ">&copy; @DateTime.Now.Year - Sistema de Cadastro de Professores na Pós Graduação </p>
+            
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-   
+    <script type="text/javascript">
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

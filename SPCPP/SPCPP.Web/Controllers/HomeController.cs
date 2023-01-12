@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using SPCPP.Model.Filters;
+using SPCPP.Model.Models;
 using SPCPP.Web.Models;
 using System.Diagnostics;
 
 namespace SPCPP.Web.Controllers
 {
-    [PaginaParaUsuarioLogado]
+    //[PaginaParaUsuarioLogado]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -17,7 +19,15 @@ namespace SPCPP.Web.Controllers
 
         public IActionResult Index()
         {
+            ViewBag.Logado = true;
+            string sessaoUsuario = ControllerContext.HttpContext.Session.GetString("sessaoUsuarioLogado");
+
+            if (string.IsNullOrEmpty(sessaoUsuario))
+                ViewBag.Logado = false;
+            
+
             return View();
+
         }
 
         public IActionResult Privacy()

@@ -1,7 +1,7 @@
 * {
     margin: 0;
     padding: 0;
-    font-family: 'Open Sans', sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 
@@ -21,21 +21,41 @@ html {
 }
 
 body {
-  
+    background-color: rgb(246,246,246);
     margin-bottom: 60px;
 }
 
 
-.sidenav {
+/*.sidenav {
     position: fixed;
     height: 93.7%;
     width: 150px;
-    background-color: lightblue;
-}
+    background-color: gray;
+    
+}   
+    .sidenav li {
+        list-style: none;
+        margin-top: 15px;
+        margin-left: -15px;
+    }
+    .sidenav a {
+        color: rgb(246,246,246);
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+    }
+    .sidenav #perfil {        
+        font-size: 12px;
+    }
+    .sidenav #inicio {
+        display: block;
+        margin-top: 20px;
+        margin-left: 7px;
+        margin-bottom: 40px;
 
-.file-validation-error{
-
-    color:#e01d1d;
+    }*/
+.file-validation-error {
+        color: #e01d1d;
 }
 
 .close-alert{
@@ -48,6 +68,110 @@ body {
     height: 31px;
 }
 
+footer {
+    
+    background-color: gray;
+    
+    
+}
+footer p {
+    margin-left: 35%;
+}
+#logologado {
+    margin-left: 10px;
+    width: 150px;
+    height: 125px;
+}
+/* Fixed sidenav, full height */
+.sidenav {
+    /*height: 92%;*/
+    height: 100%;
+    width: 200px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    padding-top: 20px;
+}
+
+    /* Style the sidenav links and the dropdown button */
+    .sidenav a, .dropdown-btn {
+        padding: 6px 8px 6px 16px;
+        text-decoration: none;
+        font-size: 20px;
+        color: #818181;
+        display: block;
+        border: none;
+        background: none;
+        width: 100%;
+        text-align: left;
+        cursor: pointer;
+        outline: none;
+    }
+
+        /* On mouse-over */
+        .sidenav a:hover, .dropdown-btn:hover {
+            color: #f1f1f1;
+        }
+
+        .sidenav #perfil {
+            font-size: 12px;
+        }
+
+        .sidenav #inicio {
+            display: block;
+            margin-top: 20px;
+            margin-left: 7px;
+            margin-bottom: 40px;
+        }
+/* Main content */
+.main {
+    margin-left: 200px; /* Same as the width of the sidenav */
+    font-size: 20px; /* Increased text to enable scrolling */
+    padding: 0px 10px;
+}
+
+/* Add an active class to the active dropdown button */
+.active {
+    background-color: darkblue;
+    color: white;
+}
+
+/* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
+.dropdown-container {
+    display: none;
+    background-color: #262626;
+    padding-left: 8px;
+}
+
+/* Optional: Style the caret down icon */
+.fa-caret-down {
+    float: right;
+    padding-right: 8px;
+}
+
+/* Some media queries for responsiveness */
+@media screen and (max-height: 450px) {
+    .sidenav {
+        padding-top: 15px;
+    }
+
+        .sidenav a {
+            font-size: 18px;
+        }
+}
+
+.table thead{
+    background-color: rgb(33,37,41);
+}
+
+    .table thead a {
+        text-decoration: none;
+        color: antiquewhite;
+        
+    }
 
 
 

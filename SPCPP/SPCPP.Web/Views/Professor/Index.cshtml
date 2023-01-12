@@ -33,7 +33,7 @@
     @using (Html.BeginForm("Index", "Professor", FormMethod.Get))
     {
         <p>
-            Pesquisar por nome: @Html.TextBox("pesquisar", ViewBag.Nome as string)
+            Pesquisar por nome: @Html.TextBox("pesquisar", ViewBag.Filter as string)
             <input type="submit" value="Search" />
         </p>
     }
@@ -41,18 +41,18 @@
     <table class="table" id="table-professors" >
         <thead>
             <tr>
-                <th scope="col">@Html.ActionLink("Siape", "Index", new { Ordenar = ViewBag.SiapeParm, Nome=ViewBag.Nome })</th>
-                <th scope="col">@Html.ActionLink("Nome", "Index", new { Ordenar = ViewBag.CnomeParm, Nome=ViewBag.Nome })</th>
-                <th scope="col">@Html.ActionLink("Email", "Index", new { Ordenar = ViewBag.EmailParm, Nome=ViewBag.Nome })</th>
-                <th scope="col">@Html.ActionLink("Data Nascimento", "Index", new { Ordenar = ViewBag.Data_NascParm, Nome=ViewBag.Nome })</th>
-                <th scope="col">@Html.ActionLink("Data Exoneracao", "Index", new { Ordenar = ViewBag.Data_exoneracaoParm, Nome=ViewBag.Nome })</th>
-                <th scope="col">@Html.ActionLink("Data Saida", "Index", new { Ordenar = ViewBag.Data_saidaParm, Nome=ViewBag.Nome })</th>
-                <th scope="col">@Html.ActionLink("Data Aposentadoria", "Index", new { Ordenar = ViewBag.Data_aposentadoriaParm , Nome=ViewBag.Nome})</th>
-                <th scope="col">@Html.ActionLink("Carga Horária", "Index", new { Ordenar = ViewBag.Carga_atualParm , Nome=ViewBag.Nome})</th>
-                <th scope="col">@Html.ActionLink("Status", "Index", new { Ordenar = ViewBag.StatusParm , Nome=ViewBag.Nome})</th>
+                <th scope="col">@Html.ActionLink("Siape", "Index", new { Ordenar = ViewBag.SiapeParm, Filter=ViewBag.Filter })</th>
+                <th scope="col">@Html.ActionLink("Nome", "Index", new { Ordenar = ViewBag.CnomeParm, Filter=ViewBag.Filter })</th>
+                <th scope="col">@Html.ActionLink("Email", "Index", new { Ordenar = ViewBag.EmailParm, Filter=ViewBag.Filter })</th>
+                <th scope="col">@Html.ActionLink("Data Nascimento", "Index", new { Ordenar = ViewBag.Data_NascParm, Filter=ViewBag.Filter })</th>
+                <th scope="col">@Html.ActionLink("Data Exoneracao", "Index", new { Ordenar = ViewBag.Data_exoneracaoParm, Filter=ViewBag.Filter })</th>
+                <th scope="col">@Html.ActionLink("Data Saida", "Index", new { Ordenar = ViewBag.Data_saidaParm, Filter=ViewBag.Filter })</th>
+                <th scope="col">@Html.ActionLink("Data Aposentadoria", "Index", new { Ordenar = ViewBag.Data_aposentadoriaParm , Filter=ViewBag.Filter})</th>
+                <th scope="col">@Html.ActionLink("Carga Horária", "Index", new { Ordenar = ViewBag.Carga_atualParm , Filter=ViewBag.Filter})</th>
+                <th scope="col">@Html.ActionLink("Status", "Index", new { Ordenar = ViewBag.StatusParm , Filter=ViewBag.Filter})</th>
 
 
-                <th scope="col"> <a role="button" class="btn btn-primary mb-0 " style="width:9.2rem!important" asp-controller="Professor" asp-action="Create">Novo Usuário</a></th>
+                <th scope="col"> <a role="button" class="btn btn-primary mb-0 " style="width:9.2rem!important font-size:12px" asp-controller="Professor" asp-action="Create">Novo Professor</a></th>
             </tr>
         </thead>
         <tbody>
@@ -89,8 +89,8 @@
     var proximo = !Model.ProximaPagina ? "disabled" : "";
 
 }
-<a asp-action="Index" asp-route-id="@(Model.PosgraduacaoId)" asp-route-numeroPagina="@(Model.PaginaInicial-1)" asp-route-nome="@(Model.Nome)" asp-route-Ordenar="@(ViewBag.OrdenarPg)" class="btn btn-default @anterior"> Anterior</a>
-<a asp-action="Index" asp-route-id="@(Model.PosgraduacaoId)" asp-route-numeroPagina="@(Model.PaginaInicial+1)" asp-route-nome="@(Model.Nome)" asp-route-Ordenar="@(ViewBag.OrdenarPg)" class="btn btn-default @proximo"> Proximo</a>
+<a asp-action="Index" asp-route-numeroPagina="@(Model.PaginaInicial-1)" asp-route-Filter="@(ViewBag.Filter)" asp-route-Ordenar="@(ViewBag.OrdenarPg)" class="btn btn-default @anterior"> Anterior</a>
+<a asp-action="Index" asp-route-numeroPagina="@(Model.PaginaInicial+1)" asp-route-Filter="@(ViewBag.Filter)" asp-route-Ordenar="@(ViewBag.OrdenarPg)" class="btn btn-default @proximo"> Proximo</a>
 <script>
 
     function deletar(id_user) {

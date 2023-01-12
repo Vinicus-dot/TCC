@@ -1,5 +1,5 @@
 ﻿@using SPCPP.Model.Models
-@model List<User>
+@model PaginaList<User>
 @{
     ViewData["Title"] = "Listagem de Usuários";
 }
@@ -27,18 +27,28 @@
     <h1 class="display-4">Listagem de Usuários</h1>
     <br />
 
+    @using (Html.BeginForm("Index", "User", FormMethod.Get))
+    {
+        <p>
+            Pesquisar por nome: @Html.TextBox("pesquisar", ViewBag.Filter as string)
+            <input type="submit" value="Buscar" />
+        </p>
+    }
+
     <table class="table" id="table-usuarios">
         <thead>
             <tr>
+  
                 <th scope="col">#</th>
-                <th scope="col">Nome</th>
-                <th scope="col">Login</th>
-                <th scope="col">E-mail</th>
-                <th scope="col">Perfil</th>
-                <th scope="col">Data de cadastro</th>
+                <th scope="col">@Html.ActionLink("Nome", "Index", new { Ordenar = ViewBag.NameParm, Filter=ViewBag.Filter })</th>
+                <th scope="col">@Html.ActionLink("Login", "Index", new { Ordenar = ViewBag.LoginParm, Filter=ViewBag.Filter })</th>
+                <th scope="col">@Html.ActionLink("Email", "Index", new { Ordenar = ViewBag.EmailParm, Filter=ViewBag.Filter })</th>
+                <th scope="col">@Html.ActionLink("Perfil", "Index", new { Ordenar = ViewBag.PerfilParm, Filter=ViewBag.Filter })</th>
+                <th scope="col">@Html.ActionLink("Data de Cadastro", "Index", new { Ordenar = ViewBag.DateParm, Filter=ViewBag.Filter })</th>
+                <th scope="col">@Html.ActionLink("Data de atualização", "Index", new { Ordenar = ViewBag.DateAttParm , Filter=ViewBag.Filter})</th>
 
 
-                <th scope="col"> <a role="button" class="btn btn-primary mb-0 " style="width:9.2rem!important" asp-controller="User" asp-action="Criar">Novo Usuário</a></th>
+                <th scope="col"> <a role="button" class="btn btn-primary mb-0 " style="width:9.2rem!important font-size:12px" asp-controller="User" asp-action="Criar">Novo Usuário</a></th>
             </tr>
         </thead>
         <tbody>
@@ -53,6 +63,7 @@
                         <td>@usuario.Email</td>
                         <td>@(usuario.Perfil == SPCPP.Model.Enums.PerfilEnum.Admin ? "Administrado" : "Padrão")</td>
                         <td>@usuario.DataCadastro</td>
+                        <td>@usuario.DataAtualizacao</td>
                         <td>
                             <div>
                                 <a role="button" class="btn btn-primary" asp-route-id="@usuario.Id" asp-controller="User" asp-action="Editar">Editar</a>
@@ -66,4 +77,41 @@
 
         </tbody>
     </table>
+
+    @{
+        var anterior = !Model.PaginaAnterior ? "disabled" : "";
+        var meio = !Model.ProximaPagina && !Model.PaginaAnterior ? "display:none" : "";
+        var proximo = !Model.ProximaPagina ? "disabled" : "";
+
+    }
+    <a asp-action="Index" asp-route-pagina="@(Model.PaginaInicial-1)" asp-route-Filter="@(ViewBag.Filter)" asp-route-Ordenar="@(ViewBag.OrdenarPg)" class="btn btn-default @anterior"> Anterior</a>
+    @using (Html.BeginForm("Index", "User", FormMethod.Get, new { style = @meio }))
+    {
+
+        @Html.TextBox("pagina" )
+        <div style="display:none;">
+        @Html.TextBox("Filter", ViewBag.Filter as string)
+        @Html.TextBox("Ordenar", ViewBag.OrdenarPg as string)
+            <input type="submit" />
+        </div>
+
+    }
+    <a asp-action="Index" asp-route-pagina="@(Model.PaginaInicial+1)" asp-route-Filter="@(ViewBag.Filter)" asp-route-Ordenar="@(ViewBag.OrdenarPg)" class="btn btn-default @proximo"> Próximo</a>
 </div>
+<script>
+    $(function () {
+        $('form').each(function () {
+            $(this).find('input').keypress(function (e) {
+                // Enter pressed?
+                if (e.which == 10 || e.which == 13) {
+                    this.form.submit();
+                }
+            });
+
+            $(this).find('input[type=submit]').hide();
+        });
+    });
+</script>
+
+
+</script>

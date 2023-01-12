@@ -79,7 +79,7 @@ namespace SPCPP.Web.Controllers
                         posgraduacao = posgraduacao.OrderBy(s => s.DataAtualizacao).ToList();
                         break;
                     case "dateAtt_desc":
-                        posgraduacao = posgraduacao.OrderByDescending(s => s.DataDesativacao).ToList();
+                        posgraduacao = posgraduacao.OrderByDescending(s => s.DataAtualizacao).ToList();
                         break;
 
                     default:

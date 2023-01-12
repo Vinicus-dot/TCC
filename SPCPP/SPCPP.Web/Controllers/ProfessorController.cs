@@ -1,4 +1,5 @@
-﻿using javax.annotation.processing;
+﻿using java.awt;
+using javax.annotation.processing;
 using Microsoft.AspNetCore.Mvc;
 using SPCPP.Model.Models;
 using SPCPP.Model.Models.Request;
@@ -14,12 +15,12 @@ namespace SPCPP.Web.Controllers
         {
             _professorService = professorService;
         }
-        public IActionResult Index(string Ordenar , int? numeroPagina , string? pesquisar)
+        public IActionResult Index(string Ordenar , string Filter, int? numeroPagina , string? pesquisar)
         {
             try
             {
-                ViewBag.Nome = pesquisar;
-                int totalpagina = 5;
+               
+                int totalpagina = 3;
                 List<Professor> professores = _professorService.Listar();
 
                 ViewBag.OrdenarPg = Ordenar;
@@ -32,6 +33,11 @@ namespace SPCPP.Web.Controllers
                 ViewBag.Carga_atualParm = Ordenar == "carga_atual" ? "carga_atual_desc" : "carga_atual";
                 ViewBag.StatusParm = Ordenar == "status" ? "status_desc" : "status";
                 ViewBag.SiapeParm = Ordenar == "siape" ? "siape_desc" : "siape";
+                
+                if (pesquisar != null) numeroPagina = 1; else pesquisar = Filter;
+                ViewBag.Filter = pesquisar;
+                if (!String.IsNullOrEmpty(pesquisar))
+                    professores = professores.Where(s => s.Cnome.Contains(pesquisar) || s.Email.Contains(pesquisar)).ToList();
 
                 switch (Ordenar)
                 {

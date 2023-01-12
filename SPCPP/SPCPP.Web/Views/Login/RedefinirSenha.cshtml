@@ -12,17 +12,37 @@
     </div>
 }
 
-<form asp-controller="Login" asp-action="EnviarLinkParaRedefinirSenha" method="post">
-    <div class="mb-3">
-        <label for="login" class="form-label">Login</label>
-        <input type="text" asp-for="Login" class="form-control" id="login">
-        @Html.ValidationMessageFor(p => p.Login)
+<section class="vh-75" style="margin-top: 150px">
+    <div class="container-fluid h-custom">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+                <form asp-controller="Login" asp-action="EnviarLinkParaRedefinirSenha" method="post">
+                    <h1 class="log-in-title title ng-binding" style="margin-bottom: 30px;">Alterar palavra-chave</h1>
+                    <div class="mb-3">
+                        <input type="text" asp-for="Login" class="form-control form-control-lg" id="login" placeholder="Login" />
+
+                        @Html.ValidationMessageFor(p => p.Login)
+                    </div>
+                    <div class="mb-3">
+
+                        <input type="text" asp-for="Email" class="form-control form-control-lg" id="email" placeholder="Email" />
+
+                        @Html.ValidationMessageFor(p => p.Email)
+                    </div>
+
+                    <div class="text-center text-lg-start mt-4 pt-2">
+                        <button type="submit" class="btn btn-primary btn-lg"
+                                style="padding-left: 2.5rem; padding-right: 2.5rem; border-radius: 30px;">
+                            Redefinir Senha
+                        </button>
+                        <button type="submit" class="btn btn-secondary btn-lg" asp-action="Index" asp-controller="Login"
+                                style="padding-left: 2.5rem; padding-right: 2.5rem; border-radius: 30px;">
+                            Voltar
+                        </button> 
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-    <div class="mb-3">
-        <label for="email" class="form-label">E-mail</label>
-        <input type="text" asp-for="Email" class="form-control" id="email">
-        @Html.ValidationMessageFor(p => p.Email)
-    </div>
-    <button type="submit" class="btn btn-primary btn-block w-100 mb-3">Redefinir Senha</button>
-    <a class ="btn btn-secondary btn d-block" asp-action="Index" asp-controller="Login" role="button">Voltar</a>
-</form>
+
+</section>

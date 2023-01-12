@@ -40,7 +40,7 @@
     <table class="table" id="table-posgraduacao">
         <thead>
             <tr>           
-                <th scope="col">#</th>
+                <th scope="col" style="color:antiquewhite;">#</th>
                 <th scope="col">@Html.ActionLink("Nome", "Index", new { Ordenar = ViewBag.NameParm, Filter=ViewBag.Filter })</th>
                 <th scope="col">@Html.ActionLink("Nome do Curso", "Index", new { Ordenar = ViewBag.NameDoCursoParm, Filter=ViewBag.Filter })</th>
                 <th scope="col">@Html.ActionLink("Campus do curso", "Index", new { Ordenar = ViewBag.CampusDoCursoParm, Filter=ViewBag.Filter })</th>
@@ -50,7 +50,7 @@
                 <th scope="col">@Html.ActionLink("Data de atualização", "Index", new { Ordenar = ViewBag.DateAttParm , Filter=ViewBag.Filter})</th>
 
 
-                <th scope="col"> <a role="button" class="btn btn-primary mb-0 " style="width:9.2rem!important" asp-controller="Posgraduacao" asp-action="Create">Novo Usuário</a></th>
+                <th scope="col"> <a role="button" class="btn btn-primary mb-0 " style="width:9.2rem!important; font-size:12px;" asp-controller="Posgraduacao" asp-action="Create">Nova Pós Graduação</a></th>
             </tr>
         </thead>
         
@@ -60,7 +60,7 @@
                 foreach (var posgraduacao in Model)
                 {
                     <tr>
-                        <th scope="row">@posgraduacao.id</th>
+                        <td><a asp-route-id="@posgraduacao.id" asp-controller="Posgraduacao" asp-action="Editar"><img alt="svgImg" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHg9IjBweCIgeT0iMHB4Igp3aWR0aD0iMzIiIGhlaWdodD0iMzIiCnZpZXdCb3g9IjAgMCAzMiAzMiI+CjxwYXRoIGQ9Ik0gMjMuOTA2MjUgMy45Njg3NSBDIDIyLjg1OTM3NSAzLjk2ODc1IDIxLjgxMjUgNC4zNzUgMjEgNS4xODc1IEwgNS4xODc1IDIxIEwgNS4xMjUgMjEuMzEyNSBMIDQuMDMxMjUgMjYuODEyNSBMIDMuNzE4NzUgMjguMjgxMjUgTCA1LjE4NzUgMjcuOTY4NzUgTCAxMC42ODc1IDI2Ljg3NSBMIDExIDI2LjgxMjUgTCAyNi44MTI1IDExIEMgMjguNDM3NSA5LjM3NSAyOC40Mzc1IDYuODEyNSAyNi44MTI1IDUuMTg3NSBDIDI2IDQuMzc1IDI0Ljk1MzEyNSAzLjk2ODc1IDIzLjkwNjI1IDMuOTY4NzUgWiBNIDIzLjkwNjI1IDUuODc1IEMgMjQuNDEwMTU2IDUuODc1IDI0LjkxNzk2OSA2LjEwNTQ2OSAyNS40MDYyNSA2LjU5Mzc1IEMgMjYuMzc4OTA2IDcuNTY2NDA2IDI2LjM3ODkwNiA4LjYyMTA5NCAyNS40MDYyNSA5LjU5Mzc1IEwgMjQuNjg3NSAxMC4yODEyNSBMIDIxLjcxODc1IDcuMzEyNSBMIDIyLjQwNjI1IDYuNTkzNzUgQyAyMi44OTQ1MzEgNi4xMDU0NjkgMjMuNDAyMzQ0IDUuODc1IDIzLjkwNjI1IDUuODc1IFogTSAyMC4zMTI1IDguNzE4NzUgTCAyMy4yODEyNSAxMS42ODc1IEwgMTEuMTg3NSAyMy43ODEyNSBDIDEwLjUzMTI1IDIyLjUgOS41IDIxLjQ2ODc1IDguMjE4NzUgMjAuODEyNSBaIE0gNi45Mzc1IDIyLjQzNzUgQyA4LjEzNjcxOSAyMi45MjE4NzUgOS4wNzgxMjUgMjMuODYzMjgxIDkuNTYyNSAyNS4wNjI1IEwgNi4yODEyNSAyNS43MTg3NSBaIj48L3BhdGg+Cjwvc3ZnPg==" /></a></td>
                         <td>@posgraduacao.nome</td>
                         <td>@posgraduacao.nome_curso</td>
                         <td>@posgraduacao.campus_curso</td>
@@ -70,10 +70,10 @@
                         <td>@posgraduacao.DataAtualizacao</td>
                         <td>
                             <div>
-                                <a role="button" class="btn btn-primary" asp-route-id="@posgraduacao.id" asp-controller="Posgraduacao" asp-action="Editar">Editar</a>
-                                <a role="button" class="btn btn-primary" asp-route-id="@posgraduacao.id" asp-controller="Posgraduacao_Professor" asp-action="ListarProfVinculados">Listar</a>
-                                <a role="button" class="btn btn-danger" asp-route-id="@posgraduacao.id" onclick="deletar(@posgraduacao.id)">Deletar</a>
-                                <a role="button" class="btn btn-primary" asp-route-id="@posgraduacao.id" onclick="incluir(@posgraduacao.id)">Cadastrar-se</a>
+
+                                <a asp-route-id="@posgraduacao.id" asp-controller="Posgraduacao_Professor" asp-action="ListarProfVinculados"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAACGklEQVR4nO3aO4hTQRTG8Z+uRgtBxEZQGx9gKYiNaCtYioUiFmJhKYqChdjuro2NnWDpqxBUVMRHodtpYymCILgrKmJjoeAjcuFcCGFZkslsspPkgwPJvffMfP9M7szJnbB42obb+BpxC1sVpu1hvtkWX0qDuRnGH2JTxKM4dqPfZhq4hE/zfLKdRgVQa3MP7cxhOjx1rekeOq7i5TxtzvTY5lQKyFwk7+ng2rqjbtVp3t6WkVm0Trq9tt99SOkkNZYMyEzme2lgIP1QcwxiBEZkA05jd2/esvnpOnEnHuNPnDuoUJBjuBf1UtEgtY6PAkgzU7RrDNIc9a9WUSCH8B77e/OWzc+CGomVvXiQZTgRDxIe4BQm8vhM8pOceCGOPWv5DXJegSAf8TZGpnqi8RNP8/hM8pMlcUecv6pgkNV4hW9tz66KKlFW4j5+48ACeUsaZDmu4y+O6q+aOUEux7HXMVvVsSqP1/6B3I3SpD3WpHSQwU9HGuqVfWhAGjiLJzFznYwJoDiQKy0bOC/idQVWHMi5ltqqKhZ/RN1V5D0ygS2xjvxL3XzJ6Cc5cX3LuXdYW+LKXmkFduFwVL/VxmdxIGdwpOX9G3xIaTyTn+TE5/iFi5iMmquqvYoD2Yg7+I7PuIZ1eXwm+elIQ72yD1LNVD/1Pnu1xz1o7QsvsynJUxmn0lwxmQLSCJh6ZAYZswGR9F+UsQxA/wHqZxKYC90rngAAAABJRU5ErkJggg=="></a>
+                                <a asp-route-id="@posgraduacao.id" onclick="deletar(@posgraduacao.id)"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACMAAAAjCAYAAAAe2bNZAAAACXBIWXMAAAsTAAALEwEAmpwYAAABXUlEQVR4nO2YPy8EURRHj1AIUdiE0MhGRaJYUVCSSNQKShW+ALXESiwqSp2Shm+gpUBNUGxNQbLJrorc5Ekm8ubNztw7q5mT3Ezmzru/OfNnk81AgT29wKCnpN9RxoBX4NtTdWDc6kQl4BA4DVQ9RiQqFJo/cHcxkaOEE1mVXHAimx2SWW/3Uc0AizmW5BeYsAPc5VCSm5q9nF7cahaZjf/+FUVZCgSeA1NA7U9/3/UvArOSm5rJQOCEW9MDfLmebLvbmJVjqekLBJYj6xquJ9tfyoHZfjLybizzhoIHY5l7jcyVscylRubEWOZYI7NtLLOlkVk1llnRyMwZy8xqZEaNZUY0Ml1Ay0im5fJUvBjJPGPAtSe4kiAz7ZmRHDVnnuAbYNn9n226XtPtS//WMyM5aqoxL2Pa2rWQWTOSkRw1w8CnUuQDGMKIBeApo8gjME8ODMR8eYgrWV+Alh+Xya1XdMvQDwAAAABJRU5ErkJggg=="></a>
+                                <a role="button" class="btn btn-primary" style="border: 1px solid black" asp-route-id="@posgraduacao.id" onclick="incluir(@posgraduacao.id)">Cadastrar-se</a>
                             </div>
                         </td>
                     </tr>

@@ -95,8 +95,8 @@
     var proximo = !Model.ProximaPagina ? "disabled" : "";
 
 }
-<a asp-action="ListarProfVinculados" asp-route-id="@(ViewBag.Id)" asp-route-numeroPagina="@(Model.PaginaInicial-1)" asp-route-nome="@(Model.Nome)" asp-route-Ordenar="@(ViewBag.OrdenarPg)" class="btn btn-default @anterior"> Anterior</a>
-<a asp-action="ListarProfVinculados" asp-route-id="@(ViewBag.Id)" asp-route-numeroPagina="@(Model.PaginaInicial+1)" asp-route-nome="@(Model.Nome)" asp-route-Ordenar="@(ViewBag.OrdenarPg)" class="btn btn-default @proximo"> Proximo</a>
+<a asp-action="ListarProfVinculados" asp-route-id="@(ViewBag.Id)" asp-route-numeroPagina="@(Model.PaginaInicial-1)" asp-route-nome="@(ViewBag.Nome )" asp-route-Ordenar="@(ViewBag.OrdenarPg)" class="btn btn-default @anterior"> Anterior</a>
+<a asp-action="ListarProfVinculados" asp-route-id="@(ViewBag.Id)" asp-route-numeroPagina="@(Model.PaginaInicial+1)" asp-route-nome="@(ViewBag.Nome )" asp-route-Ordenar="@(ViewBag.OrdenarPg)" class="btn btn-default @proximo"> Proximo</a>
 
 
 <script>
