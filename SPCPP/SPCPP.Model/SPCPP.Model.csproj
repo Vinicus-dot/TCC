@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.0.123" />
     <PackageReference Include="IKVM" Version="8.3.3" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.9" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
@@ -20,6 +21,8 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.2" />
   </ItemGroup>
 

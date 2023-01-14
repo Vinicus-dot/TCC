@@ -32,7 +32,7 @@ namespace SPCPP.Service.Services
                
                 Posgraduacao_Professor posgraduacao_Professor = new Posgraduacao_Professor();
 
-                posgraduacao_Professor.posgraducao_id = posgraduacao_id;
+                posgraduacao_Professor.posgraduacao_id = posgraduacao_id;
                 posgraduacao_Professor.professor_id = usuario.Id;
                 posgraduacao_Professor.DataCadastro = DateTime.Now;
                 
@@ -50,13 +50,13 @@ namespace SPCPP.Service.Services
 
         }
 
-        public List<Professor> ListarProfVinculados(ulong posgraducao_id)
+        public List<Professor> ListarProfVinculados(ulong posgraduacao_id)
         {
 
 
             try
             {
-                return _posgraduacao_ProfessorRepository.ListarProfVinculados(posgraducao_id);
+                return _posgraduacao_ProfessorRepository.ListarProfVinculados(posgraduacao_id);
             }
             catch (Exception)
             {
@@ -65,13 +65,28 @@ namespace SPCPP.Service.Services
             }
         }
 
-        public List<Professor> PesquisarPorNome(ulong posgraducao_id ,string nome )
+        public List<Professor> PesquisarPorNome(ulong posgraduacao_id ,string nome )
         {
 
 
             try
             {
-                return _posgraduacao_ProfessorRepository.PesquisarPorNome(posgraducao_id, nome );
+                return _posgraduacao_ProfessorRepository.PesquisarPorNome(posgraduacao_id, nome );
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public Task<bool> deletar(ulong id, ulong posid)
+        {
+
+            try
+            {
+
+                return _posgraduacao_ProfessorRepository.deletar(id,posid);
             }
             catch (Exception)
             {

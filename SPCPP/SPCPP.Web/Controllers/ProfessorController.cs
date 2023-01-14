@@ -15,7 +15,7 @@ namespace SPCPP.Web.Controllers
         {
             _professorService = professorService;
         }
-        public IActionResult Index(string Ordenar , string Filter, int? numeroPagina , string? pesquisar)
+        public IActionResult Index(string Ordenar , string Filter, int? pagina , string? pesquisar)
         {
             try
             {
@@ -34,7 +34,7 @@ namespace SPCPP.Web.Controllers
                 ViewBag.StatusParm = Ordenar == "status" ? "status_desc" : "status";
                 ViewBag.SiapeParm = Ordenar == "siape" ? "siape_desc" : "siape";
                 
-                if (pesquisar != null) numeroPagina = 1; else pesquisar = Filter;
+                if (pesquisar != null) pagina = 1; else pesquisar = Filter;
                 ViewBag.Filter = pesquisar;
                 if (!String.IsNullOrEmpty(pesquisar))
                     professores = professores.Where(s => s.Cnome.Contains(pesquisar) || s.Email.Contains(pesquisar)).ToList();
@@ -100,7 +100,7 @@ namespace SPCPP.Web.Controllers
                         break;
                 }
 
-                return View(PaginaList<Professor>.Create(professores, numeroPagina ?? 1, totalpagina));
+                return View(PaginaList<Professor>.Create(professores, pagina ?? 1, totalpagina));
             }
             catch (Exception ex)
             {

@@ -1,7 +1,7 @@
 * {
     margin: 0;
     padding: 0;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: New Century Schoolbook;
 }
 
 
@@ -26,34 +26,6 @@ body {
 }
 
 
-/*.sidenav {
-    position: fixed;
-    height: 93.7%;
-    width: 150px;
-    background-color: gray;
-    
-}   
-    .sidenav li {
-        list-style: none;
-        margin-top: 15px;
-        margin-left: -15px;
-    }
-    .sidenav a {
-        color: rgb(246,246,246);
-        text-decoration: none;
-        font-size: 14px;
-        font-weight: 600;
-    }
-    .sidenav #perfil {        
-        font-size: 12px;
-    }
-    .sidenav #inicio {
-        display: block;
-        margin-top: 20px;
-        margin-left: 7px;
-        margin-bottom: 40px;
-
-    }*/
 .file-validation-error {
         color: #e01d1d;
 }
@@ -82,7 +54,8 @@ footer p {
     width: 150px;
     height: 125px;
 }
-/* Fixed sidenav, full height */
+
+/* header left side logado */
 .sidenav {
     /*height: 92%;*/
     height: 100%;
@@ -173,7 +146,59 @@ footer p {
         
     }
 
+/*Pagination*/
 
+.paginationn{
+
+    margin-top:50px;
+    display: flex;
+    align-items:center;
+    justify-content: center;
+ 
+}
+
+    .paginationn a {
+        border: 3px solid lightblue;
+        border-radius: 20px;
+        background-color: blue;
+        color: antiquewhite;
+    }
+    .paginationn input{
+
+        width:40px;
+        height:40px;
+        border: 1px solid darkblue;
+        border-radius: 7px;
+        margin-left:15px;
+        margin-right:15px;
+        
+    }
+.paginationlocation {
+    
+    margin-top: 30px;
+    color: darkblue;
+    display: flex;
+    justify-content: center;
+    font-size: 20px;
+    
+}
+    
+
+/*pesquisa*/
+.buscar{
+    margin-top:30px;
+    display: flex;
+    justify-content: flex-end;
+}
+.buscar input {
+    border: 1px solid darkblue;
+    border-radius: 7px;
+    width: 300px;
+    height: 35px;
+}
+.buscar p {
+    font-size:21px;
+}
 
 
 

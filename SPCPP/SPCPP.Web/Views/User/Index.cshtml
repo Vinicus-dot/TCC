@@ -26,15 +26,15 @@
 
     <h1 class="display-4">Listagem de Usuários</h1>
     <br />
-
+    <div class="buscar">
     @using (Html.BeginForm("Index", "User", FormMethod.Get))
     {
         <p>
-            Pesquisar por nome: @Html.TextBox("pesquisar", ViewBag.Filter as string)
-            <input type="submit" value="Buscar" />
+            Nome: @Html.TextBox("pesquisar", ViewBag.Filter as string)
+            <button type="submit" class="btn btn-info">Buscar</button>
         </p>
     }
-
+    </div>
     <table class="table" id="table-usuarios">
         <thead>
             <tr>
@@ -78,40 +78,30 @@
         </tbody>
     </table>
 
+</div>
+
+<div class="paginationn">
     @{
         var anterior = !Model.PaginaAnterior ? "disabled" : "";
         var meio = !Model.ProximaPagina && !Model.PaginaAnterior ? "display:none" : "";
         var proximo = !Model.ProximaPagina ? "disabled" : "";
 
     }
-    <a asp-action="Index" asp-route-pagina="@(Model.PaginaInicial-1)" asp-route-Filter="@(ViewBag.Filter)" asp-route-Ordenar="@(ViewBag.OrdenarPg)" class="btn btn-default @anterior"> Anterior</a>
+    <a asp-action="Index" asp-route-pagina="@(Model.PaginaInicial-1)" asp-route-Filter="@(ViewBag.Filter)" asp-route-Ordenar="@(ViewBag.OrdenarPg)" class="btn btn-primary @anterior"> Anterior</a>
     @using (Html.BeginForm("Index", "User", FormMethod.Get, new { style = @meio }))
     {
 
-        @Html.TextBox("pagina" )
+        @Html.TextBox("pagina" ,null, new { maxlength="3"})
         <div style="display:none;">
-        @Html.TextBox("Filter", ViewBag.Filter as string)
-        @Html.TextBox("Ordenar", ViewBag.OrdenarPg as string)
+            @Html.TextBox("Filter", ViewBag.Filter as string)
+            @Html.TextBox("Ordenar", ViewBag.OrdenarPg as string)
             <input type="submit" />
         </div>
 
     }
-    <a asp-action="Index" asp-route-pagina="@(Model.PaginaInicial+1)" asp-route-Filter="@(ViewBag.Filter)" asp-route-Ordenar="@(ViewBag.OrdenarPg)" class="btn btn-default @proximo"> Próximo</a>
+    <a asp-action="Index" asp-route-pagina="@(Model.PaginaInicial+1)" asp-route-Filter="@(ViewBag.Filter)" asp-route-Ordenar="@(ViewBag.OrdenarPg)" class="btn btn-primary @proximo"> Próximo</a>
 </div>
-<script>
-    $(function () {
-        $('form').each(function () {
-            $(this).find('input').keypress(function (e) {
-                // Enter pressed?
-                if (e.which == 10 || e.which == 13) {
-                    this.form.submit();
-                }
-            });
 
-            $(this).find('input[type=submit]').hide();
-        });
-    });
-</script>
-
-
-</script>
+<div class="paginationlocation">
+    <p >@(Model.PaginaInicial) de @(Model.TotalPaginas)</p>
+</div>

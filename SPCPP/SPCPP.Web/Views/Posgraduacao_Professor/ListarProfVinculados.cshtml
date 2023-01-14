@@ -29,17 +29,17 @@
     
 
 
-    <h1 class="display-4">Professores vinculados a @TempData["Posgraduacao"]</h1>
+    <h1 class="display-4">LISTA DE CANDIDATOS EM  @TempData["Posgraduacao"]</h1>
     <br />
-
+    <div class="buscar">
     @using (Html.BeginForm("ListarProfVinculados", "Posgraduacao_Professor", FormMethod.Get))
     {
         <p>
-            Pesquisar por nome: @Html.TextBox("nome", ViewBag.Nome as string)
-            <input type="submit" value="Search" />
+           Nome: @Html.TextBox("nome", ViewBag.Filter as string)
+            <button type="submit" class="btn btn-info">Buscar</button>
         </p>
     }
-
+    </div>
     
     <table class="table" id="table-professors">
         <thead>
@@ -77,8 +77,7 @@
                         <td>@professor.Status</td>
                         <td>
                             <div>
-                                <a role="button" class="btn btn-primary" asp-route-id="@professor.user_id" asp-controller="Professor" asp-action="Editar">Editar</a>
-                                <a role="button" class="btn btn-danger" asp-route-id="@professor.user_id" onclick="deletar(@professor.user_id)">Deletar</a>
+                                <a role="button" class="btn btn-danger" onclick="deletar(@professor.user_id,@ViewBag.PosId)">Deletar</a>
                             </div>
                         </td>
                     </tr>
@@ -90,29 +89,47 @@
     </table>
 </div>
 
-@{
-    var anterior = !Model.PaginaAnterior ? "disabled" : "";
-    var proximo = !Model.ProximaPagina ? "disabled" : "";
+<div class="paginationn">
+    @{
+        var anterior = !Model.PaginaAnterior ? "disabled" : "";
+        var meio = !Model.ProximaPagina && !Model.PaginaAnterior ? "display:none" : "";
+        var proximo = !Model.ProximaPagina ? "disabled" : "";
 
-}
-<a asp-action="ListarProfVinculados" asp-route-id="@(ViewBag.Id)" asp-route-numeroPagina="@(Model.PaginaInicial-1)" asp-route-nome="@(ViewBag.Nome )" asp-route-Ordenar="@(ViewBag.OrdenarPg)" class="btn btn-default @anterior"> Anterior</a>
-<a asp-action="ListarProfVinculados" asp-route-id="@(ViewBag.Id)" asp-route-numeroPagina="@(Model.PaginaInicial+1)" asp-route-nome="@(ViewBag.Nome )" asp-route-Ordenar="@(ViewBag.OrdenarPg)" class="btn btn-default @proximo"> Proximo</a>
+    }
+    <a asp-action="ListarProfVinculados" asp-route-id="@(ViewBag.Id)" asp-route-pagina="@(Model.PaginaInicial-1)" asp-route-Filter="@(ViewBag.Filter )" asp-route-Ordenar="@(ViewBag.OrdenarPg)" class="btn btn-primary @anterior"> Anterior</a>
+    @using (Html.BeginForm("ListarProfVinculados", "Posgraduacao_Professor", FormMethod.Get, new { style = @meio }))
+        {
 
+        @Html.TextBox("pagina" ,null, new { maxlength="3"})
+            <div style="display:none;">
+                @Html.TextBox("Filter", ViewBag.Filter as string)
+                @Html.TextBox("Ordenar", ViewBag.OrdenarPg as string)
+                <input type="submit" />
+            </div>
+
+        }
+    <a asp-action="ListarProfVinculados" asp-route-id="@(ViewBag.Id)" asp-route-pagina="@(Model.PaginaInicial+1)" asp-route-Filter="@(ViewBag.Filter )" asp-route-Ordenar="@(ViewBag.OrdenarPg)" class="btn btn-primary @proximo"> Proximo</a>
+
+</div>
+<div class="paginationlocation">
+    <p>@(Model.PaginaInicial) de @(Model.TotalPaginas)</p>
+</div>
 
 <script>
 
-    function deletar(id_user) {
-
+    function deletar(id_user,pos_id) {
+       
         $.ajax({
-            url: '/Professor/Delete',
+            url: '/Posgraduacao_Professor/Delete',
             method: 'Get',
-            data: { id: id_user },
+            data: { id: id_user,
+                    posid: pos_id},
         }).done(function (valido) {
             if (valido.valido) {
-                alert('Professor deletado com sucesso!')
+                alert('Professor deletado com sucesso dessa Pós Graduação!')
                 location.reload()
             } else {
-                alert('Não foi possivel deletar o Professor!')
+                alert('Não foi possivel deletar o Professor dessa Pós Graduação!')
             }
         }).fail(function () {
             console.log("Erro2")

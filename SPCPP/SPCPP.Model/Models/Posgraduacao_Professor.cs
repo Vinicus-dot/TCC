@@ -14,7 +14,7 @@ namespace SPCPP.Model.Models
 
         public ulong professor_id { get; set; }
 
-        public ulong posgraducao_id { get; set; }
+        public ulong posgraduacao_id { get; set; }
 
         public DateTime DataCadastro { get; set; }
 

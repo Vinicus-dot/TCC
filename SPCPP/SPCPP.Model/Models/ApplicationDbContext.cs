@@ -1,11 +1,5 @@
-﻿using com.sun.xml.@internal.bind.v2.model.core;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SPCPP.Model.Models
 {
@@ -34,9 +28,18 @@ namespace SPCPP.Model.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
+                IConfigurationRoot configuration = new ConfigurationBuilder()
+                    .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+                    .AddJsonFile("appsettings.json")
+                    .Build();
+
+
+                var connectionString = configuration.GetConnectionString("DefaultConnection");
+                optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+
                 
 
-                optionsBuilder.UseMySql("server=localhost; database=spcpp; Uid=root; Pwd=flamengo97", ServerVersion.Parse("8.0.25-mysql"));
+                //optionsBuilder.UseMySql("server=localhost; database=spcpp; Uid=root; Pwd=flamengo97", ServerVersion.Parse("8.0.25-mysql"));
 
 
             }
@@ -214,7 +217,7 @@ namespace SPCPP.Model.Models
             {
 
                 entity.HasIndex(e => e.professor_id, "posgraduacao_professor_FK_1");
-                entity.HasIndex(e => e.posgraducao_id, "posgraduacao_professor_FK_2");
+                entity.HasIndex(e => e.posgraduacao_id, "posgraduacao_professor_FK_2");
 
 
                 entity.ToTable("posgraduacao_professor");
@@ -230,9 +233,9 @@ namespace SPCPP.Model.Models
                     .HasColumnType("bigint(11)")
                     .HasColumnName("professor_id");
 
-                entity.Property(e => e.posgraducao_id)
+                entity.Property(e => e.posgraduacao_id)
                     .HasColumnType("bigint(11)")
-                    .HasColumnName("posgraducao_id");
+                    .HasColumnName("posgraduacao_id");
 
                 entity.Property(e => e.DataCadastro).HasColumnType("datetime")
                     .HasColumnName("DataCadastro");
@@ -250,7 +253,7 @@ namespace SPCPP.Model.Models
 
                 entity.HasOne(d => d.Posgraduacaos)
                     .WithMany(p => p.Posgraduacao_Professors)
-                    .HasForeignKey(d => d.posgraducao_id)
+                    .HasForeignKey(d => d.posgraduacao_id)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("posgraduacao_professor_FK_2");
 

@@ -27,17 +27,17 @@
         </div>
     }
 
-    <h1  class="display-4">Listagem de Professores</h1>
+    <h1  class="display-4">PROFESSORES</h1>
     <br />
-
+    <div class="buscar">
     @using (Html.BeginForm("Index", "Professor", FormMethod.Get))
     {
         <p>
-            Pesquisar por nome: @Html.TextBox("pesquisar", ViewBag.Filter as string)
-            <input type="submit" value="Search" />
+            Nome: @Html.TextBox("pesquisar", ViewBag.Filter as string)
+            <button type="submit" class="btn btn-info">Buscar</button>
         </p>
     }
-
+    </div>
     <table class="table" id="table-professors" >
         <thead>
             <tr>
@@ -84,13 +84,32 @@
         </tbody>
     </table>
 </div>
-@{
-    var anterior = !Model.PaginaAnterior ? "disabled" : "";
-    var proximo = !Model.ProximaPagina ? "disabled" : "";
+<div class="paginationn">
+    @{
+        var anterior = !Model.PaginaAnterior ? "disabled" : "";
+        var meio = !Model.ProximaPagina && !Model.PaginaAnterior ? "display:none" : "";
+        var proximo = !Model.ProximaPagina ? "disabled" : "";
 
-}
-<a asp-action="Index" asp-route-numeroPagina="@(Model.PaginaInicial-1)" asp-route-Filter="@(ViewBag.Filter)" asp-route-Ordenar="@(ViewBag.OrdenarPg)" class="btn btn-default @anterior"> Anterior</a>
-<a asp-action="Index" asp-route-numeroPagina="@(Model.PaginaInicial+1)" asp-route-Filter="@(ViewBag.Filter)" asp-route-Ordenar="@(ViewBag.OrdenarPg)" class="btn btn-default @proximo"> Proximo</a>
+    }
+    <a asp-action="Index" asp-route-pagina="@(Model.PaginaInicial-1)" asp-route-Filter="@(ViewBag.Filter)" asp-route-Ordenar="@(ViewBag.OrdenarPg)" class="btn btn-primary @anterior"> Anterior</a>
+    @using (Html.BeginForm("Index", "Professor", FormMethod.Get, new { style = @meio }))
+    {
+
+        @Html.TextBox("pagina",null, new { maxlength="3"} )
+        <div style="display:none;">
+            @Html.TextBox("Filter", ViewBag.Filter as string)
+            @Html.TextBox("Ordenar", ViewBag.OrdenarPg as string)
+            <input type="submit" />
+        </div>
+
+    }
+    <a asp-action="Index" asp-route-pagina="@(Model.PaginaInicial+1)" asp-route-Filter="@(ViewBag.Filter)" asp-route-Ordenar="@(ViewBag.OrdenarPg)" class="btn btn-primary @proximo"> Proximo</a>
+
+</div>
+<div class="paginationlocation">
+    <p>@(Model.PaginaInicial) de @(Model.TotalPaginas)</p>
+</div>
+
 <script>
 
     function deletar(id_user) {

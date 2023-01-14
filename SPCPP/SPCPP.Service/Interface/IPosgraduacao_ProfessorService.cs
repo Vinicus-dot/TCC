@@ -12,8 +12,10 @@ namespace SPCPP.Service.Interface
 
         Task<bool> Incluir(ulong posgraduacao_id, User usuario);
 
-        List<Professor> ListarProfVinculados(ulong posgraducao_id);
+        List<Professor> ListarProfVinculados(ulong posgraduacao_id);
 
-        List<Professor> PesquisarPorNome(ulong posgraducao_id ,string nome);
+        List<Professor> PesquisarPorNome(ulong posgraduacao_id ,string nome);
+
+        Task<bool> deletar(ulong id, ulong posid);
     }
 }

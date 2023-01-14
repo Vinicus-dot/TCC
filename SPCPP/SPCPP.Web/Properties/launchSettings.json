@@ -14,7 +14,8 @@
       "launchBrowser": true,
       "applicationUrl": "https://localhost:7072;http://localhost:5072",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DefaultConnection2": "Server=127.0.0.1;Port=3306;Database=spcpp;User ID=root;Password=flamengo97;Allow user variables=true;"
       }
     },
     "IIS Express": {

@@ -15,7 +15,7 @@
     <header>
         <div class="sidenav">
             <a id="logologado" class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-            <img src="imagens/logologado.png" class="img-fluid" alt="Logo UFU logado">
+                <img src="~/imagens/logologado.png" alt="Logo UFU logado" style="width: 150px; height: 125px; ">
             </a>
             <a id="inicio" asp-area="" asp-controller="Home" asp-action="Index">UFU - SPCPP</a>
             <a class="" asp-area="" asp-controller="Professor" asp-action="Index">PROFESSOR</a>
@@ -46,7 +46,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    <script type="text/javascript">
+    
     <script>
         /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
         var dropdown = document.getElementsByClassName("dropdown-btn");
@@ -63,8 +63,22 @@
                 }
             });
         }
+
+        $(function () {
+            $('form').each(function () {
+                $(this).find('input').keypress(function (e) {
+                    // Enter pressed?
+                    if (e.which == 10 || e.which == 13) {
+                        this.form.submit();
+                    }
+                });
+
+                $(this).find('input[type=submit]').hide();
+            });
+        });
     </script>
 
+   
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

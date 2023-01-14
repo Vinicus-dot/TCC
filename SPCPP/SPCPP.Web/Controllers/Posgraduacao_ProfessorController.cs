@@ -49,19 +49,19 @@ namespace SPCPP.Web.Controllers
             }
 
         }
-        public IActionResult ListarProfVinculados(ulong id, int? numeroPagina, string? nome , string Ordenar)
+        public IActionResult ListarProfVinculados(ulong id, int? pagina, string? Filter, string Ordenar)
         {
             try
             {
-                ViewBag.Nome = nome;
+                ViewBag.Filter = Filter;
                 int totalpagina = 5;
-                Posgraduacao posgraducao = _posgraduacaoService.PesquisarPorId(id);
-                TempData["Posgraduacao"] = posgraducao.nome;
-
+                Posgraduacao posgraduacao = _posgraduacaoService.PesquisarPorId(id);
+                TempData["Posgraduacao"] = posgraduacao.nome.ToUpper();
+                ViewBag.PosId = posgraduacao.id;
                 List<Professor> professores = new List<Professor>();
-                if (!string.IsNullOrEmpty(nome))
+                if (!string.IsNullOrEmpty(Filter))
                 {
-                    professores = _posgraduacao_ProfessorService.PesquisarPorNome(id,nome);
+                    professores = _posgraduacao_ProfessorService.PesquisarPorNome(id, Filter);
                     
                 }
                 else
@@ -143,7 +143,7 @@ namespace SPCPP.Web.Controllers
                         break;
                 }
 
-                return View(PaginaList<Professor>.Create(professores, numeroPagina ?? 1, totalpagina));
+                return View(PaginaList<Professor>.Create(professores, pagina ?? 1, totalpagina));
 
             }
             catch (Exception ex)
@@ -153,6 +153,25 @@ namespace SPCPP.Web.Controllers
             }
 
         }
-       
+
+        public async Task<JsonResult> Delete(ulong id, ulong posid)
+        {
+            try
+            {
+
+                bool valido = _posgraduacao_ProfessorService.deletar(id, posid).Result ;
+
+
+                return Json(new { sucesso = true, valido = valido });
+
+            }
+            catch (Exception ex)
+            {
+
+                return Json(new { sucesso = false, mensagem = ex.Message });
+            }
+
+        }
+
     }
 }

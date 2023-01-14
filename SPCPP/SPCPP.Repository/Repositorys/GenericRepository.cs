@@ -1,4 +1,6 @@
-﻿using SPCPP.Model.Models;
+﻿using Microsoft.Extensions.Configuration;
+using MongoDB.Driver.Core.Configuration;
+using SPCPP.Model.Models;
 using SPCPP.Repository.Interface;
 using System;
 using System.Collections.Generic;
@@ -12,13 +14,32 @@ namespace SPCPP.Repository.Repositorys
         where TEntity : class where TContext : ApplicationDbContext
         {
             readonly public ApplicationDbContext _db;
-
+            
             public GenericRepository(ApplicationDbContext db)
             {
                 _db = db;
             }
 
-            public async Task<bool> Cadastrar(TEntity objeto)
+        public string Conection(string nomeConection)
+        {
+            string connectionString = string.Empty;
+            try
+            {
+
+                IConfigurationRoot configuration = new ConfigurationBuilder()
+                          .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+                          .AddJsonFile("appsettings.json")
+                        .Build();
+                connectionString = configuration.GetConnectionString(nomeConection);
+
+            }
+            catch (Exception)
+            {
+
+            }
+            return connectionString;
+        }
+        public async Task<bool> Cadastrar(TEntity objeto)
             {
                 try
                 {
