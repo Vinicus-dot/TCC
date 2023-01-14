@@ -42,7 +42,6 @@ namespace SPCPP.Repository.Repositorys
 
                  };
 
-
             string sql = @"select  p.*  from professor p 
                                         right join posgraduacao_professor pp on p.user_id = pp.professor_id 
                                         left join  usuario u on u.id=pp.professor_id 
