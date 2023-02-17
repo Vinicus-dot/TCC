@@ -8,7 +8,7 @@ namespace SPCPP.Repository.Interface
 {
     public interface IGenericRepository<TEntity> where TEntity : class
     {
-        string Conection(string nomeConection);
+        string GetParametro(string nome_parametro);
         List<TEntity> Listar();
 
         Task<bool> Cadastrar(TEntity objeto);

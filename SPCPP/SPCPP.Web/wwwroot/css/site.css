@@ -201,6 +201,15 @@ footer p {
 }
 
 
+.loginbotao {
+    
+    text-decoration: underline dotted blue;
+}
+
+#modalXml{
+
+    margin-top: 300px;
+}
 
 
 

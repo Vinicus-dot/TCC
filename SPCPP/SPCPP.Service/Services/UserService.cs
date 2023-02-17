@@ -1,6 +1,7 @@
 ﻿using com.sun.xml.@internal.bind.v2.model.core;
 using SPCPP.Model.Models;
 using SPCPP.Repository.Interface;
+using SPCPP.Repository.Repositorys;
 using SPCPP.Service.Interface;
 using System;
 using System.Collections.Generic;
@@ -119,6 +120,21 @@ namespace SPCPP.Service.Services
             try
             {
                 return _userRepository.PesquisarPorId(id);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public string GetParametro(string nome_parametro)
+        {
+
+
+            try
+            {
+                return _userRepository.GetParametro(nome_parametro);
             }
             catch (Exception)
             {

@@ -20,7 +20,7 @@ namespace SPCPP.Web.Controllers
             try
             {
                
-                int totalpagina = 3;
+                int totalpagina = Convert.ToInt32(_professorService.GetParametro("NUMERO_PAGINATION"));
                 List<Professor> professores = _professorService.Listar();
 
                 ViewBag.OrdenarPg = Ordenar;

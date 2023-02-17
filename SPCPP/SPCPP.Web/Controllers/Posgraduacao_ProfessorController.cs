@@ -54,7 +54,7 @@ namespace SPCPP.Web.Controllers
             try
             {
                 ViewBag.Filter = Filter;
-                int totalpagina = 5;
+                int totalpagina = Convert.ToInt32(_posgraduacaoService.GetParametro("NUMERO_PAGINATION"));
                 Posgraduacao posgraduacao = _posgraduacaoService.PesquisarPorId(id);
                 TempData["Posgraduacao"] = posgraduacao.nome.ToUpper();
                 ViewBag.PosId = posgraduacao.id;

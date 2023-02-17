@@ -1,7 +1,10 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Dapper;
+using Microsoft.Extensions.Configuration;
 using MongoDB.Driver.Core.Configuration;
+using SPCPP.Model.DbContexts;
 using SPCPP.Model.Models;
 using SPCPP.Repository.Interface;
+using sun.nio.ch;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,32 +17,30 @@ namespace SPCPP.Repository.Repositorys
         where TEntity : class where TContext : ApplicationDbContext
         {
             readonly public ApplicationDbContext _db;
-            
+            private ContextSPCPP _contextSPCPP = new();
             public GenericRepository(ApplicationDbContext db)
             {
                 _db = db;
             }
 
-        public string Conection(string nomeConection)
-        {
-            string connectionString = string.Empty;
-            try
+            public string GetParametro(string nome_parametro)
             {
+                string valor_parametro = string.Empty;
+                try
+                {
+                    string like= "'%"+nome_parametro +"%'";
+                    string sql = $@" select valor_parametro from parametros where nome_parametro like {like}; ";
+                    _contextSPCPP.GetConnection();
 
-                IConfigurationRoot configuration = new ConfigurationBuilder()
-                          .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-                          .AddJsonFile("appsettings.json")
-                        .Build();
-                connectionString = configuration.GetConnectionString(nomeConection);
-
+                    valor_parametro =  _contextSPCPP.Connection.QueryFirstOrDefaultAsync<string>(sql).Result;
+                }
+                catch(Exception )
+                {
+                    throw;
+                }
+                return valor_parametro;
             }
-            catch (Exception)
-            {
-
-            }
-            return connectionString;
-        }
-        public async Task<bool> Cadastrar(TEntity objeto)
+            public async Task<bool> Cadastrar(TEntity objeto)
             {
                 try
                 {
@@ -102,7 +103,8 @@ namespace SPCPP.Repository.Repositorys
             {
                 return _db.Find<TEntity>(id);
             }
-        }
 
-  
+
+
+        }
 }

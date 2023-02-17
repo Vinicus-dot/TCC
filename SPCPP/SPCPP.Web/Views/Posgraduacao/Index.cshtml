@@ -26,8 +26,44 @@
         </div>
     }
 
+    
+
     <h1 class="display-4">PÓS GRADUAÇÃO</h1>
     <br />
+
+
+    <!-- Modal: modalXml -->
+    <div class="modal fade" id="modalXml" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <!--Header-->
+
+               
+
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">Upload XML</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <!--Body-->
+
+                <input type="text" id="valorsalvo" style="display:none;" value="0" disabled>
+                <div class="mb-3" style="display: flex; justify-content:center; margin-top: 30px;">
+                    <input name="file" class="form-control form-control-sm" id="formFileSm" type="file" style="width:350px;" accept=".xml">
+                </div>
+
+                <!--Footer-->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Voltar</button>
+                    <button class="btn btn-primary" onclick="UploadXml()">Cadastrar</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Modal: modalXml -->
+
     <div class="buscar">
 
    
@@ -76,7 +112,8 @@
 
                                 <a asp-route-id="@posgraduacao.id" asp-controller="Posgraduacao_Professor" asp-action="ListarProfVinculados"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAACGklEQVR4nO3aO4hTQRTG8Z+uRgtBxEZQGx9gKYiNaCtYioUiFmJhKYqChdjuro2NnWDpqxBUVMRHodtpYymCILgrKmJjoeAjcuFcCGFZkslsspPkgwPJvffMfP9M7szJnbB42obb+BpxC1sVpu1hvtkWX0qDuRnGH2JTxKM4dqPfZhq4hE/zfLKdRgVQa3MP7cxhOjx1rekeOq7i5TxtzvTY5lQKyFwk7+ng2rqjbtVp3t6WkVm0Trq9tt99SOkkNZYMyEzme2lgIP1QcwxiBEZkA05jd2/esvnpOnEnHuNPnDuoUJBjuBf1UtEgtY6PAkgzU7RrDNIc9a9WUSCH8B77e/OWzc+CGomVvXiQZTgRDxIe4BQm8vhM8pOceCGOPWv5DXJegSAf8TZGpnqi8RNP8/hM8pMlcUecv6pgkNV4hW9tz66KKlFW4j5+48ACeUsaZDmu4y+O6q+aOUEux7HXMVvVsSqP1/6B3I3SpD3WpHSQwU9HGuqVfWhAGjiLJzFznYwJoDiQKy0bOC/idQVWHMi5ltqqKhZ/RN1V5D0ygS2xjvxL3XzJ6Cc5cX3LuXdYW+LKXmkFduFwVL/VxmdxIGdwpOX9G3xIaTyTn+TE5/iFi5iMmquqvYoD2Yg7+I7PuIZ1eXwm+elIQ72yD1LNVD/1Pnu1xz1o7QsvsynJUxmn0lwxmQLSCJh6ZAYZswGR9F+UsQxA/wHqZxKYC90rngAAAABJRU5ErkJggg=="></a>
                                 <a asp-route-id="@posgraduacao.id" onclick="deletar(@posgraduacao.id)"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACMAAAAjCAYAAAAe2bNZAAAACXBIWXMAAAsTAAALEwEAmpwYAAABXUlEQVR4nO2YPy8EURRHj1AIUdiE0MhGRaJYUVCSSNQKShW+ALXESiwqSp2Shm+gpUBNUGxNQbLJrorc5Ekm8ubNztw7q5mT3Ezmzru/OfNnk81AgT29wKCnpN9RxoBX4NtTdWDc6kQl4BA4DVQ9RiQqFJo/cHcxkaOEE1mVXHAimx2SWW/3Uc0AizmW5BeYsAPc5VCSm5q9nF7cahaZjf/+FUVZCgSeA1NA7U9/3/UvArOSm5rJQOCEW9MDfLmebLvbmJVjqekLBJYj6xquJ9tfyoHZfjLybizzhoIHY5l7jcyVscylRubEWOZYI7NtLLOlkVk1llnRyMwZy8xqZEaNZUY0Ml1Ay0im5fJUvBjJPGPAtSe4kiAz7ZmRHDVnnuAbYNn9n226XtPtS//WMyM5aqoxL2Pa2rWQWTOSkRw1w8CnUuQDGMKIBeApo8gjME8ODMR8eYgrWV+Alh+Xya1XdMvQDwAAAABJRU5ErkJggg=="></a>
-                                <a role="button" class="btn btn-primary" style="border: 1px solid black" asp-route-id="@posgraduacao.id" onclick="incluir(@posgraduacao.id)">Cadastrar-se</a>
+                                @*<a role="button" class="btn btn-primary" style="border: 1px solid black" asp-route-id="@posgraduacao.id" onclick="incluir(@posgraduacao.id)">Cadastrar-se</a>*@
+                                <a role="button" class="btn btn-primary" style="border: 1px solid black" data-toggle="modal" data-target="#modalXml" onclick="SalvarId(@posgraduacao.id)">Cadastrar-se</a>
                             </div>
                         </td>
                     </tr>
@@ -160,5 +197,51 @@
         });
 
     }
+    function SalvarId(id)
+    {
+       document.querySelector("#valorsalvo").value = id;
+       
+    }
+
+    function UploadXml() {
+
+        var file = document.getElementById("formFileSm").files[0];
+        var id = document.querySelector("#valorsalvo").value;
+
+        var formData = new FormData();
+        
+       
+
+        formData.append("file", file);
+        formData.append("id",id);
+
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("UploadXml", "Posgraduacao")',
+            data: formData,
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function (data) {
+                if (data.success) {
+                    swal({
+                        title: "Sucesso!",
+                        text: data.message,
+                        type: "success",
+                        timer: 30000
+                    }, function () { }).then(function () {
+                        window.location.href = "@Url.Action("Index","Posgraduacao")";
+                    });
+                } else {
+                    swal("Falha ao salvar cadastrar-se!", data.message, "error");
+                }
+
+            },
+            error: function (data) {
+                swal("Falha ao salvar cadastrar-se!", data.message, "error");
+            }
+        });
+    }
+
 
 </script>

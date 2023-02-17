@@ -10,6 +10,7 @@ namespace SPCPP.Service.Interface
 {
     public interface IPosgraduacaoService
     {
+        string GetParametro(string nome_parametro);
         Task<bool> Create(Posgraduacao posgraduacao);
 
         List<Posgraduacao> Listar();

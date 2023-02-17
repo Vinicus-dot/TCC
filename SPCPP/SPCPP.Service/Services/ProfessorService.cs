@@ -139,6 +139,21 @@ namespace SPCPP.Service.Services
             }
         }
 
+        public string GetParametro(string nome_parametro)
+        {
+
+
+            try
+            {
+                return _professorRepository.GetParametro(nome_parametro);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
 
 
     }

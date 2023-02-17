@@ -77,7 +77,7 @@ namespace SPCPP.Web.Controllers
                         break;
                 }
 
-                int totalpagina = 3;
+                int totalpagina = Convert.ToInt32(_userService.GetParametro("NUMERO_PAGINATION"));
                 return View(PaginaList<User>.Create(usuarios, pagina ?? 1, totalpagina));
             }
             catch(Exception ex)
