@@ -41,10 +41,13 @@ body {
 }
 
 footer {
-    
+    margin-top:75px;
     background-color: gray;
-    
-    
+    position: absolute;
+    bottom: 1;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px;
 }
 footer p {
     margin-left: 35%;
@@ -143,7 +146,7 @@ footer p {
     .table thead a {
         text-decoration: none;
         color: antiquewhite;
-        
+
     }
 
 /*Pagination*/

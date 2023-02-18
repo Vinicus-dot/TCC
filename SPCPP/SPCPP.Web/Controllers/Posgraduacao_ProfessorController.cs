@@ -28,6 +28,8 @@ namespace SPCPP.Web.Controllers
         {
             try
             {
+                if (file == null)
+                    throw new Exception("Insira um arquivo!");
                 string sessaoUsuario = ControllerContext.HttpContext.Session.GetString("sessaoUsuarioLogado");
                 if (string.IsNullOrEmpty(sessaoUsuario))
                     throw new Exception("Usuario não encontrado!");
@@ -43,13 +45,10 @@ namespace SPCPP.Web.Controllers
 
                 if (file == null || !file.FileName.ToLower().Contains(".xml"))
                     throw new Exception("Arquivo Incorreto!!");
-
-                double nota = 0;
-                if (file != null)
-                {
-                    XElement root = XElement.Load(file.OpenReadStream());
-                    nota = _posgraduacao_ProfessorService.calcularNota(root,usuario.Nome);
-                }
+             
+                XElement root = XElement.Load(file.OpenReadStream());
+                double nota = _posgraduacao_ProfessorService.calcularNota(root,usuario.Nome);
+                
                 if (!_posgraduacao_ProfessorService.Incluir(id, usuario, nota).Result)
                     throw new Exception("Erro ao salvar professor na Pós Graduação!");
 
