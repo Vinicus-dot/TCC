@@ -6,6 +6,7 @@ using SPCPP.Model.Models;
 using SPCPP.Model.Models.Request;
 using SPCPP.Service.Interface;
 using SPCPP.Service.Services;
+using System.Xml.Linq;
 
 namespace SPCPP.Web.Controllers
 {
@@ -22,33 +23,44 @@ namespace SPCPP.Web.Controllers
             _posgraduacaoService = posgraduacaoService;
         }
 
-
-        public async Task<JsonResult> Incluir(ulong posgraducao_id)
+        [HttpPost]
+        public IActionResult UploadXml(IFormFile file, ulong id)
         {
             try
             {
                 string sessaoUsuario = ControllerContext.HttpContext.Session.GetString("sessaoUsuarioLogado");
                 if (string.IsNullOrEmpty(sessaoUsuario))
-                    return Json(new { sucesso = false, mensagem = "Usuario não encontrado!" });
-
+                    throw new Exception("Usuario não encontrado!");
+                
                 User usuario = JsonConvert.DeserializeObject<User>(sessaoUsuario);
 
                 if (usuario.Perfil == Model.Enums.PerfilEnum.Admin)
-                    return Json(new { sucesso = false, mensagem = "Seu tipo de Perfil não pode cadastrar em Pós Gradução!" });
+                    throw new Exception("Seu tipo de Perfil não pode cadastrar em Pós Gradução!");
 
-                bool valido = _posgraduacao_ProfessorService.Incluir(posgraducao_id, usuario).Result;
+                Posgraduacao_Professor posgraduacao_Professor = _posgraduacao_ProfessorService.verifcarUsuarioCadastrado(usuario.Id, id);
+                if (posgraduacao_Professor != null)
+                    throw new Exception($"Cadastrado em {posgraduacao_Professor.DataCadastro}");
 
+                if (file == null || !file.FileName.ToLower().Contains(".xml"))
+                    throw new Exception("Arquivo Incorreto!!");
 
-                return Json(new { sucesso = true, valido = valido });
+                double nota = 0;
+                if (file != null)
+                {
+                    XElement root = XElement.Load(file.OpenReadStream());
+                    nota = _posgraduacao_ProfessorService.calcularNota(root,usuario.Nome);
+                }
+                if (!_posgraduacao_ProfessorService.Incluir(id, usuario, nota).Result)
+                    throw new Exception("Erro ao salvar professor na Pós Graduação!");
 
+                return Json(new { success = true, message = $"Sucesso em cadastrar-se!!! Sua nota é {nota}" });
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-
-                return Json(new { sucesso = false, mensagem = ex.Message });
+                return Json(new { success = false, message = e.Message });
             }
-
         }
+
         public IActionResult ListarProfVinculados(ulong id, int? pagina, string? Filter, string Ordenar)
         {
             try
@@ -58,15 +70,15 @@ namespace SPCPP.Web.Controllers
                 Posgraduacao posgraduacao = _posgraduacaoService.PesquisarPorId(id);
                 TempData["Posgraduacao"] = posgraduacao.nome.ToUpper();
                 ViewBag.PosId = posgraduacao.id;
-                List<Professor> professores = new List<Professor>();
+                List<ProfessorCadastrado> professores = new List<ProfessorCadastrado>();
                 if (!string.IsNullOrEmpty(Filter))
                 {
-                    professores = _posgraduacao_ProfessorService.PesquisarPorNome(id, Filter);
+                    professores = _posgraduacao_ProfessorService.PesquisarPorNome(id, Filter).Result;
                     
                 }
                 else
                 {
-                    professores = _posgraduacao_ProfessorService.ListarProfVinculados(id);
+                    professores = _posgraduacao_ProfessorService.ListarProfVinculados(id).Result;
 
                 }
                 ViewBag.Id = id;
@@ -74,12 +86,14 @@ namespace SPCPP.Web.Controllers
                 ViewBag.CnomeParm = String.IsNullOrEmpty(Ordenar) ? "cnome" : "";
                 ViewBag.EmailParm = Ordenar == "email" ? "email_desc" : "email";
                 ViewBag.Data_NascParm = Ordenar == "data_nasc" ? "data_nasc_desc" : "data_nasc";
-                ViewBag.Data_exoneracaoParm = Ordenar == "data_exoneracao" ? "data_exoneracao_desc" : "data_exoneracao";
-                ViewBag.Data_saidaParm = Ordenar == "data_saida" ? "data_saida_desc" : "data_saida";
-                ViewBag.Data_aposentadoriaParm = Ordenar == "data_aposentadoria" ? "data_aposentadoria_desc" : "data_aposentadoria";
+                //ViewBag.Data_exoneracaoParm = Ordenar == "data_exoneracao" ? "data_exoneracao_desc" : "data_exoneracao";
+                //ViewBag.Data_saidaParm = Ordenar == "data_saida" ? "data_saida_desc" : "data_saida";
+                //ViewBag.Data_aposentadoriaParm = Ordenar == "data_aposentadoria" ? "data_aposentadoria_desc" : "data_aposentadoria";
                 ViewBag.Carga_atualParm = Ordenar == "carga_atual" ? "carga_atual_desc" : "carga_atual";
                 ViewBag.StatusParm = Ordenar == "status" ? "status_desc" : "status";
                 ViewBag.SiapeParm = Ordenar == "siape" ? "siape_desc" : "siape";
+                ViewBag.NotaParm = Ordenar == "nota" ? "nora_desc" : "nota";
+                ViewBag.DataCadastroParm = Ordenar == "data_cadastro" ? "data_cadastro_desc" : "data_cadastro";
 
 
                 switch (Ordenar)
@@ -99,24 +113,36 @@ namespace SPCPP.Web.Controllers
                     case "data_nasc_desc":
                         professores = professores.OrderByDescending(s => s.Data_nasc).ToList();
                         break;
-                    case "data_exoneracao":
-                        professores = professores.OrderBy(s => s.Data_exoneracao).ToList();
+                    case "nota":
+                        professores = professores.OrderBy(s => s.nota).ToList();
                         break;
-                    case "data_exoneracao_desc":
-                        professores = professores.OrderByDescending(s => s.Data_exoneracao).ToList();
+                    case "nota_desc":
+                        professores = professores.OrderByDescending(s => s.nota).ToList();
                         break;
-                    case "data_saida":
-                        professores = professores.OrderBy(s => s.Data_saida).ToList();
+                    case "data_cadastro":
+                        professores = professores.OrderBy(s => s.DataCadastro).ToList();
                         break;
-                    case "data_saida_desc":
-                        professores = professores.OrderByDescending(s => s.Data_saida).ToList();
+                    case "data_cadastro_desc":
+                        professores = professores.OrderByDescending(s => s.DataCadastro).ToList();
                         break;
-                    case "data_aposentadoria":
-                        professores = professores.OrderBy(s => s.Data_aposentadoria).ToList();
-                        break;
-                    case "data_aposentadoria_desc":
-                        professores = professores.OrderByDescending(s => s.Data_aposentadoria).ToList();
-                        break;
+                    //case "data_exoneracao":
+                    //    professores = professores.OrderBy(s => s.Data_exoneracao).ToList();
+                    //    break;
+                    //case "data_exoneracao_desc":
+                    //    professores = professores.OrderByDescending(s => s.Data_exoneracao).ToList();
+                    //    break;
+                    //case "data_saida":
+                    //    professores = professores.OrderBy(s => s.Data_saida).ToList();
+                    //    break;
+                    //case "data_saida_desc":
+                    //    professores = professores.OrderByDescending(s => s.Data_saida).ToList();
+                    //    break;
+                    //case "data_aposentadoria":
+                    //    professores = professores.OrderBy(s => s.Data_aposentadoria).ToList();
+                    //    break;
+                    //case "data_aposentadoria_desc":
+                    //    professores = professores.OrderByDescending(s => s.Data_aposentadoria).ToList();
+                    //    break;
                     case "carga_atual":
                         professores = professores.OrderBy(s => s.Carga_atual).ToList();
                         break;
@@ -143,7 +169,7 @@ namespace SPCPP.Web.Controllers
                         break;
                 }
 
-                return View(PaginaList<Professor>.Create(professores, pagina ?? 1, totalpagina));
+                return View(PaginaList<ProfessorCadastrado>.Create(professores, pagina ?? 1, totalpagina));
 
             }
             catch (Exception ex)

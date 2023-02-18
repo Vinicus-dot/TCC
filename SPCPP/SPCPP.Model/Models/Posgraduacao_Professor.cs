@@ -16,6 +16,8 @@ namespace SPCPP.Model.Models
 
         public ulong posgraduacao_id { get; set; }
 
+        public double nota { get; set; }
+
         public DateTime DataCadastro { get; set; }
 
         public DateTime? DataAtualizacao { get; set; }

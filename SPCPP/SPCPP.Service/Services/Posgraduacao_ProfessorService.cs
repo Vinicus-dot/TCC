@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using com.sun.xml.@internal.bind.v2.model.core;
+using java.awt;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using SPCPP.Model.Models;
+using SPCPP.Model.Models.Request;
 using SPCPP.Repository.Interface;
 using SPCPP.Repository.Repositorys;
 using SPCPP.Service.Interface;
@@ -9,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace SPCPP.Service.Services
 {
@@ -24,7 +28,7 @@ namespace SPCPP.Service.Services
            
         }
 
-        public Task<bool> Incluir(ulong posgraduacao_id , User usuario)
+        public Task<bool> Incluir(ulong posgraduacao_id , User usuario, double nota)
         {
 
             try
@@ -35,8 +39,7 @@ namespace SPCPP.Service.Services
                 posgraduacao_Professor.posgraduacao_id = posgraduacao_id;
                 posgraduacao_Professor.professor_id = usuario.Id;
                 posgraduacao_Professor.DataCadastro = DateTime.Now;
-                
-
+                posgraduacao_Professor.nota = nota;
 
 
                 return _posgraduacao_ProfessorRepository.Cadastrar(posgraduacao_Professor);
@@ -47,10 +50,9 @@ namespace SPCPP.Service.Services
                 throw;
             }
 
-
         }
 
-        public List<Professor> ListarProfVinculados(ulong posgraduacao_id)
+        public Task<List<ProfessorCadastrado>> ListarProfVinculados(ulong posgraduacao_id)
         {
 
 
@@ -65,7 +67,7 @@ namespace SPCPP.Service.Services
             }
         }
 
-        public List<Professor> PesquisarPorNome(ulong posgraduacao_id ,string nome )
+        public Task<List<ProfessorCadastrado>> PesquisarPorNome(ulong posgraduacao_id ,string nome )
         {
 
 
@@ -95,5 +97,33 @@ namespace SPCPP.Service.Services
             }
         }
 
+        public double calcularNota(XElement root, string nome)
+        {
+            try
+            {
+
+                return _posgraduacao_ProfessorRepository.calcularNota(root,nome);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+           
+        }
+
+        public Posgraduacao_Professor verifcarUsuarioCadastrado(ulong professorId, ulong posgraducaoId)
+        {
+            try
+            {
+
+                return _posgraduacao_ProfessorRepository.verifcarUsuarioCadastrado(professorId, posgraducaoId).Result;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

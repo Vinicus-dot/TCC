@@ -237,6 +237,10 @@ namespace SPCPP.Model.Models
                     .HasColumnType("bigint(11)")
                     .HasColumnName("posgraduacao_id");
 
+                entity.Property(e => e.nota)
+                    .HasColumnType("double")
+                    .HasColumnName("nota");
+
                 entity.Property(e => e.DataCadastro).HasColumnType("datetime")
                     .HasColumnName("DataCadastro");
 

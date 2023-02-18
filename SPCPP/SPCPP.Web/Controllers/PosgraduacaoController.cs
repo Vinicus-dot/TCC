@@ -194,33 +194,7 @@ namespace SPCPP.Web.Controllers
                 return Json(new { sucesso = false, mensagem = ex.Message });
             }
 
-        }
-
-        [HttpPost]
-        public IActionResult UploadXml(IFormFile file, ulong id)
-        {
-
-            try
-            {
-
-                if (file == null ||!file.FileName.ToLower().Contains(".xml"))
-                    throw new Exception("Arquivo Incorreto!!");
-
-                if (file != null)
-                {
-                    XElement root = XElement.Load(file.OpenReadStream());
-                    var teste = "testeteste";
-                }
-
-                return Json(new { success = true, message = "Sucesso em cadastrar-se!!!" });
-
-            }
-            catch (Exception e)
-            {
-                return Json(new { success = false, message = e.Message });
-            }
-
-        }
+        }      
 
     }
 }
