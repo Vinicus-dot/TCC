@@ -44,7 +44,7 @@ footer {
     margin-top:75px;
     background-color: gray;
     position: absolute;
-    bottom: 1;
+    bottom: 0;
     width: 100%;
     white-space: nowrap;
     line-height: 60px;
@@ -178,6 +178,7 @@ footer p {
     }
 .paginationlocation {
     
+    height:150px;
     margin-top: 30px;
     color: darkblue;
     display: flex;
@@ -214,6 +215,46 @@ footer p {
     margin-top: 300px;
 }
 
+.formfooter {
+    margin-top:100px;
+    display: flex;
+    justify-content: right;
+}
+
+    .formfooter button {
+        width: 300px;
+        height: 38px;
+    }
+    
+    .formfooter a {
+        margin-left:30px;
+        width: 300px;
+        height: 38px;
+    }
+
+.form2Content {
+    display: flex;
+    justify-content: space-between;
+}
+        .form2Content input {
+            width: 400px;
+        }
+
+.form3Content {
+    display: flex;
+    justify-content: space-between;
+}
+
+    .form3Content input {
+        width: 300px;
+    }
+
+#formCheck{
+    margin-top:30px;
+    display:flex;
+    justify-content:space-between;
+    flex-direction:column;
+}
 
 
 

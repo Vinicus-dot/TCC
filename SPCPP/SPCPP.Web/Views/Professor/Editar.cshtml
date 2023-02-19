@@ -14,49 +14,49 @@
 <form asp-controller="Professor" asp-action="Editar" method="post">
     <input type="hidden" asp-for="siape" />
     <input type="hidden" asp-for="user_id" />
+    <div class="form2Content">
     <div class="form-group">
         <label for="email" class="form-label">E-mail</label>
         <input type="email" asp-for="Email" class="form-control" placeholder="Digite o e-mail do professor">
         @Html.ValidationMessageFor(p => p.Email)
     </div>
-    <br />
-
 
     <div class="form-group">
         <label for="nome" class="form-label">Nome Completo</label>
         <input type="text" asp-for="Cnome" class="form-control" placeholder="Digite o nome completo do professor">
         @Html.ValidationMessageFor(p => p.Cnome)
     </div>
+    </div>
     <br />
-
+    <div class="form2Content">
     <div class="form-group">
         <label for="nome" class="form-label">Lotação</label>
         <input type="text" asp-for="Lotacao" class="form-control" placeholder="Digite a lotação do professor">
         @Html.ValidationMessageFor(p => p.Lotacao)
     </div>
-    <br />
 
     <div class="form-group">
         <label for="nome" class="form-label">Data de Nascimento</label>
         <input type="date" asp-for="Data_nasc" class="form-control" placeholder="Digite a data de nascimento do professor">
         @Html.ValidationMessageFor(p => p.Data_nasc)
     </div>
+    </div>
     <br />
-
+    <div class="form2Content">
     <div class="form-group">
         <label for="nome" class="form-label">Carga Horária</label>
         <input type="number" asp-for="Carga_atual" class="form-control" placeholder="Digite a carga horaria do professor">
         @Html.ValidationMessageFor(p => p.Carga_atual)
     </div>
-    <br />
 
     <div class="form-group">
         <label for="nome" class="form-label">Status</label>
         <input type="text" asp-for="Status" class="form-control" placeholder="Digite o status do professor">
         @Html.ValidationMessageFor(p => p.Status)
     </div>
+    </div>
     <br />
-
+    <div class="formCheck">
     <div class="form-group form-check">
         <label class="form-check-label">
             <input class="form-check-input" asp-for="Afastado" /> @Html.DisplayNameFor(model => model.Afastado)
@@ -67,16 +67,19 @@
             <input class="form-check-input" asp-for="Administrativo" /> @Html.DisplayNameFor(model => model.Administrativo)
         </label>
     </div>
+   
+    
     <div class="form-group form-check">
         <label class="form-check-label">
             <input class="form-check-input" asp-for="Avaliador" /> @Html.DisplayNameFor(model => model.Avaliador)
         </label>
     </div>
 
-
-
-    <button type="submit" class="btn btn-primary btn-block w-100 mb-3">Alterar</button>
+    </div>
+    <div class="formfooter">
+    <button type="submit" class="btn btn-primary ">Alterar</button>
     <a role="button" class="btn btn-secondary btn d-block" asp-controller="Professor" asp-action="Index">Voltar</a>
+    </div>
 </form>
 
 

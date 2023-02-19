@@ -14,7 +14,7 @@ namespace SPCPP.Service.Interface
         List<User> BuscarTodos();  
         Task<bool> Adicionar(User usuario);
         Task<bool> Atualizar(User usuario);
-        Task<bool> Deletar(ulong id);
+        bool Deletar(ulong id);
         string GetParametro(string nome_parametro);
         User PesquisarPorId(ulong id);
     }

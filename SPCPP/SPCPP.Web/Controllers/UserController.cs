@@ -8,7 +8,7 @@ using SPCPP.Service.Interface;
 
 namespace SPCPP.Web.Controllers
 {
-    [PaginaRestritaSomenteAdmin]
+    //[PaginaRestritaSomenteAdmin]
     public class UserController : Controller
     {
         private readonly IUserService _userService;
@@ -98,33 +98,24 @@ namespace SPCPP.Web.Controllers
         }
         public IActionResult Deletar(ulong id)
         {
-            User usuario = _userService.PesquisarPorId(id);
-            return View(usuario);
+            try { 
+
+                
+                bool deletado = _userService.Deletar(id);
+                
+
+
+
+                return Json(new { success = deletado , message = "Usuário deletado com sucesso!" });
+            }
+            catch (Exception e)
+            {
+                return Json(new { success = false, message = e.Message });
+            }
+            
         }
 
-        public IActionResult DeletarConfirmacao(ulong id)
-        {
-            try
-            {
-                Task<bool>  deletado =  _userService.Deletar(id);    
-                if (deletado.Result)
-                {
-                    TempData["MensagemSucesso"] = "Usuário apagado com sucesso!";
-                }
-                else
-                {
-                    TempData["MensagemSucesso"] = "Ops, não conseguimos apagar seu usuário!";
-                }
-
-                return RedirectToAction("Index");
-            }
-            catch (Exception erro)
-            {
-                TempData["MensagemSucesso"] = $"Ops, não conseguimos apagar seu usuário, mais detalhe do erro: {erro.Message}";
-                return RedirectToAction("Index");
-            }
-
-        }
+       
         [HttpPost]
         public IActionResult Criar(User usuario)
         {

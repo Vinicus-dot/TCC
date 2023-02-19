@@ -14,10 +14,12 @@ namespace SPCPP.Service.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IProfessorRepository _professorRepository;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, IProfessorRepository professorRepository)
         {
-            _userRepository  = userRepository;
+            _userRepository = userRepository;
+            _professorRepository = professorRepository;
         }
         public async Task<bool> Adicionar(User usuario)
         {
@@ -98,17 +100,24 @@ namespace SPCPP.Service.Services
             }
         }
 
-        public async Task<bool> Deletar(ulong id)
+        public bool Deletar(ulong id)
         {
             try
             {
+                Professor professor = _professorRepository.PesquisarPorId(id);
+                if (professor != null)
+                    throw new Exception($"O Usuário {professor.Cnome} é um professor, precisa deletar ele na lista de professor!");
+
                 User usuarioDb = _userRepository.PesquisarPorId(id);
+                
 
-                if (usuarioDb == null) throw new Exception("Houve um erro na deleção do usuário!");
+                if (usuarioDb == null) 
+                    throw new Exception("Usuário não encontrado!");
 
-                return await _userRepository.Excluir(id);
+
+                return _userRepository.Excluir(id).Result;
             }
-            catch (Exception)
+            catch (Exception )
             {
 
                 throw;
