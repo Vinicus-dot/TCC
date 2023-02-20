@@ -333,26 +333,68 @@ namespace SPCPP.Repository.Repositorys
                 }
                 #endregion
 
-
+                IEnumerable<XElement> patente = root.Descendants("PATENTE");
                 #region GET DP
                 //A quantidade de depósito de patentes(DP) é obtida no currículo LATTES referente aos últimos
                 //cinco anos. O valor atribuído ao depósitos de patente DP será dividido pelo número de
                 //docentes do programa coautores do respectivo pedido de patente;
                 double dp = 0;
-                IEnumerable<XElement> patente = root.Descendants("PATENTE");
+                
                 foreach (XElement pt in patente)
                 {
                     bool deposito = pt.Element("DETALHAMENTO-DA-PATENTE").Element("HISTORICO-SITUACOES-PATENTE").Attribute("DESCRICAO-SITUACAO-PATENTE").Value.ToLower().Contains("dep");
-                    bool tempo = (Convert.ToInt32(pt.Element("DADOS-BASICOS-DA-PATENTE")?.Attribute("ANO-DESENVOLVIMENTO")?.Value) >= DateTime.Now.Year - 5);
+                    bool tempo = (Convert.ToInt32(pt.Element("DADOS-BASICOS-DA-PATENTE")?.Attribute("ANO-DESENVOLVIMENTO")?.Value) >= DateTime.Now.Year - 4);
+                    tempo = true;
 
-                    if (tempo && deposito != null && deposito)
+                    if (tempo &&  deposito)
                     {
 
-                        int count = 0;
-                        foreach (XElement at in pt.Elements("AUTORES"))
-                            count += 1;
+                        int quantidade = 1;
 
-                        dp += (double)1 / count;
+                        var autores = pt.Elements("AUTORES");
+                        foreach (XElement at in autores)
+                        {
+                            string[] nomeCoautor = at.Attribute("NOME-COMPLETO-DO-AUTOR").Value.Replace(",", " ").Replace("'", " ").Trim().Split(" ");
+                            query = $"select count(1) from posgraduacao_professor pp inner join professor p on pp.professor_id = p.user_id where p.Cnome like '%{nomeCoautor[0]}%' and p.Cnome like '%{nomeCoautor[1]}%' and p.Cnome like '%{nomeCoautor[nomeCoautor.Count() - 1]}%' and pp.posgraduacao_id = {posgraducao_id};";
+                            int existencia = _contextSPCPP.Connection.QueryFirstOrDefault<int>(query);
+                            if (existencia != 0)
+                                quantidade += 1;
+
+                        }
+                        if (quantidade > 0)
+                        {
+                            foreach (XElement at in autores)
+                            {
+
+                                string[] nomeCoautor = at.Attribute("NOME-COMPLETO-DO-AUTOR").Value.Replace(",", " ").Replace("'", " ").Trim().Split(" ");
+                                
+                                    query = $"select pp.* from posgraduacao_professor pp inner join professor p on pp.professor_id = p.user_id where p.Cnome like '%{nomeCoautor[0]}%' and p.Cnome like '%{nomeCoautor[1]}%' and p.Cnome like '%{nomeCoautor[nomeCoautor.Count() - 1]}%' and pp.posgraduacao_id = {posgraducao_id};";
+                                    Posgraduacao_Professor posgraduacao_Professor = _contextSPCPP.Connection.QueryFirstOrDefault<Posgraduacao_Professor>(query);
+                                    if (posgraduacao_Professor != null)
+                                    {
+                                        SolucaoMecanica solucaoMecanicaCautores = new SolucaoMecanica();
+
+                                        posgraduacao_Professor.DP -= ((double)1 / quantidade);
+                                        solucaoMecanicaCautores.A1 = posgraduacao_Professor.A1;
+                                        solucaoMecanicaCautores.A2 = posgraduacao_Professor.A2;
+                                        solucaoMecanicaCautores.A3 = posgraduacao_Professor.A3;
+                                        solucaoMecanicaCautores.A4 = posgraduacao_Professor.A4;
+                                        solucaoMecanicaCautores.DP = posgraduacao_Professor.DP;
+                                        solucaoMecanicaCautores.PQ = posgraduacao_Professor.PQ;
+                                        solucaoMecanicaCautores.PC = posgraduacao_Professor.PC;
+                                        solucaoMecanicaCautores.indiceH = posgraduacao_Professor.indiceH;
+                                        string nota = NotaMecanica(solucaoMecanicaCautores).ToString().Replace(",", ".");
+                                        query = $@"UPDATE posgraduacao_professor SET nota = {nota}, dp = {posgraduacao_Professor.DP.ToString().Replace(",", ".")} WHERE id = {posgraduacao_Professor.id}";
+                                        var salvarCoautor = _contextSPCPP.Connection.Execute(query);
+                                        if (salvarCoautor == 0)
+                                            throw new Exception("DP - Erro ao salvar Coautor");
+
+                                    }
+                                
+                            }
+                        }
+                        
+                        dp = (double)1 / quantidade;
                     }
                 }
                 #endregion
@@ -363,17 +405,56 @@ namespace SPCPP.Repository.Repositorys
                 double pc = 0;
                 foreach (XElement pt in patente)
                 {
-                    bool deposito = pt.Element("DETALHAMENTO-DA-PATENTE").Element("HISTORICO-SITUACOES-PATENTE").Attribute("DESCRICAO-SITUACAO-PATENTE").Value.ToLower().Contains("concess");
-                    bool tempo = (Convert.ToInt32(pt.Element("DADOS-BASICOS-DA-PATENTE")?.Attribute("ANO-DESENVOLVIMENTO")?.Value) >= DateTime.Now.Year - 5);
-
-                    if (tempo && deposito != null && deposito)
+                    bool concedidas = pt.Element("DETALHAMENTO-DA-PATENTE").Element("HISTORICO-SITUACOES-PATENTE").Attribute("DESCRICAO-SITUACAO-PATENTE").Value.ToLower().Contains("concess");
+                    bool tempo = (Convert.ToInt32(pt.Element("DADOS-BASICOS-DA-PATENTE")?.Attribute("ANO-DESENVOLVIMENTO")?.Value) >= DateTime.Now.Year - 4);
+                    tempo = true;
+                    if (tempo && concedidas)
                     {
 
-                        int count = 0;
-                        foreach (XElement at in pt.Elements("AUTORES"))
-                            count += 1;
+                        int quantidade = 1;
 
-                        pc += (double)1 / count;
+                        var autores = pt.Elements("AUTORES");
+                        foreach (XElement at in autores)
+                        {
+                            string[] nomeCoautor = at.Attribute("NOME-COMPLETO-DO-AUTOR").Value.Replace(",", " ").Replace("'", " ").Trim().Split(" ");
+                            query = $"select count(1) from posgraduacao_professor pp inner join professor p on pp.professor_id = p.user_id where p.Cnome like '%{nomeCoautor[0]}%' and p.Cnome like '%{nomeCoautor[1]}%' and p.Cnome like '%{nomeCoautor[nomeCoautor.Count() - 1]}%' and pp.posgraduacao_id = {posgraducao_id};";
+                            int existencia = _contextSPCPP.Connection.QueryFirstOrDefault<int>(query);
+                            if (existencia != 0)
+                                quantidade += 1;
+
+                        }
+                        if (quantidade > 0)
+                        {
+                            foreach (XElement at in autores)
+                            {
+
+                                string[] nomeCoautor = at.Attribute("NOME-COMPLETO-DO-AUTOR").Value.Replace(",", " ").Replace("'", " ").Trim().Split(" ");
+                                query = $"select pp.* from posgraduacao_professor pp inner join professor p on pp.professor_id = p.user_id where p.Cnome like '%{nomeCoautor[0]}%' and p.Cnome like '%{nomeCoautor[1]}%' and p.Cnome like '%{nomeCoautor[nomeCoautor.Count() - 1]}%' and pp.posgraduacao_id = {posgraducao_id};";
+                                Posgraduacao_Professor posgraduacao_Professor = _contextSPCPP.Connection.QueryFirstOrDefault<Posgraduacao_Professor>(query);
+                                if (posgraduacao_Professor != null)
+                                {
+                                    SolucaoMecanica solucaoMecanicaCautores = new SolucaoMecanica();
+
+                                    posgraduacao_Professor.PC -= ((double)1 / quantidade);
+                                    solucaoMecanicaCautores.A1 = posgraduacao_Professor.A1;
+                                    solucaoMecanicaCautores.A2 = posgraduacao_Professor.A2;
+                                    solucaoMecanicaCautores.A3 = posgraduacao_Professor.A3;
+                                    solucaoMecanicaCautores.A4 = posgraduacao_Professor.A4;
+                                    solucaoMecanicaCautores.DP = posgraduacao_Professor.DP;
+                                    solucaoMecanicaCautores.PQ = posgraduacao_Professor.PQ;
+                                    solucaoMecanicaCautores.PC = posgraduacao_Professor.PC;
+                                    solucaoMecanicaCautores.indiceH = posgraduacao_Professor.indiceH;
+                                    string nota = NotaMecanica(solucaoMecanicaCautores).ToString().Replace(",", ".");
+                                    query = $@"UPDATE posgraduacao_professor SET nota = {nota}, pc = {posgraduacao_Professor.PC.ToString().Replace(",", ".")} WHERE id = {posgraduacao_Professor.id}";
+                                    var salvarCoautor = _contextSPCPP.Connection.Execute(query);
+                                    if (salvarCoautor == 0)
+                                        throw new Exception("PC - Erro ao salvar Coautor");
+
+                                }
+                            }
+                        }
+
+                        pc = (double)1 / quantidade;
                     }
                 }
                 #endregion
