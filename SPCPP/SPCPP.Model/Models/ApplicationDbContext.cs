@@ -247,7 +247,37 @@ namespace SPCPP.Model.Models
                 entity.Property(e => e.DataAtualizacao).HasColumnType("datetime")
                    .HasColumnName("DataAtualizacao");
 
+                entity.Property(e => e.A1)
+                    .HasColumnType("double")
+                    .HasColumnName("a1");
+                
+                entity.Property(e => e.A2)
+                    .HasColumnType("double")
+                    .HasColumnName("a2");
 
+                entity.Property(e => e.A3)
+                    .HasColumnType("double")
+                    .HasColumnName("a3");
+
+                entity.Property(e => e.A4)
+                    .HasColumnType("double")
+                    .HasColumnName("a4");
+
+                entity.Property(e => e.DP)
+                    .HasColumnType("double")
+                    .HasColumnName("dp");
+
+                entity.Property(e => e.PC)
+                    .HasColumnType("double")
+                    .HasColumnName("pc");
+
+                entity.Property(e => e.PQ)
+                    .HasColumnType("double")
+                    .HasColumnName("pq");
+
+                entity.Property(e => e.indiceH)
+                    .HasColumnType("double")
+                    .HasColumnName("indiceh");
 
                 entity.HasOne(d => d.Professors)
                     .WithMany(p => p.Posgraduacao_Professors)

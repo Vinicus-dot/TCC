@@ -12,7 +12,7 @@ namespace SPCPP.Service.Interface
     public interface IPosgraduacao_ProfessorService
     {
 
-        Task<bool> Incluir(ulong posgraduacao_id, User usuario, double nota);
+        Task<bool> Incluir(ulong posgraduacao_id, User usuario, SolucaoMecanica notas);
 
         Task<List<ProfessorCadastrado>> ListarProfVinculados(ulong posgraduacao_id);
 
@@ -20,7 +20,7 @@ namespace SPCPP.Service.Interface
 
         Task<bool> deletar(ulong id, ulong posid);
 
-        double calcularNota(XElement root, string nome);
+        SolucaoMecanica calcularNota(XElement root, string nome, ulong posgraducao_id);
 
         Posgraduacao_Professor verifcarUsuarioCadastrado(ulong professorId, ulong posgraducaoId);
     }

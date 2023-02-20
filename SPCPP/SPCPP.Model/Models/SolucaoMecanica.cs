@@ -15,6 +15,7 @@ namespace SPCPP.Model.Models
         public double DP { get; set; }
         public double PC { get; set; }
         public double PQ { get; set; }
-        public double indiceH { get; set; }
+        public double indiceH { get; set; }      
+        public double nota { get; set; }
     }
 }

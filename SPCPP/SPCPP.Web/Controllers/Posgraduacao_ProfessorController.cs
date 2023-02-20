@@ -47,12 +47,12 @@ namespace SPCPP.Web.Controllers
                     throw new Exception("Arquivo Incorreto!!");
              
                 XElement root = XElement.Load(file.OpenReadStream());
-                double nota = _posgraduacao_ProfessorService.calcularNota(root,usuario.Nome);
+                SolucaoMecanica notas = _posgraduacao_ProfessorService.calcularNota(root,usuario.Nome.ToLower(),id);
                 
-                if (!_posgraduacao_ProfessorService.Incluir(id, usuario, nota).Result)
+                if (!_posgraduacao_ProfessorService.Incluir(id, usuario, notas).Result)
                     throw new Exception("Erro ao salvar professor na Pós Graduação!");
 
-                return Json(new { success = true, message = $"Sucesso em cadastrar-se!!! Sua nota é {nota}" });
+                return Json(new { success = true, message = $"Sucesso em cadastrar-se!!! Sua nota é {notas.nota}" });
             }
             catch (Exception e)
             {

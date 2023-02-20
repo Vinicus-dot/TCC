@@ -8,6 +8,7 @@ namespace SPCPP.Model.Models.Request
 {
     public class ProfessorCadastrado
     {
+        
         public string user_id { get; set; }
         public string siape { get; set; }
 
@@ -20,6 +21,15 @@ namespace SPCPP.Model.Models.Request
         public double nota { get; set; }
         public int Carga_atual { get; set; }
         public string Status { get; set; }
+
+        public double A1 { get; set; }
+        public double A2 { get; set; }
+        public double A3 { get; set; }
+        public double A4 { get; set; }
+        public double DP { get; set; }
+        public double PC { get; set; }
+        public double PQ { get; set; }
+        public double indiceH { get; set; }
 
 
     }

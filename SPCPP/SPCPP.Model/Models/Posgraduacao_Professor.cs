@@ -21,7 +21,16 @@ namespace SPCPP.Model.Models
         public DateTime DataCadastro { get; set; }
 
         public DateTime? DataAtualizacao { get; set; }
-     
+
+        public double A1 { get; set; }
+        public double A2 { get; set; }
+        public double A3 { get; set; }
+        public double A4 { get; set; }
+        public double DP { get; set; }
+        public double PC { get; set; }
+        public double PQ { get; set; }
+        public double indiceH { get; set; }
+
 
         public Professor Professors { get; set; } = null!;
         public Posgraduacao Posgraduacaos { get; set; } = null!;

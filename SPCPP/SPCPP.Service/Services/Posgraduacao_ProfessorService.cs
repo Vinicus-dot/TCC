@@ -28,7 +28,7 @@ namespace SPCPP.Service.Services
            
         }
 
-        public Task<bool> Incluir(ulong posgraduacao_id , User usuario, double nota)
+        public Task<bool> Incluir(ulong posgraduacao_id , User usuario, SolucaoMecanica notas)
         {
 
             try
@@ -39,7 +39,15 @@ namespace SPCPP.Service.Services
                 posgraduacao_Professor.posgraduacao_id = posgraduacao_id;
                 posgraduacao_Professor.professor_id = usuario.Id;
                 posgraduacao_Professor.DataCadastro = DateTime.Now;
-                posgraduacao_Professor.nota = nota;
+                posgraduacao_Professor.nota = notas.nota;
+                posgraduacao_Professor.A1 = notas.A1;
+                posgraduacao_Professor.A2 = notas.A2;
+                posgraduacao_Professor.A3 = notas.A3;
+                posgraduacao_Professor.A4 = notas.A4;
+                posgraduacao_Professor.DP = notas.DP;
+                posgraduacao_Professor.PC = notas.PC;
+                posgraduacao_Professor.PQ = notas.PQ;
+                posgraduacao_Professor.indiceH = notas.indiceH;
 
 
                 return _posgraduacao_ProfessorRepository.Cadastrar(posgraduacao_Professor);
@@ -97,12 +105,12 @@ namespace SPCPP.Service.Services
             }
         }
 
-        public double calcularNota(XElement root, string nome)
+        public SolucaoMecanica calcularNota(XElement root, string nome , ulong posgraducao_id)
         {
             try
             {
 
-                return _posgraduacao_ProfessorRepository.calcularNota(root,nome);
+                return _posgraduacao_ProfessorRepository.calcularNota(root,nome , posgraducao_id);
             }
             catch (Exception)
             {
