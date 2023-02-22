@@ -190,7 +190,7 @@ namespace SPCPP.Repository.Repositorys
                                                 solucaoMecanicaCautores.PC = posgraduacao_Professor.PC;
                                                 solucaoMecanicaCautores.indiceH = posgraduacao_Professor.indiceH;
                                                 string nota = NotaMecanica(solucaoMecanicaCautores).ToString().Replace(",", ".");
-                                                query = $@"UPDATE posgraduacao_professor SET nota = {nota}, a1 = {posgraduacao_Professor.A1.ToString().Replace(",", ".")} WHERE id = {posgraduacao_Professor.id}";
+                                                query = $@"UPDATE posgraduacao_professor SET DataAtualizacao = now() , nota = {nota}, a1 = {posgraduacao_Professor.A1.ToString().Replace(",", ".")} WHERE id = {posgraduacao_Professor.id}";
                                                 var salvarCoautor = _contextSPCPP.Connection.Execute(query);
                                                 if (salvarCoautor == 0)
                                                     throw new Exception("A1 - Erro ao salvar Coautor");
@@ -235,7 +235,7 @@ namespace SPCPP.Repository.Repositorys
                                                 solucaoMecanicaCautores.PC = posgraduacao_Professor.PC;
                                                 solucaoMecanicaCautores.indiceH = posgraduacao_Professor.indiceH;
                                                 string nota = NotaMecanica(solucaoMecanicaCautores).ToString().Replace(",", ".");
-                                                query = $@"UPDATE posgraduacao_professor SET nota = {nota}, a2 = {posgraduacao_Professor.A2.ToString().Replace(",", ".")} WHERE id = {posgraduacao_Professor.id}";
+                                                query = $@"UPDATE posgraduacao_professor SET DataAtualizacao = now() , nota = {nota}, a2 = {posgraduacao_Professor.A2.ToString().Replace(",", ".")} WHERE id = {posgraduacao_Professor.id}";
                                                 var salvarCoautor = _contextSPCPP.Connection.Execute(query);
                                                 if (salvarCoautor == 0)
                                                     throw new Exception("A2 - Erro ao salvar Coautor");
@@ -279,7 +279,7 @@ namespace SPCPP.Repository.Repositorys
                                                 solucaoMecanicaCautores.PC = posgraduacao_Professor.PC;
                                                 solucaoMecanicaCautores.indiceH = posgraduacao_Professor.indiceH;
                                                 string nota = NotaMecanica(solucaoMecanicaCautores).ToString().Replace(",", ".");
-                                                query = $@"UPDATE posgraduacao_professor SET nota = {nota}, a3 = {posgraduacao_Professor.A3.ToString().Replace(",", ".")} WHERE id = {posgraduacao_Professor.id}";
+                                                query = $@"UPDATE posgraduacao_professor SET  DataAtualizacao = now() , nota = {nota}, a3 = {posgraduacao_Professor.A3.ToString().Replace(",", ".")} WHERE id = {posgraduacao_Professor.id}";
                                                 var salvarCoautor = _contextSPCPP.Connection.Execute(query);
                                                 if (salvarCoautor == 0)
                                                     throw new Exception("A3 - Erro ao salvar Coautor");
@@ -323,7 +323,7 @@ namespace SPCPP.Repository.Repositorys
                                                 solucaoMecanicaCautores.PC = posgraduacao_Professor.PC;
                                                 solucaoMecanicaCautores.indiceH = posgraduacao_Professor.indiceH;
                                                 string nota = NotaMecanica(solucaoMecanicaCautores).ToString().Replace(",", ".");
-                                                query = $@"UPDATE posgraduacao_professor SET nota = {nota}, a4 = {posgraduacao_Professor.A4.ToString().Replace(",", ".")} WHERE id = {posgraduacao_Professor.id}";
+                                                query = $@"UPDATE posgraduacao_professor SET DataAtualizacao = now() , nota = {nota}, a4 = {posgraduacao_Professor.A4.ToString().Replace(",", ".")} WHERE id = {posgraduacao_Professor.id}";
                                                 var salvarCoautor = _contextSPCPP.Connection.Execute(query);
                                                 if (salvarCoautor == 0)
                                                     throw new Exception("A4 - Erro ao salvar Coautor");
@@ -391,7 +391,7 @@ namespace SPCPP.Repository.Repositorys
                                     solucaoMecanicaCautores.PC = posgraduacao_Professor.PC;
                                     solucaoMecanicaCautores.indiceH = posgraduacao_Professor.indiceH;
                                     string nota = NotaMecanica(solucaoMecanicaCautores).ToString().Replace(",", ".");
-                                    query = $@"UPDATE posgraduacao_professor SET nota = {nota}, dp = {posgraduacao_Professor.DP.ToString().Replace(",", ".")} WHERE id = {posgraduacao_Professor.id}";
+                                    query = $@"UPDATE posgraduacao_professor SET DataAtualizacao = now() , nota = {nota}, dp = {posgraduacao_Professor.DP.ToString().Replace(",", ".")} WHERE id = {posgraduacao_Professor.id}";
                                     var salvarCoautor = _contextSPCPP.Connection.Execute(query);
                                     if (salvarCoautor == 0)
                                         throw new Exception("DP - Erro ao salvar Coautor");
@@ -453,7 +453,7 @@ namespace SPCPP.Repository.Repositorys
                                     solucaoMecanicaCautores.PC = posgraduacao_Professor.PC;
                                     solucaoMecanicaCautores.indiceH = posgraduacao_Professor.indiceH;
                                     string nota = NotaMecanica(solucaoMecanicaCautores).ToString().Replace(",", ".");
-                                    query = $@"UPDATE posgraduacao_professor SET nota = {nota}, pc = {posgraduacao_Professor.PC.ToString().Replace(",", ".")} WHERE id = {posgraduacao_Professor.id}";
+                                    query = $@"UPDATE posgraduacao_professor SET DataAtualizacao = now() , nota = {nota}, pc = {posgraduacao_Professor.PC.ToString().Replace(",", ".")} WHERE id = {posgraduacao_Professor.id}";
                                     var salvarCoautor = _contextSPCPP.Connection.Execute(query);
                                     if (salvarCoautor == 0)
                                         throw new Exception("PC - Erro ao salvar Coautor");
