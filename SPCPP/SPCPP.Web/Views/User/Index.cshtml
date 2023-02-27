@@ -81,15 +81,16 @@
 
 </div>
 
+@if (Model.TotalPaginas > 1)
+{
 <div class="paginationn">
     @{
-        var anterior = !Model.PaginaAnterior ? "disabled" : "";
-        var meio = !Model.ProximaPagina && !Model.PaginaAnterior ? "display:none" : "";
+        var anterior = !Model.PaginaAnterior ? "disabled" : "";      
         var proximo = !Model.ProximaPagina ? "disabled" : "";
 
     }
     <a asp-action="Index" asp-route-pagina="@(Model.PaginaInicial-1)" asp-route-Filter="@(ViewBag.Filter)" asp-route-Ordenar="@(ViewBag.OrdenarPg)" class="btn btn-primary @anterior"> Anterior</a>
-    @using (Html.BeginForm("Index", "User", FormMethod.Get, new { style = @meio }))
+    @using (Html.BeginForm("Index", "User", FormMethod.Get))
     {
 
         @Html.TextBox("pagina" ,null, new { maxlength="3"})
@@ -106,7 +107,7 @@
 <div class="paginationlocation">
     <p >@(Model.PaginaInicial) de @(Model.TotalPaginas)</p>
 </div>
-
+}
 <script>
 
     function Deletar(Id) {

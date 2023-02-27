@@ -41,7 +41,7 @@
         <select asp-for="Perfil" class="form-control">
             <option value="">Selecione</option>
             <option value="@PerfilEnum.Admin">Administrador</option>
-            <option value="@PerfilEnum.Padrao">Padrão</option>
+            <option value="@PerfilEnum.Avaliador">Avaliador</option>
         </select>
         @Html.ValidationMessageFor(p => p.Perfil)
     </div>

@@ -41,7 +41,10 @@
     <table class="table" id="table-professors" >
         <thead>
             <tr>
-                <th scope="col" style="color:antiquewhite;">#</th>
+                @if (ViewBag.Perfil == SPCPP.Model.Enums.PerfilEnum.Admin)
+                {
+                    <th scope="col" style="color:antiquewhite;">#</th>
+                }
                 <th scope="col">@Html.ActionLink("Siape", "Index", new { Ordenar = ViewBag.SiapeParm, Filter=ViewBag.Filter })</th>
                 <th scope="col">@Html.ActionLink("Nome", "Index", new { Ordenar = ViewBag.CnomeParm, Filter=ViewBag.Filter })</th>
                 <th scope="col">@Html.ActionLink("Email", "Index", new { Ordenar = ViewBag.EmailParm, Filter=ViewBag.Filter })</th>
@@ -52,8 +55,10 @@
                 <th scope="col">@Html.ActionLink("Carga Horária", "Index", new { Ordenar = ViewBag.Carga_atualParm , Filter=ViewBag.Filter})</th>
                 <th scope="col">@Html.ActionLink("Status", "Index", new { Ordenar = ViewBag.StatusParm , Filter=ViewBag.Filter})</th>
 
-
-                <th scope="col"> <a role="button" class="btn btn-primary mb-0 " style="width:9.2rem!important font-size:12px" asp-controller="Professor" asp-action="Create">Novo Professor</a></th>
+                @if (ViewBag.Perfil == SPCPP.Model.Enums.PerfilEnum.Admin)
+                {
+                    <th scope="col"> <a role="button" class="btn btn-primary mb-0 " style="width:9.2rem!important font-size:12px" asp-controller="Professor" asp-action="Create">Novo Professor</a></th>
+                }
             </tr>
         </thead>
         <tbody>
@@ -62,7 +67,10 @@
                 foreach (var professor in Model)
                 {
                     <tr>
-                        <th><a asp-route-id="@professor.user_id" asp-controller="Professor" asp-action="Editar"><img alt="svgImg" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHg9IjBweCIgeT0iMHB4Igp3aWR0aD0iMzIiIGhlaWdodD0iMzIiCnZpZXdCb3g9IjAgMCAzMiAzMiI+CjxwYXRoIGQ9Ik0gMjMuOTA2MjUgMy45Njg3NSBDIDIyLjg1OTM3NSAzLjk2ODc1IDIxLjgxMjUgNC4zNzUgMjEgNS4xODc1IEwgNS4xODc1IDIxIEwgNS4xMjUgMjEuMzEyNSBMIDQuMDMxMjUgMjYuODEyNSBMIDMuNzE4NzUgMjguMjgxMjUgTCA1LjE4NzUgMjcuOTY4NzUgTCAxMC42ODc1IDI2Ljg3NSBMIDExIDI2LjgxMjUgTCAyNi44MTI1IDExIEMgMjguNDM3NSA5LjM3NSAyOC40Mzc1IDYuODEyNSAyNi44MTI1IDUuMTg3NSBDIDI2IDQuMzc1IDI0Ljk1MzEyNSAzLjk2ODc1IDIzLjkwNjI1IDMuOTY4NzUgWiBNIDIzLjkwNjI1IDUuODc1IEMgMjQuNDEwMTU2IDUuODc1IDI0LjkxNzk2OSA2LjEwNTQ2OSAyNS40MDYyNSA2LjU5Mzc1IEMgMjYuMzc4OTA2IDcuNTY2NDA2IDI2LjM3ODkwNiA4LjYyMTA5NCAyNS40MDYyNSA5LjU5Mzc1IEwgMjQuNjg3NSAxMC4yODEyNSBMIDIxLjcxODc1IDcuMzEyNSBMIDIyLjQwNjI1IDYuNTkzNzUgQyAyMi44OTQ1MzEgNi4xMDU0NjkgMjMuNDAyMzQ0IDUuODc1IDIzLjkwNjI1IDUuODc1IFogTSAyMC4zMTI1IDguNzE4NzUgTCAyMy4yODEyNSAxMS42ODc1IEwgMTEuMTg3NSAyMy43ODEyNSBDIDEwLjUzMTI1IDIyLjUgOS41IDIxLjQ2ODc1IDguMjE4NzUgMjAuODEyNSBaIE0gNi45Mzc1IDIyLjQzNzUgQyA4LjEzNjcxOSAyMi45MjE4NzUgOS4wNzgxMjUgMjMuODYzMjgxIDkuNTYyNSAyNS4wNjI1IEwgNi4yODEyNSAyNS43MTg3NSBaIj48L3BhdGg+Cjwvc3ZnPg==" /></a></th>
+                        @if (ViewBag.Perfil == SPCPP.Model.Enums.PerfilEnum.Admin)
+                        {
+                            <th><a asp-route-id="@professor.user_id" asp-controller="Professor" asp-action="Editar"><img alt="svgImg" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHg9IjBweCIgeT0iMHB4Igp3aWR0aD0iMzIiIGhlaWdodD0iMzIiCnZpZXdCb3g9IjAgMCAzMiAzMiI+CjxwYXRoIGQ9Ik0gMjMuOTA2MjUgMy45Njg3NSBDIDIyLjg1OTM3NSAzLjk2ODc1IDIxLjgxMjUgNC4zNzUgMjEgNS4xODc1IEwgNS4xODc1IDIxIEwgNS4xMjUgMjEuMzEyNSBMIDQuMDMxMjUgMjYuODEyNSBMIDMuNzE4NzUgMjguMjgxMjUgTCA1LjE4NzUgMjcuOTY4NzUgTCAxMC42ODc1IDI2Ljg3NSBMIDExIDI2LjgxMjUgTCAyNi44MTI1IDExIEMgMjguNDM3NSA5LjM3NSAyOC40Mzc1IDYuODEyNSAyNi44MTI1IDUuMTg3NSBDIDI2IDQuMzc1IDI0Ljk1MzEyNSAzLjk2ODc1IDIzLjkwNjI1IDMuOTY4NzUgWiBNIDIzLjkwNjI1IDUuODc1IEMgMjQuNDEwMTU2IDUuODc1IDI0LjkxNzk2OSA2LjEwNTQ2OSAyNS40MDYyNSA2LjU5Mzc1IEMgMjYuMzc4OTA2IDcuNTY2NDA2IDI2LjM3ODkwNiA4LjYyMTA5NCAyNS40MDYyNSA5LjU5Mzc1IEwgMjQuNjg3NSAxMC4yODEyNSBMIDIxLjcxODc1IDcuMzEyNSBMIDIyLjQwNjI1IDYuNTkzNzUgQyAyMi44OTQ1MzEgNi4xMDU0NjkgMjMuNDAyMzQ0IDUuODc1IDIzLjkwNjI1IDUuODc1IFogTSAyMC4zMTI1IDguNzE4NzUgTCAyMy4yODEyNSAxMS42ODc1IEwgMTEuMTg3NSAyMy43ODEyNSBDIDEwLjUzMTI1IDIyLjUgOS41IDIxLjQ2ODc1IDguMjE4NzUgMjAuODEyNSBaIE0gNi45Mzc1IDIyLjQzNzUgQyA4LjEzNjcxOSAyMi45MjE4NzUgOS4wNzgxMjUgMjMuODYzMjgxIDkuNTYyNSAyNS4wNjI1IEwgNi4yODEyNSAyNS43MTg3NSBaIj48L3BhdGg+Cjwvc3ZnPg==" /></a></th>
+                        }
                         <th scope="row">@professor.siape</th>
                         <td>@professor.Cnome</td>
                         <td>@professor.Email</td>
@@ -72,12 +80,16 @@
                         <td>@professor.Data_aposentadoria</td>
                         <td>@professor.Carga_atual</td>
                         <td>@professor.Status</td>
-                        <td>
-                            <div>
+                        @if (ViewBag.Perfil == SPCPP.Model.Enums.PerfilEnum.Admin)
+                        {
+                            <td>
+                                <div>
 
-                                <a role="button" onclick="deletar(@professor.user_id)"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACMAAAAjCAYAAAAe2bNZAAAACXBIWXMAAAsTAAALEwEAmpwYAAABXUlEQVR4nO2YPy8EURRHj1AIUdiE0MhGRaJYUVCSSNQKShW+ALXESiwqSp2Shm+gpUBNUGxNQbLJrorc5Ekm8ubNztw7q5mT3Ezmzru/OfNnk81AgT29wKCnpN9RxoBX4NtTdWDc6kQl4BA4DVQ9RiQqFJo/cHcxkaOEE1mVXHAimx2SWW/3Uc0AizmW5BeYsAPc5VCSm5q9nF7cahaZjf/+FUVZCgSeA1NA7U9/3/UvArOSm5rJQOCEW9MDfLmebLvbmJVjqekLBJYj6xquJ9tfyoHZfjLybizzhoIHY5l7jcyVscylRubEWOZYI7NtLLOlkVk1llnRyMwZy8xqZEaNZUY0Ml1Ay0im5fJUvBjJPGPAtSe4kiAz7ZmRHDVnnuAbYNn9n226XtPtS//WMyM5aqoxL2Pa2rWQWTOSkRw1w8CnUuQDGMKIBeApo8gjME8ODMR8eYgrWV+Alh+Xya1XdMvQDwAAAABJRU5ErkJggg=="></a>
-                            </div>
-                        </td>
+                                    <a role="button" onclick="deletar(@professor.user_id)"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACMAAAAjCAYAAAAe2bNZAAAACXBIWXMAAAsTAAALEwEAmpwYAAABXUlEQVR4nO2YPy8EURRHj1AIUdiE0MhGRaJYUVCSSNQKShW+ALXESiwqSp2Shm+gpUBNUGxNQbLJrorc5Ekm8ubNztw7q5mT3Ezmzru/OfNnk81AgT29wKCnpN9RxoBX4NtTdWDc6kQl4BA4DVQ9RiQqFJo/cHcxkaOEE1mVXHAimx2SWW/3Uc0AizmW5BeYsAPc5VCSm5q9nF7cahaZjf/+FUVZCgSeA1NA7U9/3/UvArOSm5rJQOCEW9MDfLmebLvbmJVjqekLBJYj6xquJ9tfyoHZfjLybizzhoIHY5l7jcyVscylRubEWOZYI7NtLLOlkVk1llnRyMwZy8xqZEaNZUY0Ml1Ay0im5fJUvBjJPGPAtSe4kiAz7ZmRHDVnnuAbYNn9n226XtPtS//WMyM5aqoxL2Pa2rWQWTOSkRw1w8CnUuQDGMKIBeApo8gjME8ODMR8eYgrWV+Alh+Xya1XdMvQDwAAAABJRU5ErkJggg=="></a>
+                                </div>
+                            </td>
+                        }
+                        
                     </tr>
                 }
             }
@@ -86,32 +98,35 @@
         </tbody>
     </table>
 </div>
-<div class="paginationn">
-    @{
-        var anterior = !Model.PaginaAnterior ? "disabled" : "";
-        var meio = !Model.ProximaPagina && !Model.PaginaAnterior ? "display:none" : "";
-        var proximo = !Model.ProximaPagina ? "disabled" : "";
+@if (Model.TotalPaginas > 1)
+{
+    <div class="paginationn">
+        @{
+            var anterior = !Model.PaginaAnterior ? "disabled" : "";
+            var proximo = !Model.ProximaPagina ? "disabled" : "";
 
-    }
-    <a asp-action="Index" asp-route-pagina="@(Model.PaginaInicial-1)" asp-route-Filter="@(ViewBag.Filter)" asp-route-Ordenar="@(ViewBag.OrdenarPg)" class="btn btn-primary @anterior"> Anterior</a>
-    @using (Html.BeginForm("Index", "Professor", FormMethod.Get, new { style = @meio }))
-    {
+        }
+        <a asp-action="Index" asp-route-pagina="@(Model.PaginaInicial-1)" asp-route-Filter="@(ViewBag.Filter)" asp-route-Ordenar="@(ViewBag.OrdenarPg)" class="btn btn-primary @anterior"> Anterior</a>
+        @using (Html.BeginForm("Index", "Professor", FormMethod.Get))
+        {
+            @Html.TextBox("pagina",null, new { maxlength="3"} )
+            <div style="display:none;">
+                @Html.TextBox("Filter", ViewBag.Filter as string)
+                @Html.TextBox("Ordenar", ViewBag.OrdenarPg as string)
+                <input type="submit" />
+            </div>
+        }
+        <a asp-action="Index" asp-route-pagina="@(Model.PaginaInicial+1)" asp-route-Filter="@(ViewBag.Filter)" asp-route-Ordenar="@(ViewBag.OrdenarPg)" class="btn btn-primary @proximo"> Proximo</a>
 
-        @Html.TextBox("pagina",null, new { maxlength="3"} )
-        <div style="display:none;">
-            @Html.TextBox("Filter", ViewBag.Filter as string)
-            @Html.TextBox("Ordenar", ViewBag.OrdenarPg as string)
-            <input type="submit" />
-        </div>
-
-    }
-    <a asp-action="Index" asp-route-pagina="@(Model.PaginaInicial+1)" asp-route-Filter="@(ViewBag.Filter)" asp-route-Ordenar="@(ViewBag.OrdenarPg)" class="btn btn-primary @proximo"> Proximo</a>
-
-</div>
-<div class="paginationlocation">
-    <p>@(Model.PaginaInicial) de @(Model.TotalPaginas)</p>
-</div>
-
+    </div>
+    <div class="paginationlocation">
+        <p>@(
+                 Model.PaginaInicial
+                 ) de @(
+           Model.TotalPaginas
+           )</p>
+    </div>
+}
 <script>
 
     function deletar(id_user) {

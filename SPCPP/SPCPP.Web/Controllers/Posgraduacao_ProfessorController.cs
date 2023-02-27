@@ -1,6 +1,7 @@
 ﻿using javax.annotation.processing;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using SPCPP.Model.Filters;
 using SPCPP.Model.Helper;
 using SPCPP.Model.Models;
 using SPCPP.Model.Models.Request;
@@ -10,6 +11,7 @@ using System.Xml.Linq;
 
 namespace SPCPP.Web.Controllers
 {
+    [PaginaParaUsuarioLogado]
     public class Posgraduacao_ProfessorController : Controller
     {
         private readonly IPosgraduacaoService _posgraduacaoService;
@@ -36,7 +38,7 @@ namespace SPCPP.Web.Controllers
                 
                 User usuario = JsonConvert.DeserializeObject<User>(sessaoUsuario);
 
-                if (usuario.Perfil == Model.Enums.PerfilEnum.Admin)
+                if (usuario.Perfil != Model.Enums.PerfilEnum.Docente )
                     throw new Exception("Seu tipo de Perfil não pode cadastrar em Pós Gradução!");
 
                 Posgraduacao_Professor posgraduacao_Professor = _posgraduacao_ProfessorService.verifcarUsuarioCadastrado(usuario.Id, id);
@@ -64,6 +66,12 @@ namespace SPCPP.Web.Controllers
         {
             try
             {
+                string sessaoUsuario = ControllerContext.HttpContext.Session.GetString("sessaoUsuarioLogado");
+                User usuariologado = JsonConvert.DeserializeObject<User>(sessaoUsuario);
+
+                ViewBag.Perfil = usuariologado.Perfil;
+
+
                 ViewBag.Filter = Filter;
                 int totalpagina = Convert.ToInt32(_posgraduacaoService.GetParametro("NUMERO_PAGINATION"));
                 Posgraduacao posgraduacao = _posgraduacaoService.PesquisarPorId(id);
@@ -183,7 +191,7 @@ namespace SPCPP.Web.Controllers
         {
             try
             {
-
+                return Json(new { sucesso = false, mensagem ="Desativado!" });
                 bool valido = _posgraduacao_ProfessorService.deletar(id, posid).Result ;
 
 

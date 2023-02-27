@@ -60,7 +60,7 @@ namespace SPCPP.Model.Models.Request
 
         public bool Administrativo { get; set; }
 
-        public bool Avaliador { get; set; }
+        
 
     }
 }

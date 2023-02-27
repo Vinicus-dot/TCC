@@ -257,6 +257,29 @@ footer p {
 }
 
 
+em {
+    font-style: italic;
+}
+
+h1 {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+.home{
+    margin-top:50px;
+    display:flex;
+    justify-content:space-around;
+}
+.itenshome{
+    width:450px;
+}
+    .itenshome p {
+        text-align: left;
+    }
+
 
 
 

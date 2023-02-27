@@ -156,10 +156,6 @@ namespace SPCPP.Model.Models
                   .HasColumnType("tinyint(1)")
                   .HasColumnName("Administrativo");
 
-                entity.Property(e => e.Avaliador)
-                  .HasColumnType("tinyint(1)")
-                  .HasColumnName("Avaliador");
-
 
                 entity.HasOne(d => d.Users)
                     .WithMany(p => p.Professors)

@@ -39,7 +39,7 @@ namespace SPCPP.Service.Services
                 usuario.Nome = professorRequest.Nome;
                 usuario.Login = professorRequest.Login;
                 usuario.Email = professorRequest.Email;
-                usuario.Perfil = PerfilEnum.Padrao;
+                usuario.Perfil = PerfilEnum.Docente;
                 usuario.Senha = professorRequest.Senha;
                 usuario.DataCadastro = DateTime.Now;
                 usuario.SetSenhaHash();
@@ -58,7 +58,7 @@ namespace SPCPP.Service.Services
                 professor.Status = professorRequest.Status;
                 professor.Afastado = professorRequest.Afastado;
                 professor.Administrativo = professor.Administrativo;
-                professor.Avaliador = professor.Avaliador;
+                
 
                 professor.user_id = usuario.Id;
 

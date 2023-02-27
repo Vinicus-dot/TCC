@@ -20,9 +20,17 @@
         </div>
        
 
-        <div class="form-group">
+        @*<div class="form-group">
             <label for="email" class="form-label">Nome do curso</label>
             <input type="text" asp-for="nome_curso" class="form-control" placeholder="Digite o nome do curso">
+            @Html.ValidationMessageFor(p => p.nome_curso)
+        </div>*@
+
+        <div class="form-group">
+            <label for="nome" class="form-label">Nome do curso</label>
+            <select asp-for="nome_curso" class="form-control">             
+                <option value="mecanica">Mecânica</option>        
+            </select>
             @Html.ValidationMessageFor(p => p.nome_curso)
         </div>
         

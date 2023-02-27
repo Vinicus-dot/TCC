@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.Routing;
 using Newtonsoft.Json;
 using SPCPP.Model.Enums;
 using SPCPP.Model.Models;
@@ -9,12 +9,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web.Http;
-using Microsoft.AspNetCore.Mvc;
 
 namespace SPCPP.Model.Filters
 {
-    public class PaginaRestritaSomenteAdmin : ActionFilterAttribute
+    public class PaginaRestritaAvaliador : ActionFilterAttribute
     {
         public override void OnActionExecuting(ActionExecutingContext context)
         {
@@ -26,7 +24,7 @@ namespace SPCPP.Model.Filters
             else
             {
                 var usuario = JsonConvert.DeserializeObject<User>(sessaoUsuario);
-                if (usuario == null || usuario.Perfil != PerfilEnum.Admin)
+                if (usuario == null || (usuario.Perfil != PerfilEnum.Admin && usuario.Perfil != PerfilEnum.Avaliador))
                 {
                     context.Result = new RedirectToRouteResult(new { controller = "Restrito", action = "Index" });
                 }
@@ -45,7 +43,7 @@ namespace SPCPP.Model.Filters
             else
             {
                 var usuario = JsonConvert.DeserializeObject<User>(sessaoUsuario);
-                if (usuario == null || usuario.Perfil != PerfilEnum.Admin)
+                if (usuario == null || (usuario.Perfil != PerfilEnum.Admin && usuario.Perfil != PerfilEnum.Avaliador))
                 {
                     context.Result = new RedirectToRouteResult(new { controller = "Restrito", action = "Index" });
                 }

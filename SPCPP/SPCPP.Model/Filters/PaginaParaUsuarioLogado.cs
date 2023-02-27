@@ -5,29 +5,29 @@ using Newtonsoft.Json;
 using SPCPP.Model.Models;
 using System.Web.Http;
 using Microsoft.AspNetCore.Http;
-using RedirectToRouteResult = Microsoft.AspNetCore.Mvc.RedirectToRouteResult;
+using Microsoft.AspNetCore.Mvc;
 
 namespace SPCPP.Model.Filters
 {
     public class PaginaParaUsuarioLogado : ActionFilterAttribute
     {
-        public override void OnActionExecuted(ActionExecutedContext context)
+        public override void OnActionExecuting(ActionExecutingContext context)
         {
-            string sessaoUsuario = context.HttpContext.Session.GetString("sessaoUsuarioLogado");
+            var sessaoUsuario = context.HttpContext.Session.GetString("sessaoUsuarioLogado");
             if (string.IsNullOrEmpty(sessaoUsuario))
             {
-                context.Result = new RedirectToRouteResult(new RouteValueDictionary { { "controller", "Login" }, { "action", "Index" } });
-
+                context.Result = new RedirectToRouteResult(new { controller = "Login", action = "Index" });
             }
-            else
+
+            base.OnActionExecuting(context);
+        }
+
+        public override void OnActionExecuted(ActionExecutedContext context)
+        {
+            var sessaoUsuario = context.HttpContext.Session.GetString("sessaoUsuarioLogado");
+            if (string.IsNullOrEmpty(sessaoUsuario))
             {
-                User usuario = JsonConvert.DeserializeObject<User>(sessaoUsuario);
-
-                if (usuario == null)
-                {
-                    context.Result = new RedirectToRouteResult(new RouteValueDictionary { { "controller", "Login" }, { "action", "Index" } });
-
-                }
+                context.Result = new RedirectToRouteResult(new { controller = "Login", action = "Index" });
             }
 
             base.OnActionExecuted(context);

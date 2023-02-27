@@ -58,9 +58,7 @@
                 <th scope="col">@Html.ActionLink("Status", "ListarProfVinculados", new { Ordenar = ViewBag.StatusParm , Nome=ViewBag.Nome})</th>
                 <th scope="col">@Html.ActionLink("Nota", "ListarProfVinculados", new { Ordenar = ViewBag.NotaParm , Nome=ViewBag.Nome})</th>
 
-
-
-                <th scope="col"> <a role="button" class="btn btn-primary mb-0 " style="width:9.2rem!important" asp-controller="Professor" asp-action="Create">Novo Usuário</a></th>
+                
             </tr>
         </thead>
         <tbody>             
@@ -80,11 +78,12 @@
                         <td>@professor.Carga_atual</td>
                         <td>@professor.Status</td>
                         <td>@professor.nota</td>
-                        <td>
+                        @*<td>
                             <div>
                                 <a role="button"  onclick="deletar(@professor.user_id,@ViewBag.PosId)"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACMAAAAjCAYAAAAe2bNZAAAACXBIWXMAAAsTAAALEwEAmpwYAAABXUlEQVR4nO2YPy8EURRHj1AIUdiE0MhGRaJYUVCSSNQKShW+ALXESiwqSp2Shm+gpUBNUGxNQbLJrorc5Ekm8ubNztw7q5mT3Ezmzru/OfNnk81AgT29wKCnpN9RxoBX4NtTdWDc6kQl4BA4DVQ9RiQqFJo/cHcxkaOEE1mVXHAimx2SWW/3Uc0AizmW5BeYsAPc5VCSm5q9nF7cahaZjf/+FUVZCgSeA1NA7U9/3/UvArOSm5rJQOCEW9MDfLmebLvbmJVjqekLBJYj6xquJ9tfyoHZfjLybizzhoIHY5l7jcyVscylRubEWOZYI7NtLLOlkVk1llnRyMwZy8xqZEaNZUY0Ml1Ay0im5fJUvBjJPGPAtSe4kiAz7ZmRHDVnnuAbYNn9n226XtPtS//WMyM5aqoxL2Pa2rWQWTOSkRw1w8CnUuQDGMKIBeApo8gjME8ODMR8eYgrWV+Alh+Xya1XdMvQDwAAAABJRU5ErkJggg=="></a>
                             </div>
                         </td>
+                        *@
                     </tr>
                     }
                 }
@@ -93,19 +92,19 @@
         
     </table>
 </div>
+@if (Model.TotalPaginas > 1)
+{
+    <div class="paginationn">
+        @{
+            var anterior = !Model.PaginaAnterior ? "disabled" : "";
+            var proximo = !Model.ProximaPagina ? "disabled" : "";
 
-<div class="paginationn">
-    @{
-        var anterior = !Model.PaginaAnterior ? "disabled" : "";
-        var meio = !Model.ProximaPagina && !Model.PaginaAnterior ? "display:none" : "";
-        var proximo = !Model.ProximaPagina ? "disabled" : "";
-
-    }
-    <a asp-action="ListarProfVinculados" asp-route-id="@(ViewBag.Id)" asp-route-pagina="@(Model.PaginaInicial-1)" asp-route-Filter="@(ViewBag.Filter )" asp-route-Ordenar="@(ViewBag.OrdenarPg)" class="btn btn-primary @anterior"> Anterior</a>
-    @using (Html.BeginForm("ListarProfVinculados", "Posgraduacao_Professor", FormMethod.Get, new { style = @meio }))
+        }
+        <a asp-action="ListarProfVinculados" asp-route-id="@(ViewBag.Id)" asp-route-pagina="@(Model.PaginaInicial-1)" asp-route-Filter="@(ViewBag.Filter )" asp-route-Ordenar="@(ViewBag.OrdenarPg)" class="btn btn-primary @anterior"> Anterior</a>
+        @using (Html.BeginForm("ListarProfVinculados", "Posgraduacao_Professor", FormMethod.Get))
         {
 
-        @Html.TextBox("pagina" ,null, new { maxlength="3"})
+            @Html.TextBox("pagina" ,null, new { maxlength="3"})
             <div style="display:none;">
                 @Html.TextBox("Filter", ViewBag.Filter as string)
                 @Html.TextBox("Ordenar", ViewBag.OrdenarPg as string)
@@ -113,13 +112,17 @@
             </div>
 
         }
-    <a asp-action="ListarProfVinculados" asp-route-id="@(ViewBag.Id)" asp-route-pagina="@(Model.PaginaInicial+1)" asp-route-Filter="@(ViewBag.Filter )" asp-route-Ordenar="@(ViewBag.OrdenarPg)" class="btn btn-primary @proximo"> Proximo</a>
+        <a asp-action="ListarProfVinculados" asp-route-id="@(ViewBag.Id)" asp-route-pagina="@(Model.PaginaInicial+1)" asp-route-Filter="@(ViewBag.Filter )" asp-route-Ordenar="@(ViewBag.OrdenarPg)" class="btn btn-primary @proximo"> Proximo</a>
 
-</div>
-<div class="paginationlocation">
-    <p>@(Model.PaginaInicial) de @(Model.TotalPaginas)</p>
-</div>
-
+    </div>
+    <div class="paginationlocation">
+        <p>@(
+                 Model.PaginaInicial
+                 ) de @(
+           Model.TotalPaginas
+           )</p>
+    </div>
+}
 <script>
 
     function deletar(id_user,pos_id) {

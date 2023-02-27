@@ -1,5 +1,6 @@
 ﻿using java.awt;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using SPCPP.Model.Filters;
 using SPCPP.Model.Models;
 using SPCPP.Service.Interface;
@@ -8,7 +9,7 @@ using SPCPP.Service.Interface;
 
 namespace SPCPP.Web.Controllers
 {
-    //[PaginaRestritaSomenteAdmin]
+    [PaginaRestritaSomenteAdmin]
     public class UserController : Controller
     {
         private readonly IUserService _userService;
@@ -20,6 +21,10 @@ namespace SPCPP.Web.Controllers
         {
             try
             {
+                string sessaoUsuario = ControllerContext.HttpContext.Session.GetString("sessaoUsuarioLogado");           
+                User usuario = JsonConvert.DeserializeObject<User>(sessaoUsuario);
+                ViewBag.Perfil = usuario.Perfil;
+
                 ViewBag.OrdernarPg = Ordenar;
                 ViewBag.NameParm = String.IsNullOrEmpty(Ordenar) ? "nome" : "";
                 ViewBag.DateParm = Ordenar == "data" ? "data_desc" : "data";
@@ -89,12 +94,22 @@ namespace SPCPP.Web.Controllers
         }
         public IActionResult Criar()
         {
+            string sessaoUsuario = ControllerContext.HttpContext.Session.GetString("sessaoUsuarioLogado");
+            User usuario = JsonConvert.DeserializeObject<User>(sessaoUsuario);
+
+            ViewBag.Perfil = usuario.Perfil;
+
             return View();
         }
         public IActionResult Editar(ulong id)
         {
+            string sessaoUsuario = ControllerContext.HttpContext.Session.GetString("sessaoUsuarioLogado");
+            User usuariologado = JsonConvert.DeserializeObject<User>(sessaoUsuario);
+
+            ViewBag.Perfil = usuariologado.Perfil;
+
             User usuario = _userService.PesquisarPorId(id);
-            return View();
+            return View(usuario);
         }
         public IActionResult Deletar(ulong id)
         {

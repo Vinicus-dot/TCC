@@ -1,6 +1,7 @@
 ﻿using com.sun.xml.@internal.bind.v2.model.core;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Newtonsoft.Json;
 using SPCPP.Model.Filters;
 using SPCPP.Model.Models;
 using SPCPP.Service.Interface;
@@ -9,7 +10,7 @@ using System.Xml.Linq;
 
 namespace SPCPP.Web.Controllers
 {
-    //[PaginaParaUsuarioLogado]
+    [PaginaParaUsuarioLogado]
     public class PosgraduacaoController : Controller
     {
         private readonly IPosgraduacaoService _posgraduacaoService;
@@ -22,6 +23,12 @@ namespace SPCPP.Web.Controllers
         {
             try
             {
+                string sessaoUsuario = ControllerContext.HttpContext.Session.GetString("sessaoUsuarioLogado");
+                User usuario = JsonConvert.DeserializeObject<User>(sessaoUsuario);
+
+                ViewBag.Perfil = usuario.Perfil;
+                
+
                 ViewBag.OrdernarPg = Ordenar;
                 ViewBag.NameParm = String.IsNullOrEmpty(Ordenar) ? "nome" : "";
                 ViewBag.DateParm = Ordenar == "data" ? "data_desc" : "data";
@@ -118,6 +125,11 @@ namespace SPCPP.Web.Controllers
 
         public IActionResult Create()
         {
+            string sessaoUsuario = ControllerContext.HttpContext.Session.GetString("sessaoUsuarioLogado");
+            User usuariologado = JsonConvert.DeserializeObject<User>(sessaoUsuario);
+
+            ViewBag.Perfil = usuariologado.Perfil;
+
             return View();
         }
 
@@ -147,6 +159,9 @@ namespace SPCPP.Web.Controllers
 
         public IActionResult Editar(ulong id)
         {
+            string sessaoUsuario = ControllerContext.HttpContext.Session.GetString("sessaoUsuarioLogado");
+            User usuariologado = JsonConvert.DeserializeObject<User>(sessaoUsuario);
+            ViewBag.Perfil = usuariologado.Perfil;
             Posgraduacao posgraduacao = _posgraduacaoService.PesquisarPorId(id);
             return View(posgraduacao);
         }

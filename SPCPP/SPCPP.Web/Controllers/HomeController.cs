@@ -7,7 +7,7 @@ using System.Diagnostics;
 
 namespace SPCPP.Web.Controllers
 {
-    //[PaginaParaUsuarioLogado]
+    
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -19,14 +19,17 @@ namespace SPCPP.Web.Controllers
 
         public IActionResult Index()
         {
-            ViewBag.Logado = true;
+            ViewBag.Logado = true;           
             string sessaoUsuario = ControllerContext.HttpContext.Session.GetString("sessaoUsuarioLogado");
 
+            User usuario = new User();
             if (string.IsNullOrEmpty(sessaoUsuario))
                 ViewBag.Logado = false;
-            
+            else
+            usuario = JsonConvert.DeserializeObject<User>(sessaoUsuario);
 
-            return View();
+            ViewBag.Perfil = usuario.Perfil;
+            return View(usuario);
 
         }
 

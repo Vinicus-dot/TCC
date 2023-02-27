@@ -1,6 +1,8 @@
 ﻿using java.awt;
 using javax.annotation.processing;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using SPCPP.Model.Filters;
 using SPCPP.Model.Models;
 using SPCPP.Model.Models.Request;
 using SPCPP.Service.Interface;
@@ -8,6 +10,7 @@ using SPCPP.Service.Services;
 
 namespace SPCPP.Web.Controllers
 {
+    [PaginaRestritaAvaliador]
     public class ProfessorController : Controller
     {
         private readonly IProfessorService _professorService;
@@ -19,7 +22,11 @@ namespace SPCPP.Web.Controllers
         {
             try
             {
-               
+                string sessaoUsuario = ControllerContext.HttpContext.Session.GetString("sessaoUsuarioLogado");
+                User usuario = JsonConvert.DeserializeObject<User>(sessaoUsuario);
+
+                ViewBag.Perfil = usuario.Perfil;
+
                 int totalpagina = Convert.ToInt32(_professorService.GetParametro("NUMERO_PAGINATION"));
                 List<Professor> professores = _professorService.Listar();
 
@@ -111,6 +118,10 @@ namespace SPCPP.Web.Controllers
 
         public IActionResult Create()
         {
+            string sessaoUsuario = ControllerContext.HttpContext.Session.GetString("sessaoUsuarioLogado");
+            User usuariologado = JsonConvert.DeserializeObject<User>(sessaoUsuario);
+            ViewBag.Perfil = usuariologado.Perfil;
+
             return View();
         }
 
@@ -163,6 +174,10 @@ namespace SPCPP.Web.Controllers
 
         public IActionResult Editar(ulong id)
         {
+            string sessaoUsuario = ControllerContext.HttpContext.Session.GetString("sessaoUsuarioLogado");
+            User usuariologado = JsonConvert.DeserializeObject<User>(sessaoUsuario);
+            ViewBag.Perfil = usuariologado.Perfil;
+
             Professor professor = _professorService.PesquisarProfessor(id);
             return View(professor);
         }

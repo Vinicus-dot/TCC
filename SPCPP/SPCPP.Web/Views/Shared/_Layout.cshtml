@@ -19,9 +19,18 @@
                 <img src="~/imagens/logologado.png" alt="Logo UFU logado" style="width: 150px; height: 125px; ">
             </a>
             <a id="inicio" asp-area="" asp-controller="Home" asp-action="Index">UFU - SPCPP</a>
-            <a class="" asp-area="" asp-controller="Professor" asp-action="Index">PROFESSOR</a>
+            @if (ViewBag.Perfil == SPCPP.Model.Enums.PerfilEnum.Admin || ViewBag.Perfil == SPCPP.Model.Enums.PerfilEnum.Avaliador)
+            {
+                <a class="" asp-area="" asp-controller="Professor" asp-action="Index">PROFESSOR</a>
+            }
+
+            
             <a class="" asp-area="" asp-controller="Posgraduacao" asp-action="Index">POSGRADUAÇÃO</a>
-            <a class="" asp-area="" asp-controller="User" asp-action="Index">USUÁRIOS</a>
+            @if (ViewBag.Perfil == SPCPP.Model.Enums.PerfilEnum.Admin)
+            {
+
+                <a class="" asp-area="" asp-controller="User" asp-action="Index">USUÁRIOS</a>
+            }
             <button class="dropdown-btn">
                 PERFIL
                 <i class="fa fa-caret-down"></i>

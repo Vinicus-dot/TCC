@@ -59,7 +59,7 @@ namespace SPCPP.Model.Models
 
         public bool Administrativo { get; set; }
 
-        public bool Avaliador { get; set; }
+      
 
 
 

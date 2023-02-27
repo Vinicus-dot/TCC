@@ -1,5 +1,5 @@
 ﻿@using SPCPP.Model.Models
-
+@model User
 
 @{
     @if (ViewBag.Logado)
@@ -12,6 +12,43 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    @if (ViewBag.Logado)
+    { 
+        <h1 class="display-7">Bem Vindo(a), @Model.Nome !! </h1>
+    }
+    else
+    {
+        <h1 class="display-6">Sistema para Credenciamento de Professor na Pós-graduação</h1>
+    }
+    <div class="home">
+
+        <div class="itenshome">
+            <p style="margin-bottom: 20px;">
+                <em>
+                    O intuito do sistema de credenciamento de professores na pós-graduação (SPCPP) na UFU é facilitar e automatizar o processo de credenciamento de docentes em programas de pós-graduação da instituição. O sistema permite que os professores interessados em participar de programas de pós-graduação da UFU possam submeter seus currículos para análise e aprovação pelas comissões de credenciamento de cada programa. Com o SPCPP, é possível agilizar o processo de credenciamento, tornando-o mais transparente e eficiente para os envolvidos.
+                </em>
+                <a href="https://ufu.br" target="_blank">UFU</a>.
+            </p>
+        </div>
+
+       <div class="itenshome">
+            <img src="~/imagens/ufu_reitoria-_2_0.jpg" alt="Logo reitoria">
+        </div>
+    </div>
+    <div class="home">
+        <div class="itenshome">
+            <img src="~/imagens/lattes.jpeg" alt="Logo lattes">
+        </div>
+        <div class="itenshome">
+            <p style="margin-bottom: 20px;">
+
+                O Sistema de Credenciamento do Programa de Pós-Graduação em Mecânica exige o envio do currículo Lattes em formato XML para o processo de credenciamento. Para obter esse arquivo, é possível acessar o site <a href="https://buscatextual.cnpq.br/buscatextual/busca.do" target="_blank">Lattes</a>  e realizar uma busca pelo seu nome, caso já possua um cadastro.
+                
+                
+            </p>
+        </div>
+        
+    </div>
+
+    
 </div>
