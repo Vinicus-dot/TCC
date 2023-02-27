@@ -29,7 +29,7 @@
     <br />
     <div class="form2Content">
     <div class="form-group">
-        <label for="nome" class="form-label">Login</label>
+        <label for="nome" class="form-label">Login (SIAPE)</label>
         <input type="text" asp-for="Login" class="form-control" placeholder="Digite o login do professor">
         @Html.ValidationMessageFor(p => p.Login)
     </div>
@@ -74,23 +74,7 @@
         @Html.ValidationMessageFor(p => p.Status)
     </div>
     </div>
-
-    <div id="formCheck" >
-    <div class="form-group form-check">
-        <label class="form-check-label">
-            <input class="form-check-input" asp-for="Afastado" /> @Html.DisplayNameFor(model => model.Afastado)
-        </label>
-    </div>
-  
-    
-    
-    <div class="form-group form-check">
-        <label class="form-check-label">
-            <input class="form-check-input" asp-for="Administrativo" /> @Html.DisplayNameFor(model => model.Administrativo)
-        </label>
-    </div>
-   
-   </div>
+ 
     <br/>
     
 

@@ -56,9 +56,6 @@ namespace SPCPP.Model.Models.Request
         [StringLength(255)]
         public string Status { get; set; }
 
-        public bool Afastado { get; set; }
-
-        public bool Administrativo { get; set; }
 
         
 

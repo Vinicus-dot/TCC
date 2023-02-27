@@ -56,9 +56,6 @@ namespace SPCPP.Service.Services
                 professor.Data_nasc = professorRequest.Data_nasc;
                 professor.Carga_atual = professorRequest.Carga_atual;
                 professor.Status = professorRequest.Status;
-                professor.Afastado = professorRequest.Afastado;
-                professor.Administrativo = professor.Administrativo;
-                
 
                 professor.user_id = usuario.Id;
 

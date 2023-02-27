@@ -148,14 +148,6 @@ namespace SPCPP.Model.Models
                   .HasMaxLength(150)
                   .HasColumnName("Status");
 
-                entity.Property(e => e.Afastado)
-                  .HasColumnType("tinyint(1)")
-                  .HasColumnName("Afastado");
-
-                entity.Property(e => e.Administrativo)
-                  .HasColumnType("tinyint(1)")
-                  .HasColumnName("Administrativo");
-
 
                 entity.HasOne(d => d.Users)
                     .WithMany(p => p.Professors)
