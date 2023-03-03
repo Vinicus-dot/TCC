@@ -39,6 +39,7 @@ namespace SPCPP.Service.Services
                 posgraduacao_Professor.posgraduacao_id = posgraduacao_id;
                 posgraduacao_Professor.professor_id = usuario.Id;
                 posgraduacao_Professor.DataCadastro = DateTime.Now;
+                posgraduacao_Professor.status = "Aguardando Avaliação";
                 posgraduacao_Professor.nota = notas.nota;
                 posgraduacao_Professor.A1 = notas.A1;
                 posgraduacao_Professor.A2 = notas.A2;
@@ -105,12 +106,12 @@ namespace SPCPP.Service.Services
             }
         }
 
-        public SolucaoMecanica calcularNota(XElement root, string nome , ulong posgraducao_id)
+        public SolucaoMecanica calcularNota(XElement root, double indiceh,string nome , ulong posgraducao_id)
         {
             try
             {
 
-                return _posgraduacao_ProfessorRepository.calcularNota(root,nome , posgraducao_id);
+                return _posgraduacao_ProfessorRepository.calcularNota(root,indiceh,nome , posgraducao_id);
             }
             catch (Exception)
             {

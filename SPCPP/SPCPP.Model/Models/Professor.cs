@@ -50,12 +50,6 @@ namespace SPCPP.Model.Models
         public DateTime? Data_aposentadoria { get; set; }
 
 
-        public int Carga_atual { get; set; }
-
-        [StringLength(255)]
-        public string Status { get; set; } 
-
-
         public User Users { get; set; } = null!;
         
         public ICollection<Posgraduacao_Professor>? Posgraduacao_Professors { get; set; } = null!;

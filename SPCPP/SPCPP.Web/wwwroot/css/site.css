@@ -243,6 +243,7 @@ footer p {
 .form3Content {
     display: flex;
     justify-content: space-between;
+    
 }
 
     .form3Content input {
@@ -254,6 +255,7 @@ footer p {
     display:flex;
     justify-content:space-between;
     flex-direction:column;
+
 }
 
 

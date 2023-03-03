@@ -54,8 +54,7 @@ namespace SPCPP.Service.Services
                 professor.Email = professorRequest.Email;
                 professor.Lotacao = professorRequest.Lotacao;
                 professor.Data_nasc = professorRequest.Data_nasc;
-                professor.Carga_atual = professorRequest.Carga_atual;
-                professor.Status = professorRequest.Status;
+               
 
                 professor.user_id = usuario.Id;
 

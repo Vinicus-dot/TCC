@@ -16,7 +16,7 @@ namespace SPCPP.Repository.Interface
 
         Task<bool> deletar(ulong id, ulong posid);
 
-        SolucaoMecanica calcularNota(XElement root, string nome ,ulong posgraducao_id);
+        SolucaoMecanica calcularNota(XElement root, double indiceh, string nome ,ulong posgraducao_id);
 
         Task<Posgraduacao_Professor> verifcarUsuarioCadastrado(ulong professorId, ulong posgraducaoId);
 

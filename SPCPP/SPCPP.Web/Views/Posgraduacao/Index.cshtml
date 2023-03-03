@@ -48,8 +48,15 @@
                 </div>
                 <!--Body-->
 
+                <div class="mb-3" style="margin-top: 15px;margin-left: 75px;">
+                    <div style="display: flex;">
+                    <span class="input-group-text" id="inputGroup-sizing-default" style="width:75px;">Indice-H</span>
+                        <input id="indiceh" type="number" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" style="width:150px;">
+                   </div>
+                </div>
+
                 <input type="text" id="valorsalvo" style="display:none;" value="0" disabled>
-                <div class="mb-3" style="display: flex; justify-content:center; margin-top: 30px;">
+                <div class="mb-3" style="display: flex; justify-content:center; margin-top: 15px;">                  
                     <input name="file" class="form-control form-control-sm" id="formFileSm" type="file" style="width:350px;" accept=".xml">
                 </div>
 
@@ -199,19 +206,26 @@
        document.querySelector("#valorsalvo").value = id;
        
     }
+    var requisicaoEmAndamento = false;
 
     function UploadXml() {
 
+        if (requisicaoEmAndamento) {
+            // Já existe uma requisição em andamento, não faz nada
+            return;
+        }
+
         var file = document.getElementById("formFileSm").files[0];
         var id = document.querySelector("#valorsalvo").value;
-
+        var indiceh = document.querySelector("#indiceh").value;
         var formData = new FormData();
         
        
 
         formData.append("file", file);
         formData.append("id",id);
-
+        formData.append("indiceh", indiceh);
+        requisicaoEmAndamento = true;
         $.ajax({
             type: 'POST',
             url: '@Url.Action("UploadXml", "Posgraduacao_Professor")',
@@ -232,10 +246,11 @@
                 } else {
                     swal("Falha ao salvar cadastrar-se!", data.message, "error");
                 }
-
+                requisicaoEmAndamento = false;
             },
             error: function (data) {
                 swal("Falha ao salvar cadastrar-se!", data.message, "error");
+                requisicaoEmAndamento = false;
             }
         });
     }

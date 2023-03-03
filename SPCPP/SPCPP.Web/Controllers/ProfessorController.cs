@@ -36,9 +36,7 @@ namespace SPCPP.Web.Controllers
                 ViewBag.Data_NascParm = Ordenar == "data_nasc" ? "data_nasc_desc" : "data_nasc";
                 ViewBag.Data_exoneracaoParm = Ordenar == "data_exoneracao" ? "data_exoneracao_desc" : "data_exoneracao";
                 ViewBag.Data_saidaParm = Ordenar == "data_saida" ? "data_saida_desc" : "data_saida";
-                ViewBag.Data_aposentadoriaParm = Ordenar == "data_aposentadoria" ? "data_aposentadoria_desc" : "data_aposentadoria";
-                ViewBag.Carga_atualParm = Ordenar == "carga_atual" ? "carga_atual_desc" : "carga_atual";
-                ViewBag.StatusParm = Ordenar == "status" ? "status_desc" : "status";
+                ViewBag.Data_aposentadoriaParm = Ordenar == "data_aposentadoria" ? "data_aposentadoria_desc" : "data_aposentadoria";                
                 ViewBag.SiapeParm = Ordenar == "siape" ? "siape_desc" : "siape";
                 
                 if (pesquisar != null) pagina = 1; else pesquisar = Filter;
@@ -81,19 +79,7 @@ namespace SPCPP.Web.Controllers
                     case "data_aposentadoria_desc":
                         professores = professores.OrderByDescending(s => s.Data_aposentadoria).ToList();
                         break;
-                    case "carga_atual":
-                        professores = professores.OrderBy(s => s.Carga_atual).ToList();
-                        break;
-                    case "carga_atual_desc":
-                        professores = professores.OrderByDescending(s => s.Carga_atual).ToList();
-                        break;
-
-                    case "status":
-                        professores = professores.OrderBy(s => s.Status).ToList();
-                        break;
-                    case "status_desc":
-                        professores = professores.OrderByDescending(s => s.Status).ToList();
-                        break;
+                    
 
                     case "siape":
                         professores = professores.OrderBy(s => s.siape).ToList();

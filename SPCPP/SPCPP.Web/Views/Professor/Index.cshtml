@@ -52,8 +52,8 @@
                 <th scope="col">@Html.ActionLink("Data Exoneracao", "Index", new { Ordenar = ViewBag.Data_exoneracaoParm, Filter=ViewBag.Filter })</th>
                 <th scope="col">@Html.ActionLink("Data Saida", "Index", new { Ordenar = ViewBag.Data_saidaParm, Filter=ViewBag.Filter })</th>
                 <th scope="col">@Html.ActionLink("Data Aposentadoria", "Index", new { Ordenar = ViewBag.Data_aposentadoriaParm , Filter=ViewBag.Filter})</th>
-                <th scope="col">@Html.ActionLink("Carga Horária", "Index", new { Ordenar = ViewBag.Carga_atualParm , Filter=ViewBag.Filter})</th>
-                <th scope="col">@Html.ActionLink("Status", "Index", new { Ordenar = ViewBag.StatusParm , Filter=ViewBag.Filter})</th>
+                
+                
 
                 @if (ViewBag.Perfil == SPCPP.Model.Enums.PerfilEnum.Admin)
                 {
@@ -78,8 +78,8 @@
                         <td>@professor.Data_exoneracao</td>
                         <td>@professor.Data_saida</td>
                         <td>@professor.Data_aposentadoria</td>
-                        <td>@professor.Carga_atual</td>
-                        <td>@professor.Status</td>
+                        
+                       
                         @if (ViewBag.Perfil == SPCPP.Model.Enums.PerfilEnum.Admin)
                         {
                             <td>

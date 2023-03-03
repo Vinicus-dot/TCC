@@ -51,10 +51,9 @@ namespace SPCPP.Model.Models.Request
         public DateTime Data_nasc { get; set; }
 
 
-        public int Carga_atual { get; set; }
+       
 
-        [StringLength(255)]
-        public string Status { get; set; }
+        
 
 
         

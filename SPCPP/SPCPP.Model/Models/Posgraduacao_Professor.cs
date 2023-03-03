@@ -22,6 +22,7 @@ namespace SPCPP.Model.Models
 
         public DateTime? DataAtualizacao { get; set; }
 
+        public string? status { get; set; }
         public double A1 { get; set; }
         public double A2 { get; set; }
         public double A3 { get; set; }

@@ -25,7 +25,7 @@ namespace SPCPP.Repository.Repositorys
 
             _contextSPCPP.GetConnection();
 
-            string sql = $@"select  p.user_id,p.siape , p.Cnome , p.Email ,p.Data_nasc , pp.DataCadastro, p.Carga_atual ,p.Status, pp.nota
+            string sql = $@"select  p.user_id,p.siape , p.Cnome , p.Email ,p.Data_nasc , pp.DataCadastro, pp.status, pp.nota
                                         from professor p 
                                         right join posgraduacao_professor pp on p.user_id = pp.professor_id 
                                         left join  usuario u on u.id=pp.professor_id 
@@ -41,7 +41,7 @@ namespace SPCPP.Repository.Repositorys
         {
             _contextSPCPP.GetConnection();
 
-            string sql = $@"select  p.user_id,p.siape , p.Cnome , p.Email ,p.Data_nasc , pp.DataCadastro, p.Carga_atual ,p.Status, pp.nota
+            string sql = $@"select  p.user_id,p.siape , p.Cnome , p.Email ,p.Data_nasc , pp.DataCadastro, pp.status, pp.nota
                                         from professor p 
                                         right join posgraduacao_professor pp on p.user_id = pp.professor_id 
                                         left join  usuario u on u.id=pp.professor_id 
@@ -91,7 +91,7 @@ namespace SPCPP.Repository.Repositorys
         }
 
         #region Calcular nota
-        public SolucaoMecanica calcularNota(XElement root, string nome, ulong posgraducao_id)
+        public SolucaoMecanica calcularNota(XElement root, double indiceh, string nome, ulong posgraducao_id)
         {
             string erro = string.Empty;
             SolucaoMecanica solucaoMecanica = new SolucaoMecanica();
@@ -117,12 +117,12 @@ namespace SPCPP.Repository.Repositorys
                 //if (!nome.Contains(primeironome.ToLower()) && !nome.Contains(ultimonome.ToLower()) && !nome.Contains(name[1].ToLower()))
                 //throw new Exception("O Campo nome completo do XML não condiz com o perfil logado!");
 
-                string url = "https://www.scopus.com/results/authorNamesList.uri?sort=count-f&src=al&sid=2a8ed64d9cd0a572c1e221fa218d9633&sot=al&sdt=al&sl=45&s=AUTHLASTNAME%28ultimo_nome%29+AND+AUTHFIRST%28primeiro_nome%29&st1=ultimo_nome&st2=primeiro_nome&orcidId=&selectionPageSearch=anl&reselectAuthor=false&activeFlag=true&showDocument=false&resultsPerPage=20&offset=1&jtp=false&currentPage=1&previousSelectionCount=0&tooManySelections=false&previousResultCount=0&authSubject=LFSC&authSubject=HLSC&authSubject=PHSC&authSubject=SOSC&exactAuthorSearch=false&showFullList=false&authorPreferredName=&origin=searchauthorfreelookup&affiliationId=&txGid=0f6d3b1681be8dbfe4f429c0e2dbe0ea";
-                url = url.Replace("primeiro_nome", primeironome);
-                url = url.Replace("ultimo_nome", ultimonome);
+                //string url = "https://www.scopus.com/results/authorNamesList.uri?sort=count-f&src=al&sid=2a8ed64d9cd0a572c1e221fa218d9633&sot=al&sdt=al&sl=45&s=AUTHLASTNAME%28ultimo_nome%29+AND+AUTHFIRST%28primeiro_nome%29&st1=ultimo_nome&st2=primeiro_nome&orcidId=&selectionPageSearch=anl&reselectAuthor=false&activeFlag=true&showDocument=false&resultsPerPage=20&offset=1&jtp=false&currentPage=1&previousSelectionCount=0&tooManySelections=false&previousResultCount=0&authSubject=LFSC&authSubject=HLSC&authSubject=PHSC&authSubject=SOSC&exactAuthorSearch=false&showFullList=false&authorPreferredName=&origin=searchauthorfreelookup&affiliationId=&txGid=0f6d3b1681be8dbfe4f429c0e2dbe0ea";
+                //url = url.Replace("primeiro_nome", primeironome);
+                //url = url.Replace("ultimo_nome", ultimonome);
 
-                var response = CallUrl(url).Result;
-                double h_index = Convert.ToDouble(response.Substring(response.IndexOf("dataCol4 alignRight\">") + 22, 3));
+                //var response = CallUrl(url).Result;
+                //double h_index = Convert.ToDouble(response.Substring(response.IndexOf("dataCol4 alignRight\">") + 22, 3));
 
 
 
@@ -495,7 +495,7 @@ namespace SPCPP.Repository.Repositorys
                 solucaoMecanica.DP = dp;
                 solucaoMecanica.PC = pc;
                 solucaoMecanica.PQ = pq;
-                solucaoMecanica.indiceH = h_index;
+                solucaoMecanica.indiceH = indiceh;
                 solucaoMecanica.nota = NotaMecanica(solucaoMecanica);
 
             }

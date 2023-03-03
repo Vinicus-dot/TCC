@@ -53,8 +53,7 @@
                 <th scope="col">@Html.ActionLink("Data de Cadastro", "ListarProfVinculados", new { Ordenar = ViewBag.DataCadastroParm, Nome=ViewBag.Nome })</th>
                 @*<th scope="col">@Html.ActionLink("Data Exoneracao", "ListarProfVinculados", new { Ordenar = ViewBag.Data_exoneracaoParm, Nome=ViewBag.Nome })</th>
                 <th scope="col">@Html.ActionLink("Data Saida", "ListarProfVinculados", new { Ordenar = ViewBag.Data_saidaParm, Nome=ViewBag.Nome })</th>
-                <th scope="col">@Html.ActionLink("Data Aposentadoria", "ListarProfVinculados", new { Ordenar = ViewBag.Data_aposentadoriaParm , Nome=ViewBag.Nome})</th>*@
-                <th scope="col">@Html.ActionLink("Carga Horária", "ListarProfVinculados", new { Ordenar = ViewBag.Carga_atualParm , Nome=ViewBag.Nome})</th>
+                <th scope="col">@Html.ActionLink("Data Aposentadoria", "ListarProfVinculados", new { Ordenar = ViewBag.Data_aposentadoriaParm , Nome=ViewBag.Nome})</th>*@               
                 <th scope="col">@Html.ActionLink("Status", "ListarProfVinculados", new { Ordenar = ViewBag.StatusParm , Nome=ViewBag.Nome})</th>
                 <th scope="col">@Html.ActionLink("Nota", "ListarProfVinculados", new { Ordenar = ViewBag.NotaParm , Nome=ViewBag.Nome})</th>
 
@@ -75,8 +74,7 @@
                         @*<td>@professor.Data_exoneracao</td>
                         <td>@professor.Data_saida</td>
                         <td>@professor.Data_aposentadoria</td>*@
-                        <td>@professor.Carga_atual</td>
-                        <td>@professor.Status</td>
+                        <td>@professor.status</td>
                         <td>@professor.nota</td>
                         @*<td>
                             <div>

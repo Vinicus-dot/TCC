@@ -140,15 +140,6 @@ namespace SPCPP.Model.Models
                     .HasColumnType("datetime")
                    .HasColumnName("Data_aposentadoria");
 
-                entity.Property(e => e.Carga_atual)
-                   .HasColumnType("int")
-                  .HasColumnName("Carga_atual");
-
-                entity.Property(e => e.Status)
-                  .HasMaxLength(150)
-                  .HasColumnName("Status");
-
-
                 entity.HasOne(d => d.Users)
                     .WithMany(p => p.Professors)
                     .HasForeignKey(d => d.user_id)
@@ -234,6 +225,10 @@ namespace SPCPP.Model.Models
 
                 entity.Property(e => e.DataAtualizacao).HasColumnType("datetime")
                    .HasColumnName("DataAtualizacao");
+
+                entity.Property(e => e.status)
+                  .HasMaxLength(45)
+                  .HasColumnName("status");
 
                 entity.Property(e => e.A1)
                     .HasColumnType("double")
