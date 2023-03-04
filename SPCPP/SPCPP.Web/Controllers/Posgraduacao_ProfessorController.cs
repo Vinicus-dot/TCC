@@ -25,6 +25,20 @@ namespace SPCPP.Web.Controllers
             _posgraduacaoService = posgraduacaoService;
         }
 
+        
+        public IActionResult SalvarStatus(ulong professor_id , ulong posgraduacao_id , string status)
+        {
+            try
+            {
+                return Json(new { success = true, message = $"Sucesso em salvar status!" });
+            }
+            catch (Exception e)
+            {
+                return Json(new { success = false, message = e.Message });
+            }
+
+           
+        }
         [HttpPost]
         public IActionResult UploadXml(IFormFile file, ulong id,double indiceh)
         {

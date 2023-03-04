@@ -25,7 +25,7 @@ namespace SPCPP.Repository.Repositorys
 
             _contextSPCPP.GetConnection();
 
-            string sql = $@"select  p.user_id,p.siape , p.Cnome , p.Email ,p.Data_nasc , pp.DataCadastro, pp.status, pp.nota
+            string sql = $@"select  p.user_id,p.siape , p.Cnome , p.Email,pp.posgraduacao_id ,p.Data_nasc , pp.DataCadastro, pp.status, pp.nota
                                         from professor p 
                                         right join posgraduacao_professor pp on p.user_id = pp.professor_id 
                                         left join  usuario u on u.id=pp.professor_id 
@@ -41,7 +41,7 @@ namespace SPCPP.Repository.Repositorys
         {
             _contextSPCPP.GetConnection();
 
-            string sql = $@"select  p.user_id,p.siape , p.Cnome , p.Email ,p.Data_nasc , pp.DataCadastro, pp.status, pp.nota
+            string sql = $@"select  p.user_id,p.siape , p.Cnome , p.Email ,pp.posgraduacao_id,p.Data_nasc , pp.DataCadastro, pp.status, pp.nota
                                         from professor p 
                                         right join posgraduacao_professor pp on p.user_id = pp.professor_id 
                                         left join  usuario u on u.id=pp.professor_id 

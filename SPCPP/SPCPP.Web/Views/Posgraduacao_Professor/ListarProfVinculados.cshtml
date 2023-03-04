@@ -42,6 +42,45 @@
     }
     </div>
     
+    <!-- Modal: modalXml -->
+    <div class="modal fade" id="modalXml" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <!--Header-->
+
+
+
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">Avaliação</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <!--Body-->
+
+               
+
+                
+                <div class="form-group">
+                    <label for="nome" class="form-label">Status</label>
+                    <select id="statusselecionado" class="form-control">
+                        <option value="Aguardando Avaliação">Selecionar</option>
+                        <option value="Aprovado">Aprovado</option>
+                        <option value="Reprovado">Reprovado</option>
+                    </select>    
+                </div>
+
+                <!--Footer-->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Voltar</button>
+                    <button class="btn btn-primary" onclick="salvarstatus()">Atualizar</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Modal: modalXml -->
+
     <table class="table" id="table-professors">
         <thead>
             <tr>
@@ -56,6 +95,7 @@
                 <th scope="col">@Html.ActionLink("Data Aposentadoria", "ListarProfVinculados", new { Ordenar = ViewBag.Data_aposentadoriaParm , Nome=ViewBag.Nome})</th>*@               
                 <th scope="col">@Html.ActionLink("Status", "ListarProfVinculados", new { Ordenar = ViewBag.StatusParm , Nome=ViewBag.Nome})</th>
                 <th scope="col">@Html.ActionLink("Nota", "ListarProfVinculados", new { Ordenar = ViewBag.NotaParm , Nome=ViewBag.Nome})</th>
+                <th scope="col"> </th>
 
                 
             </tr>
@@ -76,6 +116,20 @@
                         <td>@professor.Data_aposentadoria</td>*@
                         <td>@professor.status</td>
                         <td>@professor.nota</td>
+                        <td>
+                            @if (professor.status != "Aprovado")
+                            {
+                                <div>
+                                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalXml" onclick="SalvarId(@professor.user_id,@professor.posgraduacao_id)">Validar</button>
+                                </div>  
+                            }
+                            else
+                            {
+                                <div>
+                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalXml" onclick="SalvarId(@professor.user_id,@professor.posgraduacao_id)">Reavaliar</button>
+                                </div>
+                            }
+                            <td/>
                         @*<td>
                             <div>
                                 <a role="button"  onclick="deletar(@professor.user_id,@ViewBag.PosId)"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACMAAAAjCAYAAAAe2bNZAAAACXBIWXMAAAsTAAALEwEAmpwYAAABXUlEQVR4nO2YPy8EURRHj1AIUdiE0MhGRaJYUVCSSNQKShW+ALXESiwqSp2Shm+gpUBNUGxNQbLJrorc5Ekm8ubNztw7q5mT3Ezmzru/OfNnk81AgT29wKCnpN9RxoBX4NtTdWDc6kQl4BA4DVQ9RiQqFJo/cHcxkaOEE1mVXHAimx2SWW/3Uc0AizmW5BeYsAPc5VCSm5q9nF7cahaZjf/+FUVZCgSeA1NA7U9/3/UvArOSm5rJQOCEW9MDfLmebLvbmJVjqekLBJYj6xquJ9tfyoHZfjLybizzhoIHY5l7jcyVscylRubEWOZYI7NtLLOlkVk1llnRyMwZy8xqZEaNZUY0Ml1Ay0im5fJUvBjJPGPAtSe4kiAz7ZmRHDVnnuAbYNn9n226XtPtS//WMyM5aqoxL2Pa2rWQWTOSkRw1w8CnUuQDGMKIBeApo8gjME8ODMR8eYgrWV+Alh+Xya1XdMvQDwAAAABJRU5ErkJggg=="></a>
@@ -122,6 +176,52 @@
     </div>
 }
 <script>
+    var requisicaoEmAndamento = false;
+    var requestprofessor_id = 0;
+    var requestposgraduacao_id = 0;
+    function SalvarId(professor_id,posgraduacao_id) {
+        requestprofessor_id = professor_id;
+        requestposgraduacao_id = posgraduacao_id;
+    }
+
+    function salvarstatus() {
+
+        if (requisicaoEmAndamento) {
+            // Já existe uma requisição em andamento, não faz nada
+            return;
+        }
+
+        var statusalt = document.querySelector("#statusselecionado").value;
+        requisicaoEmAndamento = true;
+        $.ajax({
+
+            type: 'GET',
+            url: '@Url.Action("SalvarStatus", "Posgraduacao_Professor")',
+            data: { professor_id:requestprofessor_id, posgraduacao_id:requestposgraduacao_id, status:statusalt},
+            contentType: false,
+            cache: false,
+
+            success: function (data) {
+                if (data.success) {
+                    swal({
+                        title: "Sucesso!",
+                        text: data.message,
+                        type: "success",
+                        timer: 30000
+                    }, function () { }).then(function () {
+                        window.location.href = "@Url.Action("ListarProfVinculados","Posgraduacao_Professor")";
+                    });
+                } else {
+                    swal("Falha ao alterar status professor!", data.message, "error");
+                }
+                requisicaoEmAndamento = false;
+            },
+            error: function (data) {
+                swal("Falha ao alterar status professor!", data.message, "error");
+                requisicaoEmAndamento = false;
+            }
+        });
+    }
 
     function deletar(id_user,pos_id) {
        

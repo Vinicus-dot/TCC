@@ -9,13 +9,13 @@ namespace SPCPP.Model.Models.Request
     public class ProfessorCadastrado
     {
         
-        public string user_id { get; set; }
+        public ulong user_id { get; set; }
         public string siape { get; set; }
 
         public string Cnome { get; set; }
 
         public string Email { get; set; }
-
+        public ulong posgraduacao_id { get; set; }
         public DateTime Data_nasc { get; set; }
         public DateTime DataCadastro { get; set; }
         public double nota { get; set; }
