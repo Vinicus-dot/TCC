@@ -20,5 +20,7 @@ namespace SPCPP.Repository.Interface
 
         Task<Posgraduacao_Professor> verifcarUsuarioCadastrado(ulong professorId, ulong posgraducaoId);
 
+        ProfessorCadastrado SalvarStatus(ulong professor_id, ulong posgraduacao_id, string status);
+
     }
 }

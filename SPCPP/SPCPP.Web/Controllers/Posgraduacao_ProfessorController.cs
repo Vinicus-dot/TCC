@@ -30,7 +30,8 @@ namespace SPCPP.Web.Controllers
         {
             try
             {
-                return Json(new { success = true, message = $"Sucesso em salvar status!" });
+                ProfessorCadastrado professorCastrado = _posgraduacao_ProfessorService.SalvarStatus(professor_id,posgraduacao_id,status);
+                return Json(new { success = true, message = $@"Sucesso em salvar Professor: {professorCastrado.Cnome} com o Status: {professorCastrado.status}!" });
             }
             catch (Exception e)
             {
@@ -80,7 +81,7 @@ namespace SPCPP.Web.Controllers
             }
         }
 
-        public IActionResult ListarProfVinculados(ulong id, int? pagina, string? Filter, string Ordenar)
+        public IActionResult ListarProfVinculados(ulong id, int? pagina, string? nome, string Ordenar)
         {
             try
             {
@@ -90,15 +91,15 @@ namespace SPCPP.Web.Controllers
                 ViewBag.Perfil = usuariologado.Perfil;
 
 
-                ViewBag.Filter = Filter;
+                ViewBag.Nome = nome;
                 int totalpagina = Convert.ToInt32(_posgraduacaoService.GetParametro("NUMERO_PAGINATION"));
                 Posgraduacao posgraduacao = _posgraduacaoService.PesquisarPorId(id);
                 TempData["Posgraduacao"] = posgraduacao.nome.ToUpper();
                 ViewBag.PosId = posgraduacao.id;
                 List<ProfessorCadastrado> professores = new List<ProfessorCadastrado>();
-                if (!string.IsNullOrEmpty(Filter))
+                if (!string.IsNullOrEmpty(nome))
                 {
-                    professores = _posgraduacao_ProfessorService.PesquisarPorNome(id, Filter).Result;
+                    professores = _posgraduacao_ProfessorService.PesquisarPorNome(id, nome).Result;
                     
                 }
                 else
@@ -114,7 +115,7 @@ namespace SPCPP.Web.Controllers
                 //ViewBag.Data_exoneracaoParm = Ordenar == "data_exoneracao" ? "data_exoneracao_desc" : "data_exoneracao";
                 //ViewBag.Data_saidaParm = Ordenar == "data_saida" ? "data_saida_desc" : "data_saida";
                 //ViewBag.Data_aposentadoriaParm = Ordenar == "data_aposentadoria" ? "data_aposentadoria_desc" : "data_aposentadoria";
-                
+                ViewBag.Data_atualizacaoParm = Ordenar == "data_att" ? "data_att_desc" : "data_att";
                 ViewBag.StatusParm = Ordenar == "status" ? "status_desc" : "status";
                 ViewBag.SiapeParm = Ordenar == "siape" ? "siape_desc" : "siape";
                 ViewBag.NotaParm = Ordenar == "nota" ? "nora_desc" : "nota";
@@ -149,6 +150,13 @@ namespace SPCPP.Web.Controllers
                         break;
                     case "data_cadastro_desc":
                         professores = professores.OrderByDescending(s => s.DataCadastro).ToList();
+                        break; 
+                    
+                    case "data_att":
+                        professores = professores.OrderBy(s => s.DataAtualizacao).ToList();
+                        break;
+                    case "data_att_desc":
+                        professores = professores.OrderByDescending(s => s.DataAtualizacao).ToList();
                         break;
                     //case "data_exoneracao":
                     //    professores = professores.OrderBy(s => s.Data_exoneracao).ToList();

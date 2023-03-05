@@ -23,5 +23,7 @@ namespace SPCPP.Service.Interface
         SolucaoMecanica calcularNota(XElement root, double indiceh, string nome, ulong posgraducao_id);
 
         Posgraduacao_Professor verifcarUsuarioCadastrado(ulong professorId, ulong posgraducaoId);
+
+        ProfessorCadastrado SalvarStatus(ulong professor_id, ulong posgraduacao_id, string status);
     }
 }

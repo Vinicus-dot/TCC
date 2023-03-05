@@ -25,7 +25,7 @@ namespace SPCPP.Repository.Repositorys
 
             _contextSPCPP.GetConnection();
 
-            string sql = $@"select  p.user_id,p.siape , p.Cnome , p.Email,pp.posgraduacao_id ,p.Data_nasc , pp.DataCadastro, pp.status, pp.nota
+            string sql = $@"select  p.user_id,p.siape , p.Cnome , p.Email,pp.posgraduacao_id ,p.Data_nasc , pp.DataCadastro,pp.DataAtualizacao, pp.status, pp.nota
                                         from professor p 
                                         right join posgraduacao_professor pp on p.user_id = pp.professor_id 
                                         left join  usuario u on u.id=pp.professor_id 
@@ -41,7 +41,7 @@ namespace SPCPP.Repository.Repositorys
         {
             _contextSPCPP.GetConnection();
 
-            string sql = $@"select  p.user_id,p.siape , p.Cnome , p.Email ,pp.posgraduacao_id,p.Data_nasc , pp.DataCadastro, pp.status, pp.nota
+            string sql = $@"select  p.user_id,p.siape , p.Cnome , p.Email ,pp.posgraduacao_id,p.Data_nasc , pp.DataCadastro,pp.DataAtualizacao , pp.status, pp.nota
                                         from professor p 
                                         right join posgraduacao_professor pp on p.user_id = pp.professor_id 
                                         left join  usuario u on u.id=pp.professor_id 
@@ -133,7 +133,20 @@ namespace SPCPP.Repository.Repositorys
                 string query = string.Empty;
 
                 IEnumerable<XElement> artigo_publicado = root.Descendants("ARTIGO-PUBLICADO");
-                foreach (XElement artigo in artigo_publicado)
+                List<XElement> artigos_publicados_sem_repeticao = new List<XElement>();
+                List<string> issnStrings = new List<string>();
+
+                foreach(XElement artigo in artigo_publicado)
+                {
+                    string issn = artigo.Element("DETALHAMENTO-DO-ARTIGO").Attribute("ISSN").Value.Trim();
+                    if (!string.IsNullOrEmpty(issn) && !issnStrings.Contains(issn))
+                    {
+                        issnStrings.Add(issn);
+                        artigos_publicados_sem_repeticao.Add(artigo);
+                    }
+                }
+
+                foreach (XElement artigo in artigos_publicados_sem_repeticao)
                 {
                     string issn = artigo.Element("DETALHAMENTO-DO-ARTIGO").Attribute("ISSN").Value.Trim();
                     if (!string.IsNullOrEmpty(issn))
@@ -141,14 +154,14 @@ namespace SPCPP.Repository.Repositorys
                         issn = issn.Substring(0, 4) + "-" + issn.Substring(4);
                         query = $"select estrato from publicadas_engenharias_lll_2017_2020 where issn like '%{issn}%';";
                     }
-                    else
-                    {
-                        string titulo = artigo.Element("DETALHAMENTO-DO-ARTIGO").Attribute("TITULO-DO-PERIODICO-OU-REVISTA").Value.Trim();
-                        if (!string.IsNullOrEmpty(titulo))
-                        {
-                            query = $"select estrato from publicadas_engenharias_lll_2017_2020 where titulo like '%{titulo}%';";
-                        }
-                    }
+                    //else
+                    //{
+                    //    string titulo = artigo.Element("DETALHAMENTO-DO-ARTIGO").Attribute("TITULO-DO-PERIODICO-OU-REVISTA").Value.Trim();
+                    //    if (!string.IsNullOrEmpty(titulo))
+                    //    {
+                    //        query = $"select estrato from publicadas_engenharias_lll_2017_2020 where titulo like '%{titulo}%';";
+                    //    }
+                    //}
                     if (!string.IsNullOrEmpty(query))
                     {
                         _contextSPCPP.GetConnection();
@@ -171,7 +184,7 @@ namespace SPCPP.Repository.Repositorys
                                             quantidade += 1;
 
                                     }
-                                    if (quantidade > 0)
+                                    if (quantidade > 1)
                                     {
                                         foreach (string at in listaAutores(autores))
                                         {
@@ -216,7 +229,7 @@ namespace SPCPP.Repository.Repositorys
                                             quantidade += 1;
 
                                     }
-                                    if (quantidade > 0)
+                                    if (quantidade > 1)
                                     {
                                         foreach (string at in listaAutores(autores))
                                         {
@@ -260,7 +273,7 @@ namespace SPCPP.Repository.Repositorys
                                             quantidade += 1;
 
                                     }
-                                    if (quantidade > 0)
+                                    if (quantidade > 1)
                                     {
                                         foreach (string at in listaAutores(autores))
                                         {
@@ -304,7 +317,7 @@ namespace SPCPP.Repository.Repositorys
                                             quantidade += 1;
 
                                     }
-                                    if (quantidade > 0)
+                                    if (quantidade > 1)
                                     {
                                         foreach (string at in listaAutores(autores))
                                         {
@@ -348,9 +361,10 @@ namespace SPCPP.Repository.Repositorys
 
                 foreach (XElement pt in patente)
                 {
+                    
                     bool deposito = pt.Element("DETALHAMENTO-DA-PATENTE").Element("HISTORICO-SITUACOES-PATENTE").Attribute("DESCRICAO-SITUACAO-PATENTE").Value.ToLower().Contains("dep");
                     bool tempo = (Convert.ToInt32(pt.Element("DADOS-BASICOS-DA-PATENTE")?.Attribute("ANO-DESENVOLVIMENTO")?.Value) >= DateTime.Now.Year - 4);
-                    tempo = true;
+                    
 
                     if (tempo && deposito)
                     {
@@ -368,7 +382,7 @@ namespace SPCPP.Repository.Repositorys
                                 quantidade += 1;
 
                         }
-                        if (quantidade > 0)
+                        if (quantidade > 1)
                         {
                             foreach (string at in listaAutores(autores))
                             {
@@ -401,7 +415,7 @@ namespace SPCPP.Repository.Repositorys
                             }
                         }
 
-                        dp = (double)1 / quantidade;
+                        dp+= (double)1 / quantidade;
                     }
                 }
                 #endregion
@@ -414,7 +428,7 @@ namespace SPCPP.Repository.Repositorys
                 {
                     bool concedidas = pt.Element("DETALHAMENTO-DA-PATENTE").Element("HISTORICO-SITUACOES-PATENTE").Attribute("DESCRICAO-SITUACAO-PATENTE").Value.ToLower().Contains("concess");
                     bool tempo = (Convert.ToInt32(pt.Element("DADOS-BASICOS-DA-PATENTE")?.Attribute("ANO-DESENVOLVIMENTO")?.Value) >= DateTime.Now.Year - 4);
-                    tempo = true;
+                    
                     if (tempo && concedidas)
                     {
 
@@ -431,7 +445,7 @@ namespace SPCPP.Repository.Repositorys
                                 quantidade += 1;
 
                         }
-                        if (quantidade > 0)
+                        if (quantidade > 1)
                         {
                             foreach (string at in listaAutores(autores))
                             {
@@ -462,7 +476,7 @@ namespace SPCPP.Repository.Repositorys
                             }
                         }
 
-                        pc = (double)1 / quantidade;
+                        pc+= (double)1 / quantidade;
                     }
                 }
                 #endregion
@@ -473,22 +487,16 @@ namespace SPCPP.Repository.Repositorys
                 //tenha sido bolsista no período do último quadriênio, mas perdeu sua bolsa, será atribuído
                 //valor 1 ao parâmetro PQ.
                 int pq = 0;
-                IEnumerable<XElement> pp = root.Descendants("PROJETO-DE-PESQUISA");
-                foreach (XElement pps in pp)
+                IEnumerable<XElement> pp = root.Descendants("DADOS-GERAIS");
+                foreach (XElement dados in pp)
                 {
-                    if (Convert.ToInt32(pps.Attribute("ANO-INICIO")?.Value) >= DateTime.Now.Year - 4)
+                    var result = dados.Element("OUTRAS-INFORMACOES-RELEVANTES").Attribute("OUTRAS-INFORMACOES-RELEVANTES").Value.ToLower().Contains("bolsista de produtividade");
+                    if (result)
                     {
-                        foreach (XElement p in pps.Elements("EQUIPE-DO-PROJETO"))
-                        {
-                            //Console.WriteLine( p);
-                            if (p.Element("INTEGRANTES-DO-PROJETO")?.Attribute("NRO-ID-CNPQ")?.Value != "")
-                            {
-                                pq = 1;
-                                break;
-                            }
-
-                        }
+                        pq = 1;
+                        break;
                     }
+
                 }
                 #endregion
 
@@ -522,7 +530,7 @@ namespace SPCPP.Repository.Repositorys
 
             double PD = ((2 * resultA1_A4) + (sM.indiceH * 0.8) + (sM.DP * 0.2) + (sM.PC * 2) + (sM.PQ * 4)) / 9;
 
-            return Math.Round(PD, 2);
+            return Math.Round(PD, 3);
         }
 
         public List<string> listaAutores(IEnumerable<XContainer> autores)
@@ -542,6 +550,34 @@ namespace SPCPP.Repository.Repositorys
 
             return lista;
         }
+
+
         #endregion
+
+        public ProfessorCadastrado SalvarStatus(ulong professor_id, ulong posgraduacao_id, string status)
+        {
+            try
+            {
+                _contextSPCPP.GetConnection();
+
+                string sql = $@"UPDATE posgraduacao_professor SET status = '{status}', DataAtualizacao = now() WHERE (professor_id = {professor_id} and posgraduacao_id = {posgraduacao_id});";
+
+                _contextSPCPP.Connection.Execute(sql);
+
+                sql = $@"select  p.user_id,p.siape , p.Cnome , p.Email ,pp.posgraduacao_id,p.Data_nasc , pp.DataCadastro, pp.status, pp.nota
+		                                from professor p 
+		                                right join posgraduacao_professor pp on p.user_id = pp.professor_id 
+		                                left join  usuario u on u.id=pp.professor_id 
+		                                where pp.posgraduacao_id = {posgraduacao_id} and pp.professor_id = {professor_id};";
+
+                ProfessorCadastrado result = (_contextSPCPP.Connection.QueryFirstOrDefault<ProfessorCadastrado>(sql));
+      
+                return result;
+            }
+            catch(Exception)
+            {
+                throw;
+            }
+        }
     }
 }

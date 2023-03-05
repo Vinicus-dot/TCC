@@ -18,6 +18,8 @@ namespace SPCPP.Model.Models.Request
         public ulong posgraduacao_id { get; set; }
         public DateTime Data_nasc { get; set; }
         public DateTime DataCadastro { get; set; }
+
+        public DateTime DataAtualizacao { get; set; }
         public double nota { get; set; }
         public string status { get; set; }
 

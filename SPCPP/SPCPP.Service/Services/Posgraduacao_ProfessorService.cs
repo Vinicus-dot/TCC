@@ -133,6 +133,22 @@ namespace SPCPP.Service.Services
 
                 throw;
             }
+        } 
+        
+        public ProfessorCadastrado SalvarStatus(ulong professor_id, ulong posgraduacao_id, string status)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(status))
+                    throw new Exception("Selecione um status!");
+
+                return _posgraduacao_ProfessorRepository.SalvarStatus(professor_id,  posgraduacao_id,  status);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }
