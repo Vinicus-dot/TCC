@@ -138,12 +138,15 @@ namespace SPCPP.Repository.Repositorys
 
                 foreach(XElement artigo in artigo_publicado)
                 {
+                    bool ano =  Convert.ToInt32(artigo.Element("DADOS-BASICOS-DO-ARTIGO").Attribute("ANO-DO-ARTIGO").Value.Trim()) >= DateTime.Now.Year - 4;
+                    
                     string issn = artigo.Element("DETALHAMENTO-DO-ARTIGO").Attribute("ISSN").Value.Trim();
-                    if (!string.IsNullOrEmpty(issn) && !issnStrings.Contains(issn))
+                    if (ano && !string.IsNullOrEmpty(issn) && !issnStrings.Contains(issn))
                     {
                         issnStrings.Add(issn);
                         artigos_publicados_sem_repeticao.Add(artigo);
                     }
+                    
                 }
 
                 foreach (XElement artigo in artigos_publicados_sem_repeticao)
