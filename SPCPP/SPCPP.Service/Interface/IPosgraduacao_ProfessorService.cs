@@ -25,5 +25,9 @@ namespace SPCPP.Service.Interface
         Posgraduacao_Professor verifcarUsuarioCadastrado(ulong professorId, ulong posgraducaoId);
 
         ProfessorCadastrado SalvarStatus(ulong professor_id, ulong posgraduacao_id, string status);
+
+        UploadXML uploadXML(XElement root);
+
+        double cadastrarProfessorPosgraduacao(double indiceh, bool pq, List<string> listdpregistro, List<string> listpcregistro, List<string> listissn, string uploadXML, User? usuario);
     }
 }

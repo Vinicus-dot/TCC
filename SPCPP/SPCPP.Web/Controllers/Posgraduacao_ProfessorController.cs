@@ -1,13 +1,13 @@
-﻿using javax.annotation.processing;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using SPCPP.Model.Filters;
 using SPCPP.Model.Helper;
 using SPCPP.Model.Models;
 using SPCPP.Model.Models.Request;
 using SPCPP.Service.Interface;
-using SPCPP.Service.Services;
 using System.Xml.Linq;
+ 
+
 
 namespace SPCPP.Web.Controllers
 {
@@ -40,6 +40,45 @@ namespace SPCPP.Web.Controllers
 
            
         }
+        [HttpPost]
+        public IActionResult UploadXmlVisual(IFormFile file, ulong id)
+        {
+            try
+            {
+                
+                XElement root = XElement.Load(file.OpenReadStream());
+                UploadXML uploadXML = _posgraduacao_ProfessorService.uploadXML(root);
+                uploadXML.posgraduacao_id = id;               
+                return PartialView("_ResultUploadXml", uploadXML);
+                 
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        [HttpPost]
+        public IActionResult cadastrarProfessorPosgraduacao(double indiceh , bool pq, List<string> listdpregistro , List<string> listpcregistro, List<string> listissn , string uploadXML)
+        {
+            try
+            {
+                string? sessaoUsuario = ControllerContext.HttpContext.Session.GetString("sessaoUsuarioLogado");
+                if (string.IsNullOrEmpty(sessaoUsuario))
+                    throw new Exception("Usuario não encontrado!");
+
+                User? usuario = JsonConvert.DeserializeObject<User>(sessaoUsuario);
+
+                double nota =  _posgraduacao_ProfessorService.cadastrarProfessorPosgraduacao(indiceh, pq, listdpregistro, listpcregistro,listissn,  uploadXML, usuario);
+
+                return Json(new { success = true, message = $"Sucesso em cadastrar-se!!! Sua nota é {nota}" });
+
+            }
+            catch (Exception e)
+            {
+                return Json(new { success = false, message = e.Message });
+            }
+        }
+
         [HttpPost]
         public IActionResult UploadXml(IFormFile file, ulong id,double indiceh)
         {

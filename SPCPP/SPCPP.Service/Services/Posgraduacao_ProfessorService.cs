@@ -121,6 +121,21 @@ namespace SPCPP.Service.Services
            
         }
 
+        public UploadXML uploadXML(XElement root)
+        {
+            try
+            {
+
+                return _posgraduacao_ProfessorRepository.uploadXML(root);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+
         public Posgraduacao_Professor verifcarUsuarioCadastrado(ulong professorId, ulong posgraducaoId)
         {
             try
@@ -145,6 +160,63 @@ namespace SPCPP.Service.Services
                 return _posgraduacao_ProfessorRepository.SalvarStatus(professor_id,  posgraduacao_id,  status);
             }
             catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public double cadastrarProfessorPosgraduacao(double indiceh, bool pq, List<string> listdpregistro, List<string> listpcregistro, List<string> listissn, string uploadXML, User? usuario)
+        {
+            try
+            {
+                UploadXML? uploadXML1 = System.Text.Json.JsonSerializer.Deserialize<UploadXML>(uploadXML);
+
+                if (indiceh <= 0)
+                    throw new Exception("É necessario informar o Indice-H!");
+
+                if (indiceh >= 200)
+                    throw new Exception("O Indice-H está muito alto, procure um administrador!");
+
+                if (usuario?.Perfil != Model.Enums.PerfilEnum.Docente)
+                    throw new Exception("Seu tipo de Perfil não pode cadastrar em Pós Gradução!");
+
+                string[] name = uploadXML1.nome.Trim().ToLower().Split(' ');
+
+                string usuarionome = usuario.Nome.Trim().ToLower();
+
+                //if (!usuarionome.Contains(name[0]) && !usuarionome.Contains(name[name.Count() - 1]) && !usuarionome.Contains(name[1]))
+                //    throw new Exception("O Campo nome completo do XML não condiz com o perfil logado!");
+
+                uploadXML1.pq = pq;
+
+                SolucaoMecanica notas = _posgraduacao_ProfessorRepository.cadastrarProfessorPosgraduacao(indiceh, listdpregistro, listpcregistro, listissn, uploadXML1);
+
+
+                Posgraduacao_Professor posgraduacao_Professor = new Posgraduacao_Professor();
+
+                posgraduacao_Professor.posgraduacao_id = uploadXML1.posgraduacao_id;
+                posgraduacao_Professor.professor_id = usuario.Id;
+                posgraduacao_Professor.DataCadastro = DateTime.Now;
+                posgraduacao_Professor.status = "Aguardando Avaliação";
+                posgraduacao_Professor.nota = notas.nota;
+                posgraduacao_Professor.A1 = notas.A1;
+                posgraduacao_Professor.A2 = notas.A2;
+                posgraduacao_Professor.A3 = notas.A3;
+                posgraduacao_Professor.A4 = notas.A4;
+                posgraduacao_Professor.DP = notas.DP;
+                posgraduacao_Professor.PC = notas.PC;
+                posgraduacao_Professor.PQ = notas.PQ;
+                posgraduacao_Professor.indiceH = notas.indiceH;
+
+
+                if (!_posgraduacao_ProfessorRepository.Cadastrar(posgraduacao_Professor).Result)
+                    throw new Exception("Falha ao salvar Professor na Pós-graduação!");
+                
+
+                return posgraduacao_Professor.nota;
+            }
+            catch (Exception )
             {
 
                 throw;

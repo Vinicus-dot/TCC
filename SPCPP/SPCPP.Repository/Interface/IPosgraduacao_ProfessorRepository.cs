@@ -22,5 +22,9 @@ namespace SPCPP.Repository.Interface
 
         ProfessorCadastrado SalvarStatus(ulong professor_id, ulong posgraduacao_id, string status);
 
+        UploadXML uploadXML(XElement root);
+
+        public SolucaoMecanica cadastrarProfessorPosgraduacao(double indiceh, List<string> listdpregistro, List<string> listpcregistro, List<string> listissn, UploadXML uploadXML);
+
     }
 }

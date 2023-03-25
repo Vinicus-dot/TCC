@@ -4,6 +4,7 @@
 
 @{
     ViewData["Title"] = "Listagem de Pos Gradução";
+
 }
 
 <div class="text-center">
@@ -31,10 +32,10 @@
     <h1 class="display-4">PÓS GRADUAÇÃO</h1>
     <br />
 
-
+  
     <!-- Modal: modalXml -->
     <div class="modal fade" id="modalXml" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div id="carduploadxml" class="modal-dialog" role="document">
             <div class="modal-content">
                 <!--Header-->
 
@@ -48,12 +49,7 @@
                 </div>
                 <!--Body-->
 
-                <div class="mb-3" style="margin-top: 15px;margin-left: 75px;">
-                    <div style="display: flex;">
-                    <span class="input-group-text" id="inputGroup-sizing-default" style="width:75px;">Indice-H</span>
-                        <input id="indiceh" type="number" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" style="width:150px;">
-                   </div>
-                </div>
+                
 
                 <input type="text" id="valorsalvo" style="display:none;" value="0" disabled>
                 <div class="mb-3" style="display: flex; justify-content:center; margin-top: 15px;">                  
@@ -63,13 +59,22 @@
                 <!--Footer-->
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Voltar</button>
-                    <button class="btn btn-primary" onclick="UploadXml()">Cadastrar</button>
+                    <button class="btn btn-primary"  onclick="UploadXmlVisual()">Cadastrar</button>
                 </div>
 
             </div>
         </div>
+        <div id="partialResultXml" style="display:none">
+           
+        </div>
+            
+        
     </div>
+ 
+
+    
     <!-- Modal: modalXml -->
+    
 
     <div class="buscar">
 
@@ -137,6 +142,7 @@
                                 {
                                     <a role="button" class="btn btn-primary" style="border: 1px solid black" data-toggle="modal" data-target="#modalXml" onclick="SalvarId(@posgraduacao.id)">Cadastrar-se</a>
                                 }
+
                             </div>
                         </td>
                     </tr>
@@ -181,6 +187,8 @@
 }
 <script>
     
+  
+
     function deletar(id) {
 
         $.ajax({
@@ -254,6 +262,100 @@
             }
         });
     }
+    var artigopatentedpRegistro = [];
+    var artigopatentepcRegistro = [];
+    var artigolistissn = [];
+
+    function UploadXmlVisual() {
+
+        if (requisicaoEmAndamento) {
+            // Já existe uma requisição em andamento, não faz nada
+            return;
+        }
+        artigopatentedpRegistro = [];
+        artigopatentepcRegistro = [];
+        artigolistissn = [];
+        var file = document.getElementById("formFileSm").files[0];
+        var id = document.querySelector("#valorsalvo").value;
+        
+        var formData = new FormData();
+
+
+
+        formData.append("file", file);
+        formData.append("id", id);
+        
+        requisicaoEmAndamento = true;
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("UploadXmlVisual", "Posgraduacao_Professor")',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                
+                //sumir com modal uploadxml
+                var carduploadxml = document.getElementById("carduploadxml");                       
+                carduploadxml.style.display = "none";
+                
+
+                document.getElementById("partialResultXml").style.display = "block";
+                $("#partialResultXml").html(data);                       
+                 
+                requisicaoEmAndamento = false;
+            },
+            error: function (data) {
+                swal("Falha ao enviar arquivo", "error");
+                requisicaoEmAndamento = false;
+            }
+        });
+    }
+
+    $(document).ready(function() {
+      $(document).click(function(event) {
+        var estado = document.getElementById("partialResultXml").style.display;
+            if (!$(event.target).closest('#partialResultXml').length && !$(event.target).closest('.swal2-container').length && estado === "block") {
+           document.getElementById("carduploadxml").style.display = "block";
+            document.getElementById("partialResultXml").style.display = "none";
+                  
+        }        
+     });
+    });
+
+
+
+    
+
+    function listaDeletados(tipo, valor) {
+
+        Swal.fire({
+            title: 'Tem certeza?',
+            text: 'Você está prestes a excluir esse item!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sim, exclua!',
+            cancelButtonText: 'Não, cancele!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                if (tipo === 'ISSN') {
+                    artigolistissn.push(valor);
+
+                } else if (tipo === 'REGISTROPC') {
+                    artigopatentepcRegistro.push(valor);
+                }
+                else if (tipo === 'REGISTRODP') {
+                    artigopatentedpRegistro.push(valor);
+                }
+                document.getElementById(valor).style.display = "none";
+                Swal.fire('Excluído!', 'O item foi excluído com sucesso.', 'success');
+            }
+        })
+
+    }
+    
+    
+    
+    
 
 
 </script>
