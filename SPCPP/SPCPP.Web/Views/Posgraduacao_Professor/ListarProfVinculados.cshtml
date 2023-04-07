@@ -44,7 +44,7 @@
     
     <!-- Modal: modalXml -->
     <div class="modal fade" id="modalXml" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div  id="carduploadxml" class="modal-dialog" role="document">
             <div class="modal-content">
                 <!--Header-->
 
@@ -66,8 +66,8 @@
                         <span class="input-group-text"  style="width:75px;">Status</span>
                         <select id="statusselecionado" class="form-control" style="width:150px;">
                             <option value="">Selecionar</option>
-                            <option value="Aprovado">Aprovado</option>
-                            <option value="Reprovado">Reprovado</option>
+                            <option value="Credenciado">Credenciado</option>
+                            <option value="Não Credenciado">Não Credenciado</option>
                         </select>  
                    
                 </div>
@@ -99,8 +99,9 @@
                 <th scope="col">@Html.ActionLink("Data Atualização", "ListarProfVinculados", new { Ordenar = ViewBag.Data_atualizacaoParm , Nome=ViewBag.Nome})</th>
                 <th scope="col">@Html.ActionLink("Status", "ListarProfVinculados", new { Ordenar = ViewBag.StatusParm , Nome=ViewBag.Nome})</th>
                 <th scope="col"> </th>
-
+                <th scope="col"> </th>
                 
+
             </tr>
         </thead>
         <tbody>             
@@ -120,20 +121,33 @@
                         <td>@professor.nota</td>
                         <td>@professor.DataAtualizacao</td>
                         <td>@professor.status</td>
-                        <td>
-                            @if (professor.status != "Aprovado")
+                       
+                            <td>
+                            @if (ViewBag.Perfil == SPCPP.Model.Enums.PerfilEnum.Admin || ViewBag.Perfil == SPCPP.Model.Enums.PerfilEnum.Avaliador)
                             {
-                                <div>
-                                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalXml" onclick="SalvarId(@professor.user_id,@professor.posgraduacao_id)">Avaliar</button>
-                                </div>  
-                            }
-                            else
-                            {
-                                <div>
-                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalXml" onclick="SalvarId(@professor.user_id,@professor.posgraduacao_id)">Reavaliar</button>
-                                </div>
+                                @if (professor.status.Contains("Aguardando"))
+                                {
+                                    <div>
+                                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalXml" onclick="SalvarId(@professor.user_id,@professor.posgraduacao_id)">Avaliar</button>
+                                    </div>
+
+                                }
+                                else
+                                @if (professor.status != "Credenciado")
+                                {
+                                    <div>
+                                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modalXml" onclick="SalvarId(@professor.user_id,@professor.posgraduacao_id)">Reavaliar</button>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div>
+                                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalXml" onclick="SalvarId(@professor.user_id,@professor.posgraduacao_id)">Reavaliar</button>
+                                    </div>
+                                }
                             }
                             <td/>
+                       
                         @*<td>
                             <div>
                                 <a role="button"  onclick="deletar(@professor.user_id,@ViewBag.PosId)"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACMAAAAjCAYAAAAe2bNZAAAACXBIWXMAAAsTAAALEwEAmpwYAAABXUlEQVR4nO2YPy8EURRHj1AIUdiE0MhGRaJYUVCSSNQKShW+ALXESiwqSp2Shm+gpUBNUGxNQbLJrorc5Ekm8ubNztw7q5mT3Ezmzru/OfNnk81AgT29wKCnpN9RxoBX4NtTdWDc6kQl4BA4DVQ9RiQqFJo/cHcxkaOEE1mVXHAimx2SWW/3Uc0AizmW5BeYsAPc5VCSm5q9nF7cahaZjf/+FUVZCgSeA1NA7U9/3/UvArOSm5rJQOCEW9MDfLmebLvbmJVjqekLBJYj6xquJ9tfyoHZfjLybizzhoIHY5l7jcyVscylRubEWOZYI7NtLLOlkVk1llnRyMwZy8xqZEaNZUY0Ml1Ay0im5fJUvBjJPGPAtSe4kiAz7ZmRHDVnnuAbYNn9n226XtPtS//WMyM5aqoxL2Pa2rWQWTOSkRw1w8CnUuQDGMKIBeApo8gjME8ODMR8eYgrWV+Alh+Xya1XdMvQDwAAAABJRU5ErkJggg=="></a>

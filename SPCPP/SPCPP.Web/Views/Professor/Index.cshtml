@@ -46,6 +46,7 @@
                     <th scope="col" style="color:antiquewhite;">#</th>
                 }
                 <th scope="col">@Html.ActionLink("Siape", "Index", new { Ordenar = ViewBag.SiapeParm, Filter=ViewBag.Filter })</th>
+                <th scope="col">@Html.ActionLink("Número Identificador Lattex", "Index", new { Ordenar = ViewBag.NLattexParm, Filter=ViewBag.Filter })</th>
                 <th scope="col">@Html.ActionLink("Nome", "Index", new { Ordenar = ViewBag.CnomeParm, Filter=ViewBag.Filter })</th>
                 <th scope="col">@Html.ActionLink("Email", "Index", new { Ordenar = ViewBag.EmailParm, Filter=ViewBag.Filter })</th>
                 <th scope="col">@Html.ActionLink("Data Nascimento", "Index", new { Ordenar = ViewBag.Data_NascParm, Filter=ViewBag.Filter })</th>
@@ -72,6 +73,7 @@
                             <th><a asp-route-id="@professor.user_id" asp-controller="Professor" asp-action="Editar"><img alt="svgImg" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHg9IjBweCIgeT0iMHB4Igp3aWR0aD0iMzIiIGhlaWdodD0iMzIiCnZpZXdCb3g9IjAgMCAzMiAzMiI+CjxwYXRoIGQ9Ik0gMjMuOTA2MjUgMy45Njg3NSBDIDIyLjg1OTM3NSAzLjk2ODc1IDIxLjgxMjUgNC4zNzUgMjEgNS4xODc1IEwgNS4xODc1IDIxIEwgNS4xMjUgMjEuMzEyNSBMIDQuMDMxMjUgMjYuODEyNSBMIDMuNzE4NzUgMjguMjgxMjUgTCA1LjE4NzUgMjcuOTY4NzUgTCAxMC42ODc1IDI2Ljg3NSBMIDExIDI2LjgxMjUgTCAyNi44MTI1IDExIEMgMjguNDM3NSA5LjM3NSAyOC40Mzc1IDYuODEyNSAyNi44MTI1IDUuMTg3NSBDIDI2IDQuMzc1IDI0Ljk1MzEyNSAzLjk2ODc1IDIzLjkwNjI1IDMuOTY4NzUgWiBNIDIzLjkwNjI1IDUuODc1IEMgMjQuNDEwMTU2IDUuODc1IDI0LjkxNzk2OSA2LjEwNTQ2OSAyNS40MDYyNSA2LjU5Mzc1IEMgMjYuMzc4OTA2IDcuNTY2NDA2IDI2LjM3ODkwNiA4LjYyMTA5NCAyNS40MDYyNSA5LjU5Mzc1IEwgMjQuNjg3NSAxMC4yODEyNSBMIDIxLjcxODc1IDcuMzEyNSBMIDIyLjQwNjI1IDYuNTkzNzUgQyAyMi44OTQ1MzEgNi4xMDU0NjkgMjMuNDAyMzQ0IDUuODc1IDIzLjkwNjI1IDUuODc1IFogTSAyMC4zMTI1IDguNzE4NzUgTCAyMy4yODEyNSAxMS42ODc1IEwgMTEuMTg3NSAyMy43ODEyNSBDIDEwLjUzMTI1IDIyLjUgOS41IDIxLjQ2ODc1IDguMjE4NzUgMjAuODEyNSBaIE0gNi45Mzc1IDIyLjQzNzUgQyA4LjEzNjcxOSAyMi45MjE4NzUgOS4wNzgxMjUgMjMuODYzMjgxIDkuNTYyNSAyNS4wNjI1IEwgNi4yODEyNSAyNS43MTg3NSBaIj48L3BhdGg+Cjwvc3ZnPg==" /></a></th>
                         }
                         <th scope="row">@professor.siape</th>
+                        <td>@professor.numero_identificador</td>
                         <td>@professor.Cnome</td>
                         <td>@professor.Email</td>
                         <td>@professor.Data_nasc</td>
@@ -129,23 +131,62 @@
 }
 <script>
 
+    var requisicaoEmAndamento = false;
+
     function deletar(id_user) {
 
-        $.ajax({
-            url: '/Professor/Delete',
-            method: 'Get',
-            data: { id: id_user },
-        }).done(function (valido) {
-            if (valido.valido) {
-                alert('Professor deletado com sucesso!')
-                location.reload()
-            } else {
-                alert('Não foi possivel deletar o Professor!')
+        if (requisicaoEmAndamento) {
+            // Já existe uma requisição em andamento, não faz nada
+            return;
+        }
+
+        swal({
+            title: "Atenção!",
+            html: "<div><span style='text-alaing:left'>Deseja realmente deletar o professor?</span></br></div>",
+            //text: " ",
+            type: "warning",
+            confirmButtonClass: "btn btn-danger",
+            showCancelButton: true,
+            showCancelButton: true,
+            confirmButtonText: "Sim",
+            cancelButtonText: "Não"
+        }).then(function (result) {
+            if (result.value) {
+                requisicaoEmAndamento = true;
+                // Executa a requisição AJAX aqui
+                $.ajax({
+
+                    type: 'GET',
+                    url: '@Url.Action("Delete", "Professor")',
+                    data: { id: id_user },
+                    contentType: false,
+                    cache: false,
+
+                    success: function (data) {
+                        if (data.success) {
+                            swal({
+                                title: "Sucesso!",
+                                text: data.message,
+                                type: "success",
+                                timer: 30000
+                            }, function () { }).then(function () {
+                                window.location.href = "@Url.Action("Index","Professor")";
+                            });
+                        } else {
+                            swal("Falha ao deletar professor!", data.message, "error");
+                        }
+                        requisicaoEmAndamento = false;
+                    },
+                    error: function (data) {
+                        swal("Falha ao deletar professor!", data.message, "error");
+                        requisicaoEmAndamento = false;
+                    }
+                });
             }
-        }).fail(function () {
-            console.log("Erro2")
         });
 
+
     }
+
 
 </script>

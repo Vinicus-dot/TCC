@@ -22,6 +22,9 @@ namespace SPCPP.Model.Models
         [ForeignKey("user_id")]
         public ulong user_id { get; set; }
 
+        [Required(ErrorMessage = "Numero Identificador é obrigatório!")]
+        public string numero_identificador { get; set; }
+
         [Required(ErrorMessage = "CNome é obrigatório!")]
         [StringLength(255)]
         public string Cnome { get; set; } = null!;

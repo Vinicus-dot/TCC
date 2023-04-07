@@ -41,7 +41,13 @@
     </div>
     </div>
     <br />
-    <div class="form2Content">
+    <div class="form3Content">
+    <div class="form-group">
+        <label for="nome" class="form-label">Numero Identificador Lattex</label>
+        <input type="text" asp-for="numero_identificador" class="form-control" placeholder="Digite o  número identificador lattex do professor">
+        @Html.ValidationMessageFor(p => p.numero_identificador)
+    </div>
+    <br />
     <div class="form-group">
         <label for="nome" class="form-label">Nome Completo</label>
         <input type="text" asp-for="Cnome" class="form-control" placeholder="Digite o nome completo do professor">

@@ -1,4 +1,5 @@
 ﻿using com.sun.xml.@internal.bind.v2.model.core;
+using javax.annotation.processing;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
@@ -192,21 +193,21 @@ namespace SPCPP.Web.Controllers
 
         }
 
-        public async Task<JsonResult> Delete(ulong id)
+        public IActionResult Delete(ulong id)
         {
             try
             {
 
-                bool valido = _posgraduacaoService.Excluir(id).Result;
+                _posgraduacaoService.Excluir(id);
 
 
-                return Json(new { sucesso = true, valido = valido });
+                return Json(new { success = true, message = $"Sucesso em deletar a Pós Graduação!" });
 
             }
             catch (Exception ex)
             {
 
-                return Json(new { sucesso = false, mensagem = ex.Message });
+                return Json(new { success = false, message = ex.Message });
             }
 
         }      

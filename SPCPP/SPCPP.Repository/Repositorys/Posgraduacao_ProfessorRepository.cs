@@ -97,6 +97,8 @@ namespace SPCPP.Repository.Repositorys
             {
                 UploadXML uploadXML = new UploadXML();
                 uploadXML.nome = root.Descendants("DADOS-GERAIS").First().Attribute("NOME-COMPLETO").Value;
+                uploadXML.numero_identificador =  root.Attribute("NUMERO-IDENTIFICADOR").Value;
+
                 #region GET PQ
                 //A bolsa de produtividade em pesquisa(PQ) é verificada no currículo LATTES.Esse parâmetro
                 //é binário: para bolsista o parâmetro é atribuído o valor 1 e não bolsista 0.Caso o professor

@@ -187,34 +187,68 @@
 }
 <script>
     
-  
-
-    function deletar(id) {
-
-        $.ajax({
-            url: '/Posgraduacao/Delete',
-            method: 'Get',
-            data: { id: id },
-        }).done(function (valido) {
-            if (valido.valido) {
-                alert('Pós Graduação deletada com sucesso!')
-                location.reload()
-            } else {
-                alert('Não foi possivel deletar a Pós Graduação!')
-            }
-        }).fail(function () {
-            console.log("Erro2")
-        });
-
-    }
-
-    
     function SalvarId(id)
     {
        document.querySelector("#valorsalvo").value = id;
        
     }
     var requisicaoEmAndamento = false;
+
+    function deletar(id) {
+
+        if (requisicaoEmAndamento) {
+            // Já existe uma requisição em andamento, não faz nada
+            return;
+        }
+
+        swal({
+            title: "Atenção!",
+            html: "<div><span style='text-alaing:left'>Deseja realmente deletar a Pós Graduação!?</span></br></div>",
+            //text: " ",
+            type: "warning",
+            confirmButtonClass: "btn btn-danger",
+            showCancelButton: true,
+            showCancelButton: true,
+            confirmButtonText: "Sim",
+            cancelButtonText: "Não"
+        }).then(function (result) {
+            if (result.value) {
+                requisicaoEmAndamento = true;
+                // Executa a requisição AJAX aqui
+                $.ajax({
+
+                    type: 'GET',
+                    url: '@Url.Action("Delete", "Posgraduacao")',
+                    data: { id: id },
+                    contentType: false,
+                    cache: false,
+
+                    success: function (data) {
+                        if (data.success) {
+                            swal({
+                                title: "Sucesso!",
+                                text: data.message,
+                                type: "success",
+                                timer: 30000
+                            }, function () { }).then(function () {
+                                window.location.href = "@Url.Action("Index","Posgraduacao")";
+                            });
+                        } else {
+                            swal("Falha ao deletar Pós Graduação!", data.message, "error");
+                        }
+                        requisicaoEmAndamento = false;
+                    },
+                    error: function (data) {
+                        swal("Falha ao deletar Pós Graduação!", data.message, "error");
+                        requisicaoEmAndamento = false;
+                    }
+                });
+            }
+        });
+
+
+    }
+
 
     function UploadXml() {
 

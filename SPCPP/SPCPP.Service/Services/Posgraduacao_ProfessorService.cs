@@ -20,11 +20,12 @@ namespace SPCPP.Service.Services
     {
 
         private readonly IPosgraduacao_ProfessorRepository _posgraduacao_ProfessorRepository;
-        
+        private readonly IProfessorService _professorService;
 
-        public Posgraduacao_ProfessorService (IPosgraduacao_ProfessorRepository posgraduacao_ProfessorRepository)
+        public Posgraduacao_ProfessorService (IPosgraduacao_ProfessorRepository posgraduacao_ProfessorRepository, IProfessorService professorService)
         {
             _posgraduacao_ProfessorRepository = posgraduacao_ProfessorRepository;
+            _professorService = professorService;
            
         }
 
@@ -184,9 +185,9 @@ namespace SPCPP.Service.Services
                 string[] name = uploadXML1.nome.Trim().ToLower().Split(' ');
 
                 string usuarionome = usuario.Nome.Trim().ToLower();
-
-                //if (!usuarionome.Contains(name[0]) && !usuarionome.Contains(name[name.Count() - 1]) && !usuarionome.Contains(name[1]))
-                //    throw new Exception("O Campo nome completo do XML não condiz com o perfil logado!");
+                
+                if (_professorService.PesquisarProfessor(usuario.Id).numero_identificador.Trim() != uploadXML1.numero_identificador.Trim())
+                    throw new Exception("O Campo numero identificador do XML não condiz com o perfil logado!");
 
                 uploadXML1.pq = pq;
 

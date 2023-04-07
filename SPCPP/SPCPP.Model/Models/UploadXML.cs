@@ -8,6 +8,7 @@ namespace SPCPP.Model.Models
 {
     public class UploadXML
     {
+        public string numero_identificador { get; set; }
         public string nome { get; set; }
         public bool pq { get; set; }
         public ulong posgraduacao_id { get; set; }

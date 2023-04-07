@@ -33,9 +33,12 @@ namespace SPCPP.Model.Models.Request
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime DataCadastro { get; set; }
 
- 
 
-       
+
+
+        [Required(ErrorMessage = "Numero Identificador é obrigatório!")]
+        public string numero_identificador { get; set; }
+
 
         [Required(ErrorMessage = "CNome é obrigatório!")]
         [StringLength(255)]

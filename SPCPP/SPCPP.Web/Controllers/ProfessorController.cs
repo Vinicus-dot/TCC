@@ -7,6 +7,7 @@ using SPCPP.Model.Models;
 using SPCPP.Model.Models.Request;
 using SPCPP.Service.Interface;
 using SPCPP.Service.Services;
+using static com.sun.net.httpserver.Authenticator;
 
 namespace SPCPP.Web.Controllers
 {
@@ -38,7 +39,8 @@ namespace SPCPP.Web.Controllers
                 ViewBag.Data_saidaParm = Ordenar == "data_saida" ? "data_saida_desc" : "data_saida";
                 ViewBag.Data_aposentadoriaParm = Ordenar == "data_aposentadoria" ? "data_aposentadoria_desc" : "data_aposentadoria";                
                 ViewBag.SiapeParm = Ordenar == "siape" ? "siape_desc" : "siape";
-                
+                ViewBag.NLattexParm =  Ordenar == "nlattex" ? "nlattex_desc" : "nlattex";
+
                 if (pesquisar != null) pagina = 1; else pesquisar = Filter;
                 ViewBag.Filter = pesquisar;
                 if (!String.IsNullOrEmpty(pesquisar))
@@ -72,6 +74,12 @@ namespace SPCPP.Web.Controllers
                         break;
                     case "data_saida_desc":
                         professores = professores.OrderByDescending(s => s.Data_saida).ToList();
+                        break;
+                    case "nlattex":
+                        professores = professores.OrderBy(s => s.numero_identificador).ToList();
+                        break;
+                    case "nlattex_desc":
+                        professores = professores.OrderByDescending(s => s.numero_identificador).ToList();
                         break;
                     case "data_aposentadoria":
                         professores = professores.OrderBy(s => s.Data_aposentadoria).ToList();
@@ -117,8 +125,11 @@ namespace SPCPP.Web.Controllers
         {
             try
             {
+                string sessaoUsuario = ControllerContext.HttpContext.Session.GetString("sessaoUsuarioLogado");
+                User usuariologado = JsonConvert.DeserializeObject<User>(sessaoUsuario);
+                ViewBag.Perfil = usuariologado.Perfil;
 
-                if (ModelState.IsValid &&  _professorService.Create(professorRequest).Result )
+                if (_professorService.Create(professorRequest).Result )
                 {
                     TempData["MensagemSucesso"] = "Professor cadastrado com sucesso";
                     return RedirectToAction("Index");
@@ -135,24 +146,24 @@ namespace SPCPP.Web.Controllers
 
         }
 
-        public async Task<JsonResult> Delete(ulong id)
+        public IActionResult Delete(ulong id)
         {
             try
             {
 
-                var professor = _professorService.PesquisarProfessor(id);
+                Professor professor = _professorService.PesquisarProfessor(id);
                 if (professor == null)
-                    return Json(new { sucesso = false, valido = false });
+                    throw new Exception("Erro Professor não encontrado!");
 
-                bool valido = _professorService.Excluir(professor.user_id);
+                _professorService.Excluir(professor.user_id);
 
-                return Json(new { sucesso = true, valido = valido });
-
+                return Json(new { success = true , message  = $"Sucesso em deletar o professor {professor.Cnome}"});
+               
             }
             catch (Exception ex)
             {
 
-                return Json(new { sucesso = false, mensagem = ex.Message });
+                return Json(new { success = false, message = ex.Message });
             }
 
         }
@@ -173,8 +184,11 @@ namespace SPCPP.Web.Controllers
         {
             try
             {
-      
-                if ( ModelState.IsValid && _professorService.Atualizar(professor).Result )
+                string sessaoUsuario = ControllerContext.HttpContext.Session.GetString("sessaoUsuarioLogado");
+                User usuariologado = JsonConvert.DeserializeObject<User>(sessaoUsuario);
+                ViewBag.Perfil = usuariologado.Perfil;
+
+                if (_professorService.Atualizar(professor).Result )
                 {
 
                     TempData["MensagemSucesso"] = "Professor atualizado com sucesso";

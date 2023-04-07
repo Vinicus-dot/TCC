@@ -29,7 +29,6 @@ namespace SPCPP.Service.Services
         public Task<bool> Create(ProfessorRequest professorRequest)
         {
 
-
             try
             {
 
@@ -49,6 +48,7 @@ namespace SPCPP.Service.Services
                 else
                     throw new Exception("Não foi possivel cadastrar o usuário/professor");
 
+                professor.numero_identificador = professorRequest.numero_identificador;
                 professor.siape = professorRequest.Login;
                 professor.Cnome = professorRequest.Cnome;
                 professor.Email = professorRequest.Email;

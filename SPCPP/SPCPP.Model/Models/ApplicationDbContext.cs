@@ -113,6 +113,10 @@ namespace SPCPP.Model.Models
                     .HasColumnType("bigint(11)")
                    .HasColumnName("user_id");
 
+                entity.Property(e => e.numero_identificador)
+                    .HasMaxLength(150)
+                    .HasColumnName("numero_identificador");
+
                 entity.Property(e => e.Cnome)
                     .HasMaxLength(150)
                     .HasColumnName("Cnome");
