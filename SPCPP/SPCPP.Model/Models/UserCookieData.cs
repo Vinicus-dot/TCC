@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace SPCPP.Model.Models
 {
-    public class LoginModel
+    public class UserCookieData
     {
-        [Required(ErrorMessage = "Digite o login")]
+        public ulong UserId { get; set; }
         public string Login { get; set; }
-        [Required(ErrorMessage = "Digite a senha")]
         public string Senha { get; set; }
-        public bool lembrar { get; set; }
+        public DateTime ExpirationTime { get; set; }
     }
 }

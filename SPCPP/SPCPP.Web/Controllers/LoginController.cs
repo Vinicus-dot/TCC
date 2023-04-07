@@ -1,8 +1,9 @@
-﻿using javax.security.auth.spi;
+﻿
 using Microsoft.AspNetCore.Mvc;
 using SPCPP.Model.Helper;
 using SPCPP.Model.Models;
 using SPCPP.Service.Interface;
+
 
 namespace SPCPP.Web.Controllers
 {
@@ -11,17 +12,32 @@ namespace SPCPP.Web.Controllers
         private readonly IUserService _userService;
         private readonly ISessao _sessao;
         private readonly IEmail _email;
+        private readonly ICookieHelper _cookieHelper;
+      
 
-        public LoginController(IUserService usuarioRepositorio, ISessao sessao,IEmail email)
+        public LoginController(IUserService usuarioRepositorio, ISessao sessao, IEmail email, ICookieHelper cookieHelper)
         {
             _userService = usuarioRepositorio;
             _sessao = sessao;
             _email = email;
-
+            _cookieHelper = cookieHelper;
         }
         public IActionResult Index()
         {
-            if (_sessao.BuscarSessaoDoUsuario() != null) return RedirectToAction("Index", "Home");
+            UserCookieData userCookieData = _cookieHelper.GetUserCookie("rememberMe");
+
+            if(userCookieData !=null  && !string.IsNullOrEmpty(userCookieData.Login) && !string.IsNullOrEmpty(userCookieData.Senha))
+            {
+                LoginModel loginModel = new LoginModel();
+                loginModel.Login = userCookieData.Login;
+                loginModel.Senha = userCookieData.Senha;
+                
+                return Entrar(loginModel);
+            }
+
+            if (_sessao.BuscarSessaoDoUsuario() != null)
+                return RedirectToAction("Index", "Home");
+
             return View();
         }
         public IActionResult RedefinirSenha()
@@ -32,6 +48,7 @@ namespace SPCPP.Web.Controllers
         {
             _sessao.RemoverSessaoDoUsuario();
 
+            _cookieHelper.RemoveUserCookie("rememberMe");
             return RedirectToAction("Index", "Login");
         }
         [HttpPost]
@@ -49,6 +66,22 @@ namespace SPCPP.Web.Controllers
                         {
 
                             _sessao.CriarSesaoDoUsuario(usuario);
+
+
+                            if (loginModel.lembrar)
+                            {
+                                var userCookieData = new UserCookieData
+                                {
+                                    UserId = usuario.Id,
+                                    Login = loginModel.Login,
+                                    Senha = loginModel.Senha,
+                                    ExpirationTime = DateTime.UtcNow.AddDays(7)
+                                };
+
+                                _cookieHelper.SetUserCookie(userCookieData, "rememberMe");
+   
+                            }
+
                             return RedirectToAction("Index", "Home");
                         }
                         TempData["MensagemErro"] = $"Senha do usúario é inválida, tente novamente.";

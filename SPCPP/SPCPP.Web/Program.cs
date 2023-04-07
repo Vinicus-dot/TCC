@@ -10,6 +10,11 @@ using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
+//cookie
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<CookieHelper>();
+
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -24,6 +29,7 @@ builder.Services.AddScoped<IPosgraduacao_ProfessorRepository, Posgraduacao_Profe
 builder.Services.AddScoped<IPosgraduacao_ProfessorService, Posgraduacao_ProfessorService>();
 builder.Services.AddScoped<ISessao, Sessao>();
 builder.Services.AddScoped<IEmail, Email>();
+builder.Services.AddScoped<ICookieHelper, CookieHelper>();
 builder.Services.AddSession(p =>
 {
     p.Cookie.HttpOnly = true;
