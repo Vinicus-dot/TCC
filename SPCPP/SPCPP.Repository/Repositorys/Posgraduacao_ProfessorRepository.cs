@@ -53,6 +53,31 @@ namespace SPCPP.Repository.Repositorys
             return result;
         }
 
+        public Posgraduacao verificarProfessorVinculado(ulong professor_id)
+        {
+            
+            try
+            {
+                string sql = $@"select p.*
+                                        from posgraduacao_professor pp 
+                                        inner join  posgraduacao p on p.id = pp.posgraduacao_id  
+                                        where pp.professor_id= {professor_id};";
+
+                _contextSPCPP.GetConnection();
+
+                Posgraduacao result = _contextSPCPP.Connection.QueryFirstOrDefault<Posgraduacao>(sql);
+
+                _contextSPCPP.Close();
+
+                return result;
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         public async Task<bool> deletar(ulong id, ulong posid)
         {
             try

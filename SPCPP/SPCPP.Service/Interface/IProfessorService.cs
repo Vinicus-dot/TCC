@@ -12,7 +12,7 @@ namespace SPCPP.Service.Interface
 
         Professor PesquisarProfessor(ulong id);
 
-        bool Excluir(ulong id);
+        string Excluir(ulong id);
         string GetParametro(string nome_parametro);
         Task<bool> Atualizar(Professor professor);
 

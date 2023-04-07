@@ -150,14 +150,12 @@ namespace SPCPP.Web.Controllers
         {
             try
             {
+                string nome = _professorService.Excluir(id);
 
-                Professor professor = _professorService.PesquisarProfessor(id);
-                if (professor == null)
-                    throw new Exception("Erro Professor não encontrado!");
+                if (string.IsNullOrEmpty(nome))
+                    throw new Exception("Falha em deletar professor!");
 
-                _professorService.Excluir(professor.user_id);
-
-                return Json(new { success = true , message  = $"Sucesso em deletar o professor {professor.Cnome}"});
+                return Json(new { success = true , message  = $"Sucesso em deletar o professor {nome}"});
                
             }
             catch (Exception ex)

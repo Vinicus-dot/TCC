@@ -19,10 +19,13 @@ namespace SPCPP.Service.Services
     {
         private readonly IProfessorRepository _professorRepository;
         private readonly IUserRepository _userRepository;
-        public ProfessorService(IProfessorRepository alunoRepository, IUserRepository userRepository)
+        private readonly IPosgraduacao_ProfessorRepository _posgraduacao_ProfessorRepository;
+
+        public ProfessorService(IProfessorRepository alunoRepository, IUserRepository userRepository, IPosgraduacao_ProfessorRepository posgraduacao_ProfessorRepository)
         {
             _professorRepository = alunoRepository;
             _userRepository = userRepository;
+            _posgraduacao_ProfessorRepository = posgraduacao_ProfessorRepository;
         }
 
 
@@ -98,19 +101,25 @@ namespace SPCPP.Service.Services
             }
         }
 
-        public bool Excluir(ulong id)
+        public string Excluir(ulong id)
         {
 
 
             try
             {
-                
+                Professor professor = _professorRepository.PesquisarProfessor(id);
+                if (professor == null)
+                    throw new Exception("Erro Professor não encontrado!");
 
-               if(_professorRepository.Apagar(id).Result && _userRepository.Excluir(id).Result)
-                        return  true;
+                Posgraduacao posgraduacao = _posgraduacao_ProfessorRepository.verificarProfessorVinculado(professor.user_id);
 
-                return false;
+                if (posgraduacao != null)
+                    throw new Exception($"Professor vinculado a Pós Graduação {posgraduacao.nome}");
 
+                if (_professorRepository.Apagar(professor.user_id).Result && _userRepository.Excluir(professor.user_id).Result)
+                    return professor.Cnome;
+
+                return string.Empty;
 
             }
             catch (Exception)
