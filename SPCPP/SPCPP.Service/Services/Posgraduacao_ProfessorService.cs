@@ -29,39 +29,6 @@ namespace SPCPP.Service.Services
            
         }
 
-        public Task<bool> Incluir(ulong posgraduacao_id , User usuario, SolucaoMecanica notas)
-        {
-
-            try
-            {            
-               
-                Posgraduacao_Professor posgraduacao_Professor = new Posgraduacao_Professor();
-
-                posgraduacao_Professor.posgraduacao_id = posgraduacao_id;
-                posgraduacao_Professor.professor_id = usuario.Id;
-                posgraduacao_Professor.DataCadastro = DateTime.Now;
-                posgraduacao_Professor.status = "Aguardando Avaliação";
-                posgraduacao_Professor.nota = notas.nota;
-                posgraduacao_Professor.A1 = notas.A1;
-                posgraduacao_Professor.A2 = notas.A2;
-                posgraduacao_Professor.A3 = notas.A3;
-                posgraduacao_Professor.A4 = notas.A4;
-                posgraduacao_Professor.DP = notas.DP;
-                posgraduacao_Professor.PC = notas.PC;
-                posgraduacao_Professor.PQ = notas.PQ;
-                posgraduacao_Professor.indiceH = notas.indiceH;
-
-
-                return _posgraduacao_ProfessorRepository.Cadastrar(posgraduacao_Professor);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-
-        }
-
         public Task<List<ProfessorCadastrado>> ListarProfVinculados(ulong posgraduacao_id)
         {
 
@@ -107,20 +74,7 @@ namespace SPCPP.Service.Services
             }
         }
 
-        public SolucaoMecanica calcularNota(XElement root, double indiceh,string nome , ulong posgraducao_id)
-        {
-            try
-            {
-
-                return _posgraduacao_ProfessorRepository.calcularNota(root,indiceh,nome , posgraducao_id);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-           
-        }
+        
 
         public UploadXML uploadXML(XElement root)
         {
@@ -137,20 +91,6 @@ namespace SPCPP.Service.Services
 
         }
 
-        public Posgraduacao_Professor verifcarUsuarioCadastrado(ulong professorId, ulong posgraducaoId)
-        {
-            try
-            {
-
-                return _posgraduacao_ProfessorRepository.verifcarUsuarioCadastrado(professorId, posgraducaoId).Result;
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        } 
-        
         public ProfessorCadastrado SalvarStatus(ulong professor_id, ulong posgraduacao_id, string status)
         {
             try

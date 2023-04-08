@@ -13,18 +13,10 @@ namespace SPCPP.Repository.Interface
     {
         Task<List<ProfessorCadastrado>> ListarProfVinculados(ulong posgraduacao_id);
         Task<List<ProfessorCadastrado>> PesquisarPorNome(ulong posgraduacao_id, string nome);
-
         Posgraduacao verificarProfessorVinculado(ulong professor_id);
         Task<bool> deletar(ulong id, ulong posid);
-
-        SolucaoMecanica calcularNota(XElement root, double indiceh, string nome ,ulong posgraducao_id);
-
-        Task<Posgraduacao_Professor> verifcarUsuarioCadastrado(ulong professorId, ulong posgraducaoId);
-
         ProfessorCadastrado SalvarStatus(ulong professor_id, ulong posgraduacao_id, string status);
-
         UploadXML uploadXML(XElement root);
-
         public SolucaoMecanica cadastrarProfessorPosgraduacao(double indiceh, List<string> listdpregistro, List<string> listpcregistro, List<string> listissn, UploadXML uploadXML);
 
     }

@@ -79,47 +79,6 @@ namespace SPCPP.Web.Controllers
             }
         }
 
-        [HttpPost]
-        public IActionResult UploadXml(IFormFile file, ulong id,double indiceh)
-        {
-            try
-            {
-                if (file == null)
-                    throw new Exception("Insira um arquivo!");
-                if (indiceh <= 0)
-                    throw new Exception("Insira o Index-H");
-                if (indiceh > 200)
-                    throw new Exception("Index-H muito alto por favor fale com um administrador!");
-                string sessaoUsuario = ControllerContext.HttpContext.Session.GetString("sessaoUsuarioLogado");
-                if (string.IsNullOrEmpty(sessaoUsuario))
-                    throw new Exception("Usuario não encontrado!");
-                
-                User usuario = JsonConvert.DeserializeObject<User>(sessaoUsuario);
-
-                if (usuario.Perfil != Model.Enums.PerfilEnum.Docente )
-                    throw new Exception("Seu tipo de Perfil não pode cadastrar em Pós Gradução!");
-
-                Posgraduacao_Professor posgraduacao_Professor = _posgraduacao_ProfessorService.verifcarUsuarioCadastrado(usuario.Id, id);
-                if (posgraduacao_Professor != null)
-                    throw new Exception($"Cadastrado em {posgraduacao_Professor.DataCadastro}");
-
-                if (file == null || !file.FileName.ToLower().Contains(".xml"))
-                    throw new Exception("Arquivo Incorreto!!");
-             
-                XElement root = XElement.Load(file.OpenReadStream());
-                SolucaoMecanica notas = _posgraduacao_ProfessorService.calcularNota(root,indiceh,usuario.Nome.ToLower(),id);
-                
-                if (!_posgraduacao_ProfessorService.Incluir(id, usuario, notas).Result)
-                    throw new Exception("Erro ao salvar professor na Pós Graduação!");
-
-                return Json(new { success = true, message = $"Sucesso em cadastrar-se!!! Sua nota é {notas.nota}" });
-            }
-            catch (Exception e)
-            {
-                return Json(new { success = false, message = e.Message });
-            }
-        }
-
         public IActionResult ListarProfVinculados(ulong id, int? pagina, string? nome, string Ordenar)
         {
             try
