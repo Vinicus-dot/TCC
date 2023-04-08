@@ -14,5 +14,6 @@ namespace SPCPP.Model.Models
         [Required(ErrorMessage = "Digite a senha")]
         public string Senha { get; set; }
         public bool lembrar { get; set; }
+        public bool cookie { get; set; }
     }
 }

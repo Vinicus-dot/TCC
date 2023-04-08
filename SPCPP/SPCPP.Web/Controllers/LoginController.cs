@@ -24,6 +24,10 @@ namespace SPCPP.Web.Controllers
         }
         public IActionResult Index()
         {
+
+            if (_sessao.BuscarSessaoDoUsuario() != null)
+                return RedirectToAction("Index", "Home");
+
             UserCookieData userCookieData = _cookieHelper.GetUserCookie("rememberMe");
 
             if(userCookieData !=null  && !string.IsNullOrEmpty(userCookieData.Login) && !string.IsNullOrEmpty(userCookieData.Senha))
@@ -31,12 +35,10 @@ namespace SPCPP.Web.Controllers
                 LoginModel loginModel = new LoginModel();
                 loginModel.Login = userCookieData.Login;
                 loginModel.Senha = userCookieData.Senha;
+                loginModel.cookie = true;
                 
                 return Entrar(loginModel);
-            }
-
-            if (_sessao.BuscarSessaoDoUsuario() != null)
-                return RedirectToAction("Index", "Home");
+            } 
 
             return View();
         }
@@ -62,7 +64,7 @@ namespace SPCPP.Web.Controllers
 
                     if (usuario != null)
                     {
-                        if (usuario.SenhaValida(loginModel.Senha))
+                        if (!loginModel.cookie && usuario.SenhaValida(loginModel.Senha))
                         {
 
                             _sessao.CriarSesaoDoUsuario(usuario);
@@ -73,8 +75,8 @@ namespace SPCPP.Web.Controllers
                                 var userCookieData = new UserCookieData
                                 {
                                     UserId = usuario.Id,
-                                    Login = loginModel.Login,
-                                    Senha = loginModel.Senha,
+                                    Login = usuario.Login,
+                                    Senha = usuario.Senha,
                                     ExpirationTime = DateTime.UtcNow.AddDays(7)
                                 };
 
@@ -84,6 +86,12 @@ namespace SPCPP.Web.Controllers
 
                             return RedirectToAction("Index", "Home");
                         }
+                        else if(loginModel.cookie && usuario.Senha == loginModel.Senha)
+                        {
+                            _sessao.CriarSesaoDoUsuario(usuario);
+                            return RedirectToAction("Index", "Home");
+                        }
+
                         TempData["MensagemErro"] = $"Senha do usúario é inválida, tente novamente.";
                     }
 
