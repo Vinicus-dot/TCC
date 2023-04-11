@@ -250,52 +250,6 @@
     }
 
 
-    function UploadXml() {
-
-        if (requisicaoEmAndamento) {
-            // Já existe uma requisição em andamento, não faz nada
-            return;
-        }
-
-        var file = document.getElementById("formFileSm").files[0];
-        var id = document.querySelector("#valorsalvo").value;
-        var indiceh = document.querySelector("#indiceh").value;
-        var formData = new FormData();
-        
-       
-
-        formData.append("file", file);
-        formData.append("id",id);
-        formData.append("indiceh", indiceh);
-        requisicaoEmAndamento = true;
-        $.ajax({
-            type: 'POST',
-            url: '@Url.Action("UploadXml", "Posgraduacao_Professor")',
-            data: formData,
-            contentType: false,
-            cache: false,
-            processData: false,
-            success: function (data) {
-                if (data.success) {
-                    swal({
-                        title: "Sucesso!",
-                        text: data.message,
-                        type: "success",
-                        timer: 30000
-                    }, function () { }).then(function () {
-                        window.location.href = "@Url.Action("Index","Posgraduacao")";
-                    });
-                } else {
-                    swal("Falha ao salvar cadastrar-se!", data.message, "error");
-                }
-                requisicaoEmAndamento = false;
-            },
-            error: function (data) {
-                swal("Falha ao salvar cadastrar-se!", data.message, "error");
-                requisicaoEmAndamento = false;
-            }
-        });
-    }
     var artigopatentedpRegistro = [];
     var artigopatentepcRegistro = [];
     var artigolistissn = [];
