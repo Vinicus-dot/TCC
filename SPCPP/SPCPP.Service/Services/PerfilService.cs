@@ -26,6 +26,7 @@ namespace SPCPP.Service.Services
             try
             {
                 user.SetSenhaHash();
+                user.DataAtualizacao = DateTime.Now;
                 return _userRepository.Editar(user);
             }
             catch (Exception)

@@ -36,7 +36,7 @@ namespace SPCPP.Web.Controllers
 
             try
             {
-                if (ModelState.IsValid && _perfilService.Atualizar(usuario).Result )
+                if (_perfilService.Atualizar(usuario).Result )
                 {
                     TempData["MensagemSucesso"] = "Usúario atualizado com sucesso";
                     _sessao.RemoverSessaoDoUsuario();

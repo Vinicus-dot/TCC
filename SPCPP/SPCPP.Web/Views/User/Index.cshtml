@@ -61,7 +61,7 @@
                         <td>@usuario.Nome</td>
                         <td>@usuario.Login</td>
                         <td>@usuario.Email</td>
-                        <td>@(usuario.Perfil == SPCPP.Model.Enums.PerfilEnum.Admin ? "Administrado" : "Padrão")</td>
+                        <td>@(usuario.Perfil == SPCPP.Model.Enums.PerfilEnum.Docente ? "Docente" : usuario.Perfil == SPCPP.Model.Enums.PerfilEnum.Avaliador ? "Avaliador" : "Administrador")</td>
                         <td>@usuario.DataCadastro</td>
                         <td>@usuario.DataAtualizacao</td>
                         <td>

@@ -29,7 +29,7 @@
         <div class="form-group">
             <label for="nome" class="form-label">Nome do curso</label>
             <select asp-for="nome_curso" class="form-control">             
-                <option value="mecanica">Mecânica</option>        
+                <option value="Mecânica">Mecânica</option>        
             </select>
             @Html.ValidationMessageFor(p => p.nome_curso)
         </div>
@@ -54,7 +54,7 @@
      <br />
     <div class="form2Content">
         <div class="form-group">
-            <label for="nome" class="form-label">Edital</label>
+            <label for="nome" class="form-label">Edital Link</label>
             <input type="text" asp-for="edital" class="form-control" placeholder="Digite o edital">
             @Html.ValidationMessageFor(p => p.edital)
         </div>
