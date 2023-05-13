@@ -77,7 +77,24 @@ namespace SPCPP.Repository.Repositorys
                 throw;
             }
         }
+        public async Task<Posgraduacao_Professor> verifcarUsuarioCadastrado(ulong professorId, ulong posgraducaoId)
+        {
+            try
+            {
+                string sql = $@"SELECT * FROM posgraduacao_professor where professor_id= {professorId} and posgraduacao_id={posgraducaoId};";
 
+                _contextSPCPP.GetConnection();
+
+                Posgraduacao_Professor result = (await _contextSPCPP.Connection.QueryFirstOrDefaultAsync<Posgraduacao_Professor>(sql));
+
+                return result;
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         public async Task<bool> deletar(ulong id, ulong posid)
         {
             try

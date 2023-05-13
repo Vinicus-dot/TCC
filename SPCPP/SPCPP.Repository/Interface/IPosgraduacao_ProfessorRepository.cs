@@ -19,5 +19,6 @@ namespace SPCPP.Repository.Interface
         UploadXML uploadXML(XElement root);
         public SolucaoMecanica cadastrarProfessorPosgraduacao(double indiceh, List<string> listdpregistro, List<string> listpcregistro, List<string> listissn, UploadXML uploadXML);
 
+        public Task<Posgraduacao_Professor> verifcarUsuarioCadastrado(ulong professorId, ulong posgraducaoId);
     }
 }

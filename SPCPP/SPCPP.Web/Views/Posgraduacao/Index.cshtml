@@ -131,7 +131,7 @@
                         <td>@posgraduacao.DataCadastro</td>
                         <td>@posgraduacao.DataAtualizacao</td>
                         <td>
-                            <div>
+                            <div style="display:flex;">
 
                                 <a asp-route-id="@posgraduacao.id" asp-controller="Posgraduacao_Professor" asp-action="ListarProfVinculados"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAACGklEQVR4nO3aO4hTQRTG8Z+uRgtBxEZQGx9gKYiNaCtYioUiFmJhKYqChdjuro2NnWDpqxBUVMRHodtpYymCILgrKmJjoeAjcuFcCGFZkslsspPkgwPJvffMfP9M7szJnbB42obb+BpxC1sVpu1hvtkWX0qDuRnGH2JTxKM4dqPfZhq4hE/zfLKdRgVQa3MP7cxhOjx1rekeOq7i5TxtzvTY5lQKyFwk7+ng2rqjbtVp3t6WkVm0Trq9tt99SOkkNZYMyEzme2lgIP1QcwxiBEZkA05jd2/esvnpOnEnHuNPnDuoUJBjuBf1UtEgtY6PAkgzU7RrDNIc9a9WUSCH8B77e/OWzc+CGomVvXiQZTgRDxIe4BQm8vhM8pOceCGOPWv5DXJegSAf8TZGpnqi8RNP8/hM8pMlcUecv6pgkNV4hW9tz66KKlFW4j5+48ACeUsaZDmu4y+O6q+aOUEux7HXMVvVsSqP1/6B3I3SpD3WpHSQwU9HGuqVfWhAGjiLJzFznYwJoDiQKy0bOC/idQVWHMi5ltqqKhZ/RN1V5D0ygS2xjvxL3XzJ6Cc5cX3LuXdYW+LKXmkFduFwVL/VxmdxIGdwpOX9G3xIaTyTn+TE5/iFi5iMmquqvYoD2Yg7+I7PuIZ1eXwm+elIQ72yD1LNVD/1Pnu1xz1o7QsvsynJUxmn0lwxmQLSCJh6ZAYZswGR9F+UsQxA/wHqZxKYC90rngAAAABJRU5ErkJggg=="></a>
                                 @if (ViewBag.Perfil == SPCPP.Model.Enums.PerfilEnum.Admin)
@@ -140,7 +140,7 @@
                                 }
                                 @if (ViewBag.Perfil == SPCPP.Model.Enums.PerfilEnum.Docente)
                                 {
-                                    <a role="button" class="btn btn-primary" style="border: 1px solid black" data-toggle="modal" data-target="#modalXml" onclick="SalvarId(@posgraduacao.id)">Cadastrar-se</a>
+                                    <a role="button" class="btn btn-primary" style="border: 1px solid black; margin-left:10px;" data-toggle="modal" data-target="#modalXml" onclick="SalvarId(@posgraduacao.id)">Cadastrar-se</a>
                                 }
 
                             </div>

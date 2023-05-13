@@ -112,7 +112,7 @@ namespace SPCPP.Service.Services
             try
             {
                 UploadXML? uploadXML1 = System.Text.Json.JsonSerializer.Deserialize<UploadXML>(uploadXML);
-
+              
                 if (indiceh <= 0)
                     throw new Exception("É necessario informar o Indice-H!");
 
@@ -125,7 +125,11 @@ namespace SPCPP.Service.Services
                 string[] name = uploadXML1.nome.Trim().ToLower().Split(' ');
 
                 string usuarionome = usuario.Nome.Trim().ToLower();
-                
+
+                Posgraduacao_Professor vinculo = _posgraduacao_ProfessorRepository.verifcarUsuarioCadastrado(usuario.Id, uploadXML1.posgraduacao_id).Result;
+                if (vinculo != null)
+                    throw new Exception($"Você foi cadastrado nesta pós graduação na data {vinculo.DataCadastro} e seu status é {vinculo.status}!");
+
                 if (_professorService.PesquisarProfessor(usuario.Id).numero_identificador.Trim() != uploadXML1.numero_identificador.Trim())
                     throw new Exception("O Campo numero identificador do XML não condiz com o perfil logado!");
 

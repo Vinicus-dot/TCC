@@ -19,7 +19,7 @@ namespace SPCPP.Model.Models.Request
         public DateTime Data_nasc { get; set; }
         public DateTime DataCadastro { get; set; }
 
-        public DateTime DataAtualizacao { get; set; }
+        public DateTime? DataAtualizacao { get; set; }
         public double nota { get; set; }
         public string status { get; set; }
 
