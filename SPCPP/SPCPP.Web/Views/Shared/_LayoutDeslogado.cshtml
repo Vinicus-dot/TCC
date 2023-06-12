@@ -16,7 +16,7 @@
             <div class="container-fluid header-ajust">
                 
                     <a id="logo" class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                    <img src="~/imagens/imagem_chamada_ufu_40_anos.png" alt="Logo UFU" style="width: 275px; height: 70px;">
+                    <img src="~/imagens/logologado.png" alt="Logo UFU" style="width: 175px; height: 90px;">
                 
                         <p style="font-size:12px">
                             Universidade Federal de Uberlândia 
@@ -27,11 +27,11 @@
                 
                 @if (ViewBag.Logado != null)
                 {
-                    <a class="navbar-brand loginbotao" asp-area="" asp-controller="Login" asp-action="Index">LOGIN</a>
+                    <a class="navbar-brand " asp-area="" asp-controller="Login" asp-action="Index">LOGIN</a>
                 }
                 else
                 {
-                    <a class="navbar-brand loginbotao" asp-area="" asp-controller="Home" asp-action="Index">SPCPP - INÍCIO</a>
+                    <a class="navbar-brand " asp-area="" asp-controller="Home" asp-action="Index">SPCPP - INÍCIO</a>
                 }
                 
             </div>

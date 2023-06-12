@@ -55,7 +55,6 @@ namespace SPCPP.Service.Services
                 professor.siape = professorRequest.Login;
                 professor.Cnome = professorRequest.Cnome;
                 professor.Email = professorRequest.Email;
-                professor.Lotacao = professorRequest.Lotacao;
                 professor.Data_nasc = professorRequest.Data_nasc;
                
 
@@ -77,8 +76,13 @@ namespace SPCPP.Service.Services
 
             try
             {
-                return _professorRepository.Listar();
+                List<Professor> professor = _professorRepository.Listar();
+
+
+
+                return professor;
             }
+               
             catch (Exception)
             {
 

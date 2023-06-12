@@ -342,7 +342,7 @@ namespace SPCPP.Repository.Repositorys
                     {
                         string issn = artigo.issn.Trim().Substring(0, 4) + "-" + artigo.issn.Trim().Substring(4);
                         
-                        string  query = $"select estrato from publicadas_engenharias_lll_2017_2020 where issn like '%{issn}%';";
+                        string  query = $"select estrato from publicadas_engenharias where issn like '%{issn}%';";
                                        
                         _contextSPCPP.GetConnection();
 
@@ -444,7 +444,7 @@ namespace SPCPP.Repository.Repositorys
                 {
                     try
                     {
-                        string[] nomeCoautor = at.nome.Split(" ");
+                        string[] nomeCoautor = at.nome.ToLower().Replace(",", "").Split(" ");
                         string query = @$"select count(1) 
                                                          from posgraduacao_professor pp 
                                                          inner join professor p on pp.professor_id = p.user_id 
@@ -478,7 +478,7 @@ namespace SPCPP.Repository.Repositorys
                 _contextSPCPP.GetConnection();
                 foreach (Autor at in listaAutor)
                 {
-                    string[] nomeCoautor = at.nome.Split(" ");
+                    string[] nomeCoautor = at.nome.ToLower().Replace(",", "").Split(" ");
                     string query = @$"select pp.* 
                                                               from posgraduacao_professor pp 
                                                               inner join professor p on pp.professor_id = p.user_id 

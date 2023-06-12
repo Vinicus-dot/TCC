@@ -126,10 +126,7 @@ namespace SPCPP.Model.Models
                     .HasMaxLength(200)
                     .HasColumnName("Email");
 
-                entity.Property(e => e.Lotacao)
-                    .HasMaxLength(150)
-                    .HasColumnName("Lotacao");
-
+ 
                 entity.Property(e => e.Data_nasc).HasColumnType("datetime")                   
                     .HasColumnName("Data_nasc");
 
